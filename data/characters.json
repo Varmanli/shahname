@@ -1,0 +1,881 @@
+[
+  {
+    "id": "2f978adc-0acb-4333-8111-0523af6d3055",
+    "name": "گرمایل و ارمایل",
+    "slug": "گرمایل-و-ارمایل",
+    "title": "آشپزان نجات‌بخش",
+    "epithets": [],
+    "role": "یاران مردم",
+    "nationality": "ایرانی",
+    "nameMeaning": "نام دو یار نجات‌بخش در دربار ضحاک که با زیرکی و رهایی جوانان شناخته می‌شوند.",
+    "spouseIds": [],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "دوران ضحاک",
+    "lineageGroup": "دوران ضحاک",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "wise",
+        "level": 4,
+        "featured": true
+      },
+      {
+        "key": "just",
+        "level": 3,
+        "featured": false
+      },
+      {
+        "key": "heroic",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "نجات دادن جوانان از خوراک ماران ضحاک"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314147593-305e2ec4-d23d-43c6-b170-2f134fb04795.png",
+    "sceneImage": "/uploads/1777421200752-0273d978-48f2-43c3-8a07-23d9a31713dc.png",
+    "createdAt": "2026-04-27T18:22:27.597Z",
+    "updatedAt": "2026-05-01T16:19:25.964Z"
+  },
+  {
+    "id": "9c1970d5-f31b-44fe-8cc1-760acc9cf322",
+    "name": "فریدون",
+    "slug": "فریدون",
+    "title": "رهایی‌بخش ایران",
+    "epithets": [],
+    "role": "شاه پیشدادی",
+    "nationality": "ایرانی",
+    "nameMeaning": "نام شاه رهایی‌بخش ایرانی که در شاهنامه با پیروزی بر ضحاک و دادگری معنا می‌یابد.",
+    "father": "آبتین",
+    "mother": "فرانک",
+    "fatherId": "90817bd2-44c8-454c-9f1b-41cd203dbb27",
+    "motherId": "55c807a7-2a41-46a3-9b14-99e583321293",
+    "spouseIds": [],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [
+      {
+        "id": "9c1970d5-f31b-44fe-8cc1-760acc9cf322:90817bd2-44c8-454c-9f1b-41cd203dbb27:father",
+        "sourceCharacterId": "9c1970d5-f31b-44fe-8cc1-760acc9cf322",
+        "targetCharacterId": "90817bd2-44c8-454c-9f1b-41cd203dbb27",
+        "type": "father",
+        "createdAt": "2026-05-04T15:59:03.985Z",
+        "updatedAt": "2026-05-04T15:59:03.985Z"
+      },
+      {
+        "id": "9c1970d5-f31b-44fe-8cc1-760acc9cf322:55c807a7-2a41-46a3-9b14-99e583321293:mother",
+        "sourceCharacterId": "9c1970d5-f31b-44fe-8cc1-760acc9cf322",
+        "targetCharacterId": "55c807a7-2a41-46a3-9b14-99e583321293",
+        "type": "mother",
+        "createdAt": "2026-05-04T15:59:03.985Z",
+        "updatedAt": "2026-05-04T15:59:03.985Z"
+      }
+    ],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "just",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "brave",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "king",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "heroic",
+        "level": 4,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "شکست ضحاک",
+      "رهایی ایران از ستم",
+      "تقسیم جهان میان فرزندان"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314128890-d832ce31-b69a-46fc-89f6-9a3e5c5ab0f7.png",
+    "sceneImage": "/uploads/1777314128890-d832ce31-b69a-46fc-89f6-9a3e5c5ab0f7.png",
+    "createdAt": "2026-04-27T18:22:08.898Z",
+    "updatedAt": "2026-05-04T15:59:03.985Z"
+  },
+  {
+    "id": "a61496d3-54c1-4bda-b534-ee7ff97a40bb",
+    "name": "برمایه",
+    "slug": "برمایه",
+    "title": "گاو برمایه",
+    "epithets": [],
+    "role": "نگهدارنده فریدون",
+    "nationality": "ایرانی",
+    "nameMeaning": "نام گاو پرورنده فریدون و نماد مایه، برکت و نگاهبانی از زندگی.",
+    "spouseIds": [],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "divine",
+        "level": 3,
+        "featured": true
+      },
+      {
+        "key": "mythic",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "پرورش فریدون در کودکی"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314112818-8dec3f49-3eb5-488e-8adf-40159708f07e.png",
+    "sceneImage": "/uploads/1777419658565-e71651b3-067a-40f0-87f4-229c2419ad8a.png",
+    "createdAt": "2026-04-27T18:21:52.919Z",
+    "updatedAt": "2026-04-28T23:40:58.650Z"
+  },
+  {
+    "id": "55c807a7-2a41-46a3-9b14-99e583321293",
+    "name": "فرانک",
+    "slug": "فرانک",
+    "title": "مادر فریدون",
+    "epithets": [],
+    "role": "مادر قهرمان",
+    "visualRole": "",
+    "nationality": "ایرانی",
+    "nameMeaning": "نام مادر فریدون که در روایت شاهنامه با آزادگی، پایداری و مادری خردمندانه شناخته می‌شود.",
+    "spouseIds": [
+      "90817bd2-44c8-454c-9f1b-41cd203dbb27"
+    ],
+    "childrenIds": [
+      "9c1970d5-f31b-44fe-8cc1-760acc9cf322"
+    ],
+    "siblingIds": [],
+    "relations": [
+      {
+        "id": "55c807a7-2a41-46a3-9b14-99e583321293:90817bd2-44c8-454c-9f1b-41cd203dbb27:spouse",
+        "sourceCharacterId": "55c807a7-2a41-46a3-9b14-99e583321293",
+        "targetCharacterId": "90817bd2-44c8-454c-9f1b-41cd203dbb27",
+        "type": "spouse",
+        "createdAt": "2026-05-04T16:56:16.671Z",
+        "updatedAt": "2026-05-04T16:56:16.671Z"
+      },
+      {
+        "id": "55c807a7-2a41-46a3-9b14-99e583321293:9c1970d5-f31b-44fe-8cc1-760acc9cf322:child",
+        "sourceCharacterId": "55c807a7-2a41-46a3-9b14-99e583321293",
+        "targetCharacterId": "9c1970d5-f31b-44fe-8cc1-760acc9cf322",
+        "type": "child",
+        "createdAt": "2026-05-04T16:56:16.671Z",
+        "updatedAt": "2026-05-04T16:56:16.671Z"
+      }
+    ],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "wise",
+        "level": 4,
+        "featured": true
+      },
+      {
+        "key": "heroic",
+        "level": 3,
+        "featured": false
+      },
+      {
+        "key": "brave",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "پنهان کردن و پرورش فریدون برای رهایی ایران"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314095797-673a7bad-9d8a-4c3a-94fd-08a8a0260ffd.png",
+    "sceneImage": "/uploads/1777420555656-f1a000dc-8a1f-4275-890f-038865fb55dd.png",
+    "createdAt": "2026-04-27T18:21:35.801Z",
+    "updatedAt": "2026-05-04T16:56:16.671Z"
+  },
+  {
+    "id": "90817bd2-44c8-454c-9f1b-41cd203dbb27",
+    "name": "آبتین",
+    "slug": "آبتین",
+    "title": "پدر فریدون",
+    "epithets": [],
+    "role": "شاهزاده",
+    "nationality": "ایرانی",
+    "nameMeaning": "نامی که در شاهنامه با تبار فریدون، پاک‌نژادی و فره ایزدی پیوند دارد.",
+    "spouseIds": [],
+    "childrenIds": [
+      "9c1970d5-f31b-44fe-8cc1-760acc9cf322"
+    ],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "royal",
+        "level": 3,
+        "featured": true
+      },
+      {
+        "key": "divine",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "تداوم فره شاهی در تبار فریدون"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314087230-cdc975d5-4af4-45a1-b626-89c4c65b0948.png",
+    "sceneImage": "/uploads/1777420004375-7ad55e06-0193-47ae-bdcc-ffddd534426b.png",
+    "createdAt": "2026-04-27T18:21:27.234Z",
+    "updatedAt": "2026-04-28T23:46:44.380Z"
+  },
+  {
+    "id": "2f4f7b05-077e-417b-9e57-b4452f224cc3",
+    "name": "کاوه",
+    "slug": "کاوه",
+    "title": "کاوه آهنگر",
+    "epithets": [
+      "آهنگر دادخواه"
+    ],
+    "role": "قهرمان مردمی",
+    "nationality": "ایرانی",
+    "nameMeaning": "نام آهنگر دادخواه شاهنامه و نماد برخاستن مردم در برابر ستم.",
+    "spouseIds": [],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "مردم ایران",
+    "lineageGroup": "مردم ایران",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "heroic",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "just",
+        "level": 5,
+        "featured": false
+      },
+      {
+        "key": "brave",
+        "level": 4,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "برافراشتن درفش کاویانی",
+      "برانگیختن مردم علیه ضحاک"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314076762-92d57f03-9998-444e-94de-48b16c015ba4.png",
+    "sceneImage": "/uploads/1777418917357-b6439d75-4b58-40c3-ae46-f0f9ef0c3453.png",
+    "createdAt": "2026-04-27T18:21:16.771Z",
+    "updatedAt": "2026-04-28T23:28:37.364Z"
+  },
+  {
+    "id": "07b544e6-8182-4360-a67c-58e01cb804a8",
+    "name": "شهرناز",
+    "slug": "شهرناز",
+    "title": "دختر جمشید",
+    "epithets": [],
+    "role": "شاهزاده",
+    "nationality": "ایرانی",
+    "nameMeaning": "نامی مرکب از شهر و ناز؛ در کاربرد ادبی یادآور ناز، بزرگی و جایگاه شاهانه است.",
+    "father": "جمشید",
+    "fatherId": "6719c45e-441e-4f02-b571-18e6ade231fb",
+    "spouseIds": [
+      "1f58abf6-b31a-4a33-b86f-4ed1c78bb47c"
+    ],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [
+      {
+        "id": "07b544e6-8182-4360-a67c-58e01cb804a8:6719c45e-441e-4f02-b571-18e6ade231fb:father",
+        "sourceCharacterId": "07b544e6-8182-4360-a67c-58e01cb804a8",
+        "targetCharacterId": "6719c45e-441e-4f02-b571-18e6ade231fb",
+        "type": "father",
+        "createdAt": "2026-05-04T15:43:58.390Z",
+        "updatedAt": "2026-05-04T15:43:58.390Z"
+      },
+      {
+        "id": "07b544e6-8182-4360-a67c-58e01cb804a8:1f58abf6-b31a-4a33-b86f-4ed1c78bb47c:spouse",
+        "sourceCharacterId": "07b544e6-8182-4360-a67c-58e01cb804a8",
+        "targetCharacterId": "1f58abf6-b31a-4a33-b86f-4ed1c78bb47c",
+        "type": "spouse",
+        "createdAt": "2026-05-04T15:43:58.390Z",
+        "updatedAt": "2026-05-04T15:43:58.390Z"
+      }
+    ],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "royal",
+        "level": 4,
+        "featured": true
+      },
+      {
+        "key": "tragic",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "حضور در روایت رهایی از فرمانروایی ضحاک"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314037324-e6f47099-8167-492e-9930-e723cadd7a09.png",
+    "sceneImage": "/uploads/1777545708860-f7621b5d-bc29-4d69-9a64-ae80a87b8ed8.png",
+    "createdAt": "2026-04-27T18:20:37.328Z",
+    "updatedAt": "2026-05-04T15:43:58.390Z"
+  },
+  {
+    "id": "d5ec2117-fc4e-48dd-81f5-1d1887edaa44",
+    "name": "ارنواز",
+    "slug": "ارنواز",
+    "title": "دختر جمشید",
+    "epithets": [],
+    "role": "شاهزاده",
+    "nationality": "ایرانی",
+    "nameMeaning": "نامی شاهانه که در روایت شاهنامه با شکوه، نجابت و دختران جمشید همراه است.",
+    "father": "جمشید",
+    "fatherId": "6719c45e-441e-4f02-b571-18e6ade231fb",
+    "spouseIds": [
+      "1f58abf6-b31a-4a33-b86f-4ed1c78bb47c"
+    ],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [
+      {
+        "id": "d5ec2117-fc4e-48dd-81f5-1d1887edaa44:6719c45e-441e-4f02-b571-18e6ade231fb:father",
+        "sourceCharacterId": "d5ec2117-fc4e-48dd-81f5-1d1887edaa44",
+        "targetCharacterId": "6719c45e-441e-4f02-b571-18e6ade231fb",
+        "type": "father",
+        "createdAt": "2026-05-04T15:58:23.997Z",
+        "updatedAt": "2026-05-04T15:58:23.997Z"
+      },
+      {
+        "id": "d5ec2117-fc4e-48dd-81f5-1d1887edaa44:1f58abf6-b31a-4a33-b86f-4ed1c78bb47c:spouse",
+        "sourceCharacterId": "d5ec2117-fc4e-48dd-81f5-1d1887edaa44",
+        "targetCharacterId": "1f58abf6-b31a-4a33-b86f-4ed1c78bb47c",
+        "type": "spouse",
+        "createdAt": "2026-05-04T15:58:23.997Z",
+        "updatedAt": "2026-05-04T15:58:23.997Z"
+      }
+    ],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "royal",
+        "level": 4,
+        "featured": true
+      },
+      {
+        "key": "tragic",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "حضور در گذار از روزگار ضحاک به پادشاهی فریدون"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314024764-2db129b2-167d-4760-98ef-f7bcfc59b8f4.png",
+    "sceneImage": "/uploads/1777421735163-30c43a02-83cf-46d4-82b5-a96d880e0b00.png",
+    "createdAt": "2026-04-27T18:20:24.991Z",
+    "updatedAt": "2026-05-04T15:58:23.997Z"
+  },
+  {
+    "id": "62404ac4-dfd4-44d2-8f27-fbcf52da8751",
+    "name": "مرداس",
+    "slug": "مرداس",
+    "title": "پدر ضحاک",
+    "epithets": [],
+    "role": "شاه نیک‌خوی",
+    "nationality": "تازی",
+    "nameMeaning": "نام پدر ضحاک که در شاهنامه با نیک‌خویی، پاکی و پادشاهی آرام شناخته می‌شود.",
+    "spouseIds": [],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "تازیان",
+    "lineageGroup": "تازیان",
+    "enemies": [],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "just",
+        "level": 4,
+        "featured": true
+      },
+      {
+        "key": "king",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "نماد پادشاهی آرام پیش از فریب ضحاک"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777314000896-a9d963ba-bf92-4f45-8243-df38da07c978.png",
+    "sceneImage": "/uploads/1777421453509-c2cafe79-c659-4ee3-bdc2-426fe1aa5f3f.png",
+    "createdAt": "2026-04-27T18:20:00.902Z",
+    "updatedAt": "2026-04-29T00:10:53.514Z"
+  },
+  {
+    "id": "1f58abf6-b31a-4a33-b86f-4ed1c78bb47c",
+    "name": "ضحاک",
+    "slug": "ضحاک",
+    "title": "ماردوش",
+    "epithets": [
+      "ماردوش"
+    ],
+    "role": "شاه ستمگر",
+    "nationality": "تازی",
+    "nameMeaning": "در سنت ایرانی نام او با اژی‌دهاک، اژدهاگونگی و نیروی ویرانگر اهریمنی پیوند دارد.",
+    "father": "مرداس",
+    "spouseIds": [],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "تازیان",
+    "lineageGroup": "تازیان",
+    "enemies": [
+      "فریدون",
+      "کاوه"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "evil",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "tyrant",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "serpent_mark",
+        "level": 5,
+        "featured": false
+      },
+      {
+        "key": "cruel",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "bloodthirsty",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "cursed",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "mythic",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "چیرگی بر تخت جمشید و گسترش دوران تاریکی"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777313986439-31c9bde8-c0a0-433b-9939-d2f9c695eb90.png",
+    "sceneImage": "/uploads/1777313986439-31c9bde8-c0a0-433b-9939-d2f9c695eb90.png",
+    "createdAt": "2026-04-27T18:19:46.444Z",
+    "updatedAt": "2026-04-27T18:19:46.444Z"
+  },
+  {
+    "id": "6719c45e-441e-4f02-b571-18e6ade231fb",
+    "name": "جمشید",
+    "slug": "جمشید",
+    "title": "شاه فرهمند",
+    "epithets": [],
+    "role": "شاه پیشدادی",
+    "nationality": "ایرانی",
+    "nameMeaning": "جم با شکوه و درخشش پیوند دارد و جمشید در روایت ایرانی نماد شاهی فرهمند است.",
+    "father": "طهمورث",
+    "fatherId": "85a7a447-451d-4191-b323-1d2c8556cf17",
+    "spouseIds": [],
+    "childrenIds": [],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "ضحاک"
+    ],
+    "shortDescription": "",
+    "fullDescription": "",
+    "traits": [
+      {
+        "key": "king",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "divine",
+        "level": 5,
+        "featured": false
+      },
+      {
+        "key": "wise",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "tragic",
+        "level": 4,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "سامان دادن پیشه‌ها",
+      "برگزاری جشن نوروز",
+      "گسترش شکوه پادشاهی"
+    ],
+    "quote": "",
+    "portraitImage": "/uploads/1777313941910-12b3c655-745f-4f59-8f42-3a7093e73897.png",
+    "sceneImage": "/uploads/1777419286870-19cd84bd-dbb1-4642-aadc-ec1b1099a5ae.png",
+    "createdAt": "2026-04-27T18:19:01.916Z",
+    "updatedAt": "2026-04-28T23:34:46.942Z"
+  },
+  {
+    "id": "85a7a447-451d-4191-b323-1d2c8556cf17",
+    "name": "طهمورث",
+    "slug": "طهمورث",
+    "title": "دیوبند؛ فرمانروای دیوان",
+    "epithets": [
+      "دیوبند",
+      "شاهِ دیوان",
+      "رام‌کننده اهریمنی‌ها"
+    ],
+    "role": "سومین پادشاه پیشدادی؛ رام‌کننده دیوان و گسترش‌دهنده دانش و نوشتار",
+    "nationality": "ایرانی",
+    "nameMeaning": "«طهمورث» از ریشه‌ی «تهم» (نیرومند، دلیر) + «اورث/مورث»  به‌معنای دارنده نیروی بزرگ و فرمانروا",
+    "father": "هوشنگ",
+    "fatherId": "a6362523-5197-4ae0-a0c7-f9b82985303d",
+    "spouseIds": [],
+    "childrenIds": [
+      "6719c45e-441e-4f02-b571-18e6ade231fb"
+    ],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "دیوان",
+      "جادوگران و بدخواهان"
+    ],
+    "shortDescription": "<p>طهمورث پس از هوشنگ به پادشاهی رسید و با نیروی خود دیوان را شکست داد و به بند کشید. او از دیوان دانش نوشتن را آموخت و آن را به انسان‌ها منتقل کرد، و بدین‌گونه گامی بزرگ در گسترش دانش و تمدن برداشت.</p>",
+    "fullDescription": "<p>پس از هوشنگ، طهمورث بر تخت نشست و پادشاهی را به دست گرفت. او شاهی نیرومند و هوشمند بود که در پی آن بود تا جهان را از نیروهای اهریمنی پاک کند. در زمان او، دیوان در جهان پراکنده بودند و به انسان‌ها آسیب می‌رساندند.</p><p>طهمورث با نیروی بازو و اراده‌ای استوار به نبرد با دیوان برخاست. او توانست آنان را شکست دهد و به بند بکشد، تا جایی که دیوان ناچار شدند فرمان او را بپذیرند. گفته شده است که او دیوان را چون اسب به زیر کشید و بر آنان چیره شد.</p><p>پس از این پیروزی، دیوان که در بند او بودند، برای رهایی از مرگ، دانشی بزرگ را به او آموختند. آن‌ها راز نوشتن و خط را آشکار کردند و طهمورث این دانش را به انسان‌ها منتقل ساخت. بدین‌گونه، نوشتار در جهان پدید آمد و انسان‌ها توانستند دانش و تجربه‌های خود را ثبت کنند.</p><p>در دوران او، علاوه بر این دستاورد بزرگ، پوشاک نیز گسترش یافت و انسان‌ها از پوست جانوران برای زندگی بهتر بهره گرفتند. جهان در زمان او گامی دیگر به سوی پیشرفت برداشت و از سلطه نیروهای تاریکی فاصله گرفت.</p><p>به همین دلیل، طهمورث را «دیوبند» نامیدند؛ زیرا او نخستین کسی بود که دیوان را به بند کشید و آن‌ها را به خدمت انسان درآورد.</p>",
+    "traits": [
+      {
+        "key": "demon_binder",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "powerful",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "wise",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "king",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "به بند کشیدن دیوان",
+      "آموختن نوشتن از دیوان",
+      "برقراری امنیت در جهان",
+      "انتقال دانش از دیوان به انسان‌ها",
+      "گسترش پوشاک و نظم اجتماعی",
+      "ادامه مسیر تمدن پس از هوشنگ"
+    ],
+    "quote": "<blockquote><p>پسر بد مر او را یکی هوشمند </p><p>گرانمایه طهمورث دیو بند</p><p> بیامد به تخت پدر بر نشست </p><p>به شاهی کمر بر میان بر ببست</p></blockquote><p></p>",
+    "portraitImage": "/uploads/1777313924048-89a2bb04-3e17-4ff0-a293-07319f1860f1.png",
+    "sceneImage": "/uploads/1777382799780-f782daea-0270-4252-9082-2373fe8eb5cc.png",
+    "createdAt": "2026-04-27T18:18:44.308Z",
+    "updatedAt": "2026-05-01T22:59:06.722Z"
+  },
+  {
+    "id": "a6362523-5197-4ae0-a0c7-f9b82985303d",
+    "name": "هوشنگ",
+    "slug": "هوشنگ",
+    "title": "شاهِ کشف و آغاز تمدن",
+    "epithets": [
+      "شاهِ آتش",
+      "پیشگام تمدن",
+      "دادگرِ آغازین"
+    ],
+    "role": "دومین پادشاه پیشدادی و بنیان‌گذار آتش، کشاورزی و ابزارسازی",
+    "nationality": "ایرانی",
+    "nameMeaning": "«هوشنگ» از «هوش + فرهنگ»؛ به‌معنای دارای خرد و دانایی",
+    "father": "سیامک",
+    "fatherId": "bf0ab309-ce91-489d-82e9-5814ea8db4db",
+    "spouseIds": [],
+    "childrenIds": [
+      "85a7a447-451d-4191-b323-1d2c8556cf17"
+    ],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "دیوان"
+    ],
+    "shortDescription": "<p>هوشنگ، نوه‌ی کیومرث، پس از انتقام خون پدرش سیامک به پادشاهی رسید. او با خرد و دانایی، آهن را کشف کرد، ابزار ساخت و کشاورزی را بنیاد نهاد و جهان را وارد مرحله‌ای تازه از تمدن کرد.</p>",
+    "fullDescription": "<p>هوشنگ پس از نشستن بر تخت، با خرد و دانایی خود به سامان دادن زندگی مردم پرداخت. او جهان را از حالت پراکندگی بیرون آورد و پایه‌های تمدن را استوار کرد.</p><p>او نخستین کسی بود که آهن را از سنگ جدا کرد و راه آهنگری را شناخت. با این دانش، ابزارهایی چون تبر، اره و تیشه ساخته شد و انسان توانست طبیعت را بهتر مهار کند.</p><p>سپس آب را به جوی‌ها روان کرد و کشاورزی را بنیان نهاد؛ مردم به کشت و کار پرداختند و زندگی از وابستگی صرف به طبیعت فاصله گرفت.</p><p>هوشنگ همچنین جانوران را از یکدیگر جدا کرد، برخی را برای خوراک و برخی را برای پوشاک و زندگی برگزید. او پوشاک را گسترش داد و شیوه‌ی زیستن را سامان بخشید.</p><p>بدین‌گونه، در دوران او جهان از سادگی نخستین عبور کرد و به سوی تمدن و آبادانی گام برداشت.</p>",
+    "traits": [
+      {
+        "key": "wise",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "king",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "just",
+        "level": 4,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "گسترش آبادانی و داد",
+      "ساخت ابزار (تبر، اره، تیشه)",
+      "تبدیل جهان از حالت ابتدایی به تمدن",
+      "توسعه پوشاک از پوست حیوانات",
+      "پایه‌گذاری کشاورزی و آبیاری"
+    ],
+    "quote": "<p>نخستین، یکی گوهر آمد به چنگ<br>بدآتش از آهن جدا کرد سنگ</p>",
+    "portraitImage": "/uploads/1777313904680-cbcdfbe2-4f73-406d-8dd7-473c0ed8d21c.png",
+    "sceneImage": "/uploads/1777419105475-051dbdb0-6ada-43f4-8202-f9b50ec6bae4.png",
+    "createdAt": "2026-04-27T18:18:24.685Z",
+    "updatedAt": "2026-05-01T22:19:22.056Z"
+  },
+  {
+    "id": "bf0ab309-ce91-489d-82e9-5814ea8db4db",
+    "name": "سیامک",
+    "slug": "سیامک",
+    "title": "نخستین شهید راه روشنایی",
+    "epithets": [
+      "شاهزاده دلیر",
+      "فرزند برگزیده کیومرث",
+      "نخستین شهید جهان"
+    ],
+    "role": "مدافع پادشاهی کیومرث و آغازگر نبرد با دیوان",
+    "visualRole": "royal-family",
+    "nationality": "ایرانی",
+    "nameMeaning": "«سیامک» به‌احتمال به‌معنای دارای چهره یا موی تیره (سیاه‌گونه)",
+    "father": "کیومرث",
+    "fatherId": "4ddb72f3-32d4-45af-a788-cff61c114485",
+    "spouseIds": [],
+    "childrenIds": [
+      "a6362523-5197-4ae0-a0c7-f9b82985303d"
+    ],
+    "siblingIds": [],
+    "relations": [
+      {
+        "id": "bf0ab309-ce91-489d-82e9-5814ea8db4db:4ddb72f3-32d4-45af-a788-cff61c114485:father",
+        "sourceCharacterId": "bf0ab309-ce91-489d-82e9-5814ea8db4db",
+        "targetCharacterId": "4ddb72f3-32d4-45af-a788-cff61c114485",
+        "type": "father",
+        "createdAt": "2026-05-04T16:49:59.383Z",
+        "updatedAt": "2026-05-04T16:49:59.383Z"
+      },
+      {
+        "id": "bf0ab309-ce91-489d-82e9-5814ea8db4db:a6362523-5197-4ae0-a0c7-f9b82985303d:child",
+        "sourceCharacterId": "bf0ab309-ce91-489d-82e9-5814ea8db4db",
+        "targetCharacterId": "a6362523-5197-4ae0-a0c7-f9b82985303d",
+        "type": "child",
+        "createdAt": "2026-05-04T16:49:59.383Z",
+        "updatedAt": "2026-05-04T16:49:59.383Z"
+      }
+    ],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "دیو سیاه"
+    ],
+    "shortDescription": "<p>سیامک، فرزند کیومرث، نخستین پهلوانی بود که در برابر دیوان ایستاد. او با شجاعت به نبرد دیو سیاه رفت، اما در این نبرد کشته شد و نخستین سوگ بزرگ جهان را رقم زد.</p>",
+    "fullDescription": "<p>سیامک، فرزند کیومرث، جوانی دلیر و محبوب بود که امید آینده‌ی پادشاهی به‌شمار می‌رفت. هنگامی که اهریمن برای نابودی نظم جهان دیوی سیاه را به میدان فرستاد، سیامک بی‌درنگ به دفاع برخاست.</p><p>در زمانی که هنوز جنگ و ابزار آن به‌درستی شکل نگرفته بود، او با دلی شجاع و بدنی بی‌زره به میدان رفت و با دیو روبه‌رو شد. نبردی سخت میان آن دو درگرفت، اما در نهایت دیو بر او چیره شد و سیامک را از پای درآورد.</p><p>مرگ او اندوهی بزرگ بر دل کیومرث و جهان نشاند و انگیزه‌ای شد برای انتقام. این رخداد، نخستین خون‌ریزی و نخستین تراژدی در تاریخ شاهنامه بود که مسیر داستان را به‌سوی نبرد و عدالت تغییر داد.</p>",
+    "traits": [
+      {
+        "key": "brave",
+        "level": 4,
+        "featured": true
+      },
+      {
+        "key": "heroic",
+        "level": 3,
+        "featured": false
+      },
+      {
+        "key": "tragic",
+        "level": 3,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "ایستادگی در برابر نیروهای اهریمنی",
+      "نخستین جنگجوی انسان",
+      "آغازگر نبرد با دیوان",
+      "ایجاد انگیزه برای انتقام و عدالت"
+    ],
+    "quote": "<p>فکند آن تن شاهزاده به خاک<br>به چنگال کردش کمرگاه چاک</p>",
+    "portraitImage": "/uploads/1777313882166-308d95f7-510f-45d5-9bdd-2a027a9fff49.png",
+    "sceneImage": "/uploads/1777419010053-be18e935-35c3-4342-8713-640abe563ae5.png",
+    "createdAt": "2026-04-27T18:18:02.171Z",
+    "updatedAt": "2026-05-04T16:49:59.383Z"
+  },
+  {
+    "id": "4ddb72f3-32d4-45af-a788-cff61c114485",
+    "name": "کیومرث",
+    "slug": "کیومرث",
+    "title": "نخستین پادشاه جهان",
+    "epithets": [
+      "نخستین شهریار",
+      "کدخدای جهان",
+      "دارنده‌ی فرّه ایزدی"
+    ],
+    "role": "بنیان‌گذار پادشاهی و آغازگر آیین زندگی و تمدن در جهان",
+    "nationality": "ایرانی",
+    "nameMeaning": "«کیومرث» به‌معنای زندگی میرا / نخستین انسان (در ریشه‌های کهن ایرانی)",
+    "spouseIds": [],
+    "childrenIds": [
+      "bf0ab309-ce91-489d-82e9-5814ea8db4db"
+    ],
+    "siblingIds": [],
+    "relations": [],
+    "dynasty": "پیشدادیان",
+    "lineageGroup": "پیشدادیان",
+    "lineageId": "lineage-pishdadian",
+    "enemies": [
+      "اهریمن",
+      "دیو سیاه (فرزند اهریمن)"
+    ],
+    "shortDescription": "<p>کیومرث نخستین پادشاه جهان بود که در آغاز آفرینش بر کوه‌ها پدیدار شد و آیین زندگی، پوشش و نظم را به مردمان آموخت. با فرمانروایی او، جهان سامان گرفت، اما با ظهور اهریمن و دیوان، نخستین نبرد میان روشنایی و تاریکی آغاز شد.</p>",
+    "fullDescription": "<p>در آغاز جهان، کیومرث به‌عنوان نخستین شهریار بر فراز کوه‌ها فرمانروایی خود را آغاز کرد. او مردمان را گرد آورد و برای نخستین بار پوشاک، خوراک و آیین زندگی را سامان داد. در سایه‌ی فرّه ایزدی او، انسان‌ها و حتی جانوران به آرامش رسیدند و جهان رنگ نظم گرفت.</p><p>اما این شکوه، حسادت اهریمن را برانگیخت. دیوی سیاه برای نابودی این نظم به میدان آمد. در این میان، سیامک، فرزند کیومرث، به نبرد با دیو برخاست اما کشته شد. این واقعه نخستین سوگ بزرگ جهان بود.</p><p>کیومرث در اندوه فرو رفت، اما به فرمان الهی، دست از سوگ کشید و برای انتقام آماده شد. او هوشنگ، نوه‌اش، را به رهبری سپاه برگزید. در نهایت، با پیروزی بر دیو، عدالت دوباره برقرار شد. پس از این رویداد، دوران کیومرث به پایان رسید، اما او بنیان‌گذار تمدن و پادشاهی در جهان باقی ماند.</p>",
+    "traits": [
+      {
+        "key": "king",
+        "level": 5,
+        "featured": true
+      },
+      {
+        "key": "mythic",
+        "level": 5,
+        "featured": false
+      },
+      {
+        "key": "divine",
+        "level": 4,
+        "featured": false
+      },
+      {
+        "key": "just",
+        "level": 4,
+        "featured": false
+      }
+    ],
+    "achievements": [
+      "آغاز پادشاهی و آیین فرمانروایی در جهان شاهنامه",
+      "ایجاد پوشاک و خوراک برای انسان‌ها",
+      "برقراری نظم و آرامش در جهان",
+      "آغازگر نبرد میان خیر و شر"
+    ],
+    "quote": "<p>کیومرث شد بر جهان کدخدای<br>نخستین به کوه اندرون ساخت جای</p>",
+    "portraitImage": "/uploads/1777313235498-f5db8b50-d3a3-4483-a605-ca5546e49f85.png",
+    "sceneImage": "/uploads/1777419058914-a0604888-8531-44f1-abd8-faa8c1e1602e.png",
+    "createdAt": "2026-04-27T18:07:15.504Z",
+    "updatedAt": "2026-05-01T20:59:50.701Z"
+  }
+]

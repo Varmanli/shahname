@@ -1,0 +1,22 @@
+[
+  {
+    "id": "relationship-jamshid-abtin-indirect",
+    "sourceCharacterId": "6719c45e-441e-4f02-b571-18e6ade231fb",
+    "targetCharacterId": "90817bd2-44c8-454c-9f1b-41cd203dbb27",
+    "type": "indirect_lineage",
+    "label": "وابستگی با میانجی",
+    "description": "آبتین از تبار پیشدادیان دانسته می‌شود، اما رابطه مستقیم پدر و فرزندی با جمشید مشخص نیست.",
+    "confidence": "inferred",
+    "order": 1
+  },
+  {
+    "id": "relationship-abtin-franak-spouse",
+    "sourceCharacterId": "90817bd2-44c8-454c-9f1b-41cd203dbb27",
+    "targetCharacterId": "55c807a7-2a41-46a3-9b14-99e583321293",
+    "type": "spouse",
+    "label": "همسر",
+    "description": "پیوند همسری آبتین و فرانک در روایت فریدون.",
+    "confidence": "confirmed",
+    "order": 2
+  }
+]

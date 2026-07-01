@@ -12,7 +12,7 @@
 
 # testing
 /coverage
-
+/.next-webpack
 # next.js
 /.next/
 /out/

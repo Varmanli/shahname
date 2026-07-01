@@ -1,0 +1,38 @@
+[
+  {
+    "id": "lineage-pishdadian",
+    "title": "پیشدادیان",
+    "description": "نخستین دودمان شاهنامه؛ از کیومرث تا جمشید و آغاز سامان جهان.",
+    "isApproved": true,
+    "order": 1,
+    "createdAt": "2026-05-04T15:39:48.708Z",
+    "updatedAt": "2026-05-04T15:39:48.708Z"
+  },
+  {
+    "id": "lineage-دوران-ضحاک",
+    "title": "دوران ضحاک",
+    "description": "",
+    "isApproved": false,
+    "order": 2,
+    "createdAt": "2026-05-04T15:39:48.708Z",
+    "updatedAt": "2026-05-04T15:39:48.708Z"
+  },
+  {
+    "id": "lineage-مردم-ایران",
+    "title": "مردم ایران",
+    "description": "",
+    "isApproved": false,
+    "order": 3,
+    "createdAt": "2026-05-04T15:39:48.708Z",
+    "updatedAt": "2026-05-04T15:39:48.708Z"
+  },
+  {
+    "id": "lineage-تازیان",
+    "title": "تازیان",
+    "description": "",
+    "isApproved": false,
+    "order": 4,
+    "createdAt": "2026-05-04T15:39:48.708Z",
+    "updatedAt": "2026-05-04T15:39:48.708Z"
+  }
+]
