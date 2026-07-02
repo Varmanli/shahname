@@ -4,6 +4,7 @@ import {
   ADMIN_SESSION_COOKIE,
   ADMIN_SESSION_MAX_AGE,
   createAdminSessionToken,
+  getPublicOrigin,
   isQuickAdminAccessEnabled,
   verifyAdminPassword,
 } from "@/lib/auth-core";
@@ -30,27 +31,6 @@ function redirectToLogin(request: Request, next: string, error: string) {
     new URL(`/admin/login?${params.toString()}`, getPublicOrigin(request)),
     { status: 303 },
   );
-}
-
-/**
- * آدرس عمومی سایت برای ساخت ریدایرکت‌های مطلق.
- *
- * `request.url` در پشت پراکسی/کانتینر می‌تواند حاوی آدرس داخلی سرور
- * (مثل `http://0.0.0.0:3000`) باشد، پس هرگز مستقیم استفاده نمی‌شود.
- */
-function getPublicOrigin(request: Request) {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (configured) return configured.replace(/\/+$/, "");
-
-  const headers = request.headers;
-  const forwardedHost = headers.get("x-forwarded-host");
-  const host = forwardedHost ?? headers.get("host");
-  const protocol =
-    headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.replace(":", "");
-
-  if (host) return `${protocol}://${host}`;
-
-  return request.url;
 }
 
 export async function POST(request: Request) {

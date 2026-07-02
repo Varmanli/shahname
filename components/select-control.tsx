@@ -128,9 +128,7 @@ export function SelectControl({
                     ${
                       active
                         ? "bg-accent text-button-text font-black shadow-lg shadow-accent/20"
-                        : variant === "admin"
-                          ? "text-white/70 hover:bg-white/5 hover:text-white"
-                          : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
+                        : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
                     }
                   `}
                 >
@@ -138,17 +136,13 @@ export function SelectControl({
                   {active ? (
                     <FiCheck className="h-4 w-4 shrink-0" />
                   ) : (
-                    <div
-                      className={`h-1.5 w-1.5 rounded-full group-hover:bg-accent/40 transition-colors ${variant === "admin" ? "bg-white/10" : "bg-foreground/10"}`}
-                    />
+                    <div className="h-1.5 w-1.5 rounded-full bg-foreground/10 transition-colors group-hover:bg-accent/40" />
                   )}
                 </button>
               );
             })
           ) : (
-            <div
-              className={`px-4 py-8 text-center text-xs font-medium ${variant === "admin" ? "text-white/30" : "text-muted-foreground"}`}
-            >
+            <div className="px-4 py-8 text-center text-xs font-medium text-muted-foreground">
               موردی یافت نشد
             </div>
           )}
@@ -160,10 +154,10 @@ export function SelectControl({
 
 const triggerClasses = {
   admin: `
-    flex h-16 cursor-pointer items-center justify-between gap-3 rounded-2xl 
-    border border-white/10 bg-white/[0.03] px-6 
-    text-right text-base font-bold text-white shadow-inner backdrop-blur-xl
-    hover:bg-white/[0.06] hover:border-white/20
+    flex h-16 cursor-pointer items-center justify-between gap-3 rounded-2xl
+    border border-shah-gold-500/18 bg-white/80 px-6
+    text-right text-base font-bold text-foreground shadow-inner backdrop-blur-xl
+    hover:border-shah-gold-500/45 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.06] dark:hover:border-white/20
   `,
   filter: `
     flex h-13 cursor-pointer items-center justify-between gap-3 rounded-full
@@ -178,8 +172,8 @@ const dropdownClasses = {
   admin: `
     absolute right-0 top-[calc(100%+0.75rem)] z-50
     max-h-80 w-full min-w-64 overflow-hidden rounded-[2rem]
-    border border-white/10 bg-[#0c1a2b]/95 shadow-[0_30px_90px_rgba(0,0,0,0.8)]
-    backdrop-blur-3xl
+    border border-shah-gold-500/18 bg-card/98 shadow-[0_30px_90px_rgba(0,0,0,0.16)]
+    backdrop-blur-3xl dark:border-white/10 dark:bg-[#0c1a2b]/95 dark:shadow-[0_30px_90px_rgba(0,0,0,0.8)]
   `,
   filter: `
     absolute left-0 top-[calc(100%+0.75rem)] z-50

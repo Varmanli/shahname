@@ -3,6 +3,27 @@ const encoder = new TextEncoder();
 export const ADMIN_SESSION_COOKIE = "shahname_admin_session";
 export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8;
 
+/**
+ * آدرس عمومی سایت برای ساخت ریدایرکت‌های مطلق.
+ *
+ * `request.url` در پشت پراکسی/کانتینر می‌تواند حاوی آدرس داخلی سرور
+ * (مثل `http://0.0.0.0:3000`) باشد، پس هرگز مستقیم استفاده نمی‌شود.
+ */
+export function getPublicOrigin(request: Request) {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (configured) return configured.replace(/\/+$/, "");
+
+  const headers = request.headers;
+  const forwardedHost = headers.get("x-forwarded-host");
+  const host = forwardedHost ?? headers.get("host");
+  const protocol =
+    headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.replace(":", "");
+
+  if (host) return `${protocol}://${host}`;
+
+  return request.url;
+}
+
 type AdminSessionPayload = {
   exp: number;
   role: "admin";

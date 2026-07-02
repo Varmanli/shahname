@@ -10,8 +10,11 @@ export function AdminLoginForm({
   returnTo: string;
 }) {
   return (
-    <div className="mx-auto grid min-h-screen w-full max-w-md content-center px-4 py-10">
-      <section className="overflow-hidden rounded-[1.75rem] border border-shah-gold-500/18 bg-white/86 shadow-2xl shadow-shah-black-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.06] dark:shadow-black/30">
+    <div
+      dir="rtl"
+      className="grid min-h-screen w-full place-items-center bg-shah-cream-50 px-4 py-10 text-foreground dark:bg-[#070707]"
+    >
+      <section className="w-full max-w-md overflow-hidden rounded-[1.75rem] border border-shah-gold-500/18 bg-white/86 shadow-2xl shadow-shah-black-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.06] dark:shadow-black/30">
         <div className="border-b border-shah-gold-500/14 bg-shah-lapis-900 px-6 py-7 text-white dark:border-white/10">
           <div className="flex items-center gap-3">
             <span className="grid size-12 place-items-center rounded-2xl bg-shah-gold-400/16 text-shah-gold-200">
