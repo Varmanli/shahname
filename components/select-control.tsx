@@ -123,12 +123,14 @@ export function SelectControl({
                   type="button"
                   onClick={() => selectValue(option.value)}
                   className={`
-                    group flex w-full items-center justify-between gap-3 rounded-[1.25rem] 
+                    group flex w-full items-center justify-between gap-3 rounded-[1.25rem]
                     px-4 py-3.5 text-right text-sm transition-all duration-200
                     ${
                       active
-                        ? "bg-shah-gold-400 text-black font-black shadow-lg shadow-shah-gold-400/20"
-                        : "text-white/70 hover:bg-white/5 hover:text-white"
+                        ? "bg-accent text-button-text font-black shadow-lg shadow-accent/20"
+                        : variant === "admin"
+                          ? "text-white/70 hover:bg-white/5 hover:text-white"
+                          : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
                     }
                   `}
                 >
@@ -136,13 +138,17 @@ export function SelectControl({
                   {active ? (
                     <FiCheck className="h-4 w-4 shrink-0" />
                   ) : (
-                    <div className="h-1.5 w-1.5 rounded-full bg-white/10 group-hover:bg-shah-gold-400/40 transition-colors" />
+                    <div
+                      className={`h-1.5 w-1.5 rounded-full group-hover:bg-accent/40 transition-colors ${variant === "admin" ? "bg-white/10" : "bg-foreground/10"}`}
+                    />
                   )}
                 </button>
               );
             })
           ) : (
-            <div className="px-4 py-8 text-center text-xs text-white/30 font-medium">
+            <div
+              className={`px-4 py-8 text-center text-xs font-medium ${variant === "admin" ? "text-white/30" : "text-muted-foreground"}`}
+            >
               موردی یافت نشد
             </div>
           )}
@@ -160,25 +166,27 @@ const triggerClasses = {
     hover:bg-white/[0.06] hover:border-white/20
   `,
   filter: `
-    flex h-13 cursor-pointer items-center justify-between gap-3 rounded-full 
-    border border-white/5 bg-black/40 px-5 
-    text-sm font-black text-white/90 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-2xl
-    hover:bg-black/60 hover:border-shah-gold-400/30
+    flex h-13 cursor-pointer items-center justify-between gap-3 rounded-full
+    border border-border bg-background/60 px-5
+    text-sm font-black text-foreground/90 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl
+    hover:bg-background/90 hover:border-accent/30
+    dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]
   `,
 };
 
 const dropdownClasses = {
   admin: `
-    absolute right-0 top-[calc(100%+0.75rem)] z-50 
-    max-h-80 w-full min-w-64 overflow-hidden rounded-[2rem] 
-    border border-white/10 bg-[#0c1a2b]/95 shadow-[0_30px_90px_rgba(0,0,0,0.8)] 
+    absolute right-0 top-[calc(100%+0.75rem)] z-50
+    max-h-80 w-full min-w-64 overflow-hidden rounded-[2rem]
+    border border-white/10 bg-[#0c1a2b]/95 shadow-[0_30px_90px_rgba(0,0,0,0.8)]
     backdrop-blur-3xl
   `,
   filter: `
-    absolute left-0 top-[calc(100%+0.75rem)] z-50 
-    max-h-96 w-72 overflow-hidden rounded-[2.25rem] 
-    border border-shah-gold-400/20 bg-[#071426]/98 shadow-[0_40px_100px_rgba(0,0,0,0.9)] 
+    absolute left-0 top-[calc(100%+0.75rem)] z-50
+    max-h-96 w-72 overflow-hidden rounded-[2.25rem]
+    border border-accent/20 bg-card/98 shadow-[0_40px_100px_rgba(0,0,0,0.35)]
     backdrop-blur-3xl
+    dark:shadow-[0_40px_100px_rgba(0,0,0,0.9)]
   `,
 };
 

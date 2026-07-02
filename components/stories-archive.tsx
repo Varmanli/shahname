@@ -408,13 +408,13 @@ function MobileDrawer({
         onClick={onClose}
         aria-label="بستن فیلترها"
       />
-      <div className="absolute inset-x-0 bottom-0 animate-fade-up rounded-t-4xl border border-white/10 bg-shah-black-950 p-5 text-white shadow-2xl">
+      <div className="absolute inset-x-0 bottom-0 animate-fade-up rounded-t-4xl border border-border bg-card p-5 text-card-foreground shadow-2xl">
         <div className="mb-5 flex items-center justify-between">
           <span className="text-base font-black">فیلترهای پیشرفته</span>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground/10"
           >
             <FiX />
           </button>
@@ -442,7 +442,7 @@ function DrawerGroup({
 }) {
   return (
     <div>
-      <h3 className="mb-3 text-sm font-black text-shah-gold-300">{label}</h3>
+      <h3 className="mb-3 text-sm font-black text-accent">{label}</h3>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => {
           const active = selected.includes(option);
@@ -454,7 +454,7 @@ function DrawerGroup({
               className={`rounded-full px-4 py-2 text-sm font-black transition ${
                 active
                   ? "bg-shah-gold-500 text-white"
-                  : "bg-white/10 text-white"
+                  : "bg-foreground/10 text-card-foreground"
               }`}
             >
               {labels?.[option] ?? option}

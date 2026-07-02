@@ -41,17 +41,17 @@ export function ArchiveSearchPanel({
       dir="rtl"
       className="
         relative z-10 mx-auto w-full max-w-7xl
-        rounded-4xl bg-shah-black-900/86 p-3 md:p-4
+        rounded-4xl bg-card/90 p-3 md:p-4
         backdrop-blur-3xl
-        border border-white/10
-        shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]
+        border border-border
+        shadow-[0_32px_64px_-16px_rgba(0,0,0,0.25)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]
       "
     >
       <div className="flex flex-col gap-4">
         {/* Search Bar Container */}
         <div className="flex flex-col items-stretch gap-3 lg:flex-row">
           <div className="relative grow group">
-            <FiSearch className="pointer-events-none absolute right-6 top-1/2 h-5 w-5 -translate-y-1/2 text-white/30 group-focus-within:text-shah-gold-400 transition-colors duration-300" />
+            <FiSearch className="pointer-events-none absolute right-6 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground group-focus-within:text-accent transition-colors duration-300" />
 
             <input
               value={searchValue}
@@ -59,11 +59,11 @@ export function ArchiveSearchPanel({
               onKeyDown={onSearchKeyDown}
               placeholder={placeholder}
               className="
-                h-14 w-full rounded-full bg-black/40
-                pr-14 pl-14 text-right text-sm font-bold text-white md:h-15
-                outline-none border border-white/5 transition-all duration-300
-                placeholder:text-white/20
-                focus:bg-black/60 focus:border-shah-gold-400/50 focus:ring-4 focus:ring-shah-gold-400/10
+                h-14 w-full rounded-full bg-background/60
+                pr-14 pl-14 text-right text-sm font-bold text-foreground md:h-15
+                outline-none border border-border transition-all duration-300
+                placeholder:text-muted-foreground
+                focus:bg-background/90 focus:border-accent/50 focus:ring-4 focus:ring-accent/10
               "
             />
 
@@ -73,8 +73,8 @@ export function ArchiveSearchPanel({
                 onClick={onClearSearch}
                 className="
                   absolute left-4 top-1/2 -translate-y-1/2
-                  flex h-9 w-9 items-center justify-center rounded-full 
-                  bg-white/5 text-white/50 hover:bg-red-500/20 hover:text-red-400
+                  flex h-9 w-9 items-center justify-center rounded-full
+                  bg-foreground/5 text-muted-foreground hover:bg-red-500/20 hover:text-red-400
                   transition-all duration-200
                 "
               >
@@ -104,7 +104,7 @@ export function ArchiveSearchPanel({
         <div
           className="
             hidden lg:grid grid-cols-2 xl:grid-cols-5 gap-3 rounded-[1.6rem]
-            bg-white/3 p-3 border border-white/5
+            bg-foreground/3 p-3 border border-border
           "
         >
           {filterControls}
@@ -113,7 +113,7 @@ export function ArchiveSearchPanel({
         {/* Active Filters / Chips */}
         {activeFilters.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 px-2 animate-in fade-in slide-in-from-top-2">
-            <span className="text-xs font-medium text-white/40 ml-2">
+            <span className="text-xs font-medium text-muted-foreground ml-2">
               فیلترهای فعال:
             </span>
             {activeFilters.map((filter) => (
@@ -122,10 +122,10 @@ export function ArchiveSearchPanel({
                 type="button"
                 onClick={() => onRemoveFilter(filter)}
                 className="
-                  group flex items-center gap-2 rounded-lg bg-shah-gold-400/5
-                  px-3 py-1.5 text-[11px] font-bold text-shah-gold-300/80
-                  border border-shah-gold-400/10 transition-all
-                  hover:bg-shah-gold-400 hover:text-black hover:border-shah-gold-400
+                  group flex items-center gap-2 rounded-lg bg-accent/10
+                  px-3 py-1.5 text-[11px] font-bold text-accent
+                  border border-accent/20 transition-all
+                  hover:bg-accent hover:text-button-text hover:border-accent
                 "
               >
                 {filter.label}

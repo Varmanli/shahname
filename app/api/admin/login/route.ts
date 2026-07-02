@@ -24,11 +24,33 @@ function getSafeRedirectPath(value: FormDataEntryValue | null) {
 }
 
 function redirectToLogin(request: Request, next: string, error: string) {
-  const url = new URL("/admin/login", request.url);
-  url.searchParams.set("next", next);
-  url.searchParams.set("error", error);
+  const params = new URLSearchParams({ next, error });
 
-  return NextResponse.redirect(url, { status: 303 });
+  return NextResponse.redirect(
+    new URL(`/admin/login?${params.toString()}`, getPublicOrigin(request)),
+    { status: 303 },
+  );
+}
+
+/**
+ * آدرس عمومی سایت برای ساخت ریدایرکت‌های مطلق.
+ *
+ * `request.url` در پشت پراکسی/کانتینر می‌تواند حاوی آدرس داخلی سرور
+ * (مثل `http://0.0.0.0:3000`) باشد، پس هرگز مستقیم استفاده نمی‌شود.
+ */
+function getPublicOrigin(request: Request) {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (configured) return configured.replace(/\/+$/, "");
+
+  const headers = request.headers;
+  const forwardedHost = headers.get("x-forwarded-host");
+  const host = forwardedHost ?? headers.get("host");
+  const protocol =
+    headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.replace(":", "");
+
+  if (host) return `${protocol}://${host}`;
+
+  return request.url;
 }
 
 export async function POST(request: Request) {
@@ -47,7 +69,7 @@ export async function POST(request: Request) {
     return redirectToLogin(request, next, "رمز عبور درست نیست.");
   }
 
-  const response = NextResponse.redirect(new URL(next, request.url), {
+  const response = NextResponse.redirect(new URL(next, getPublicOrigin(request)), {
     status: 303,
   });
 

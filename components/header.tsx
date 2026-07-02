@@ -43,15 +43,15 @@ export function Header() {
       <div
         className={`relative flex w-full max-w-7xl items-center justify-between gap-4 rounded-[1.75rem] border px-5 py-3 transition-all duration-500 sm:px-6 ${
           scrolled
-            ? "border-shah-gold-400/18 bg-[#061120]/88 shadow-[0_22px_55px_rgba(0,0,0,0.48)] backdrop-blur-2xl"
-            : "border-white/12 bg-[#061120]/72 shadow-[0_16px_42px_rgba(0,0,0,0.34)] backdrop-blur-xl"
+            ? "border-shah-gold-400/18 bg-card/88 shadow-[0_22px_55px_rgba(0,0,0,0.24)] backdrop-blur-2xl dark:shadow-[0_22px_55px_rgba(0,0,0,0.48)]"
+            : "border-border bg-card/72 shadow-[0_16px_42px_rgba(0,0,0,0.16)] backdrop-blur-xl dark:shadow-[0_16px_42px_rgba(0,0,0,0.34)]"
         }`}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-l from-transparent via-shah-gold-300/45 to-transparent" />
         <div className="pointer-events-none absolute -right-20 top-1/2 h-24 w-56 -translate-y-1/2 rounded-full bg-shah-gold-400/10 blur-3xl" />
         {/* Logo Section */}
         <Link href="/" className="group flex shrink-0 items-center gap-3">
-          <span className="relative rounded-full bg-white/6 px-3 py-1.5 text-xl font-black tracking-tight text-white ring-1 ring-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] transition group-hover:text-shah-gold-200 sm:text-2xl">
+          <span className="relative rounded-full bg-foreground/6 px-3 py-1.5 text-xl font-black tracking-tight text-foreground ring-1 ring-foreground/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.2)] transition group-hover:text-shah-gold-500 dark:drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] dark:group-hover:text-shah-gold-200 sm:text-2xl">
             شاهنامه<span className="text-shah-gold-400">‌سرا</span>
           </span>
         </Link>
@@ -66,11 +66,11 @@ export function Header() {
                 href={item.href}
                 className={`relative px-4 py-2 text-sm font-bold transition-all duration-300 ${
                   isActive
-                    ? "text-shah-gold-300"
-                    : "text-white/78 hover:text-white"
+                    ? "text-accent"
+                    : "text-foreground/70 hover:text-foreground"
                 }`}
               >
-                <span className="relative z-10 drop-shadow-[0_1px_8px_rgba(0,0,0,0.35)]">
+                <span className="relative z-10 drop-shadow-[0_1px_8px_rgba(0,0,0,0.12)] dark:drop-shadow-[0_1px_8px_rgba(0,0,0,0.35)]">
                   {item.name}
                 </span>
                 {isActive && (
@@ -83,13 +83,13 @@ export function Header() {
 
         {/* Actions Section */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 rounded-full bg-black/20 p-1.5 ring-1 ring-white/12 backdrop-blur-md">
+          <div className="flex items-center gap-1.5 rounded-full bg-foreground/8 p-1.5 ring-1 ring-foreground/10 backdrop-blur-md">
             <ThemeToggle />
-            <div className="h-4 w-px bg-white/10" />
+            <div className="h-4 w-px bg-foreground/10" />
             <Link
               href="/search"
               aria-label="جستجو"
-              className="group flex h-9 w-9 items-center justify-center rounded-full text-white/82 transition-all hover:bg-shah-gold-400 hover:text-[#071426]"
+              className="group flex h-9 w-9 items-center justify-center rounded-full text-foreground/75 transition-all hover:bg-shah-gold-400 hover:text-[#071426]"
             >
               <FiSearch className="h-5 w-5 transition-transform group-hover:scale-110" />
             </Link>
@@ -123,7 +123,7 @@ export function Header() {
               : "scale-y-95 opacity-0 -translate-y-4 pointer-events-none"
           }`}
         >
-          <div className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#071426]/95 p-4 shadow-[0_40px_80px_rgba(0,0,0,0.7)] backdrop-blur-3xl">
+          <div className="overflow-hidden rounded-[2.5rem] border border-border bg-card/95 p-4 shadow-[0_40px_80px_rgba(0,0,0,0.25)] backdrop-blur-3xl dark:shadow-[0_40px_80px_rgba(0,0,0,0.7)]">
             {/* Nav Links */}
             <nav className="grid gap-2">
               {navItems.map((item, index) => {
@@ -137,7 +137,7 @@ export function Header() {
                     className={`group flex items-center justify-between rounded-2xl px-5 py-4 transition-all ${
                       isActive
                         ? "bg-shah-gold-400 text-[#071426] font-black"
-                        : "text-white/70 hover:bg-white/5 hover:pr-7"
+                        : "text-foreground/70 hover:bg-foreground/5 hover:pr-7"
                     }`}
                   >
                     <span className="text-sm">{item.name}</span>
@@ -151,7 +151,7 @@ export function Header() {
 
             {/* Bottom Decoration */}
             <div className="mt-4 flex justify-center py-2">
-              <div className="h-1 w-12 rounded-full bg-white/10" />
+              <div className="h-1 w-12 rounded-full bg-foreground/10" />
             </div>
           </div>
         </div>
