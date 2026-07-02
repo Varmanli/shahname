@@ -45,8 +45,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 EXPOSE 3002
 
-# Real secrets (DATABASE_URL, ADMIN_PASSWORD, AUTH_SECRET, ARVAN_S3_*) must be
+# Real secrets (DATABASE_URL, ADMIN_PASSWORD, JWT_SECRET, ARVAN_S3_*) must be
 # provided as runtime environment variables in Coolify — never baked into
-# this image. The schema is applied during the builder stage (above, via
-# db:migrate); no seed command runs here.
+# this image. JWT_SECRET has no fallback: admin login will fail loudly
+# until it is set. The schema is applied during the builder stage (above,
+# via db:migrate); no seed command runs here.
 CMD ["node", "server.js"]

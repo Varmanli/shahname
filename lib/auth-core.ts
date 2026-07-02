@@ -1,7 +1,28 @@
 const encoder = new TextEncoder();
 
 export const ADMIN_SESSION_COOKIE = "shahname_admin_session";
-export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8;
+export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 24 * 7; // ۷ روز
+
+/**
+ * پروتکل واقعی درخواست از دید مرورگر.
+ *
+ * پشت یک ریورس‌پراکسی (Traefik/Coolify) اتصال داخلی به کانتینر معمولاً HTTP
+ * است حتی وقتی کاربر روی HTTPS است، پس همیشه اول به هدر استاندارد
+ * `x-forwarded-proto` اعتماد می‌کنیم و فقط در نبود آن به پروتکل خام درخواست
+ * برمی‌گردیم.
+ */
+export function getRequestProtocol(request: Request): "http" | "https" {
+  const forwardedProto = request.headers
+    .get("x-forwarded-proto")
+    ?.split(",")[0]
+    ?.trim();
+
+  if (forwardedProto === "https" || forwardedProto === "http") {
+    return forwardedProto;
+  }
+
+  return new URL(request.url).protocol === "https:" ? "https" : "http";
+}
 
 /**
  * آدرس عمومی سایت برای ساخت ریدایرکت‌های مطلق.
@@ -16,12 +37,30 @@ export function getPublicOrigin(request: Request) {
   const headers = request.headers;
   const forwardedHost = headers.get("x-forwarded-host");
   const host = forwardedHost ?? headers.get("host");
-  const protocol =
-    headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.replace(":", "");
+  const protocol = getRequestProtocol(request);
 
   if (host) return `${protocol}://${host}`;
 
   return request.url;
+}
+
+/**
+ * تنظیمات یکسانِ کوکی نشست ادمین — تنها منبع حقیقت برای مسیر، انقضا و
+ * پرچم‌های امنیتی کوکی، تا هیچ‌جای دیگری از کد این مقادیر را جداگانه
+ * تکرار نکند و از واگرایی جلوگیری شود.
+ *
+ * عمداً `domain` تنظیم نمی‌شود — تنظیم آن روی مقدار اشتباه (مثل
+ * `0.0.0.0`، هاست داخلی کانتینر یا `localhost`) باعث می‌شود مرورگر کوکی
+ * را برای دامنه واقعی سایت ذخیره نکند.
+ */
+export function getAdminSessionCookieOptions(request: Request) {
+  return {
+    httpOnly: true,
+    maxAge: ADMIN_SESSION_MAX_AGE,
+    path: "/",
+    sameSite: "lax" as const,
+    secure: getRequestProtocol(request) === "https",
+  };
 }
 
 type AdminSessionPayload = {
@@ -108,18 +147,23 @@ export function isQuickAdminAccessEnabled() {
   );
 }
 
-export function getAuthSecret() {
-  const value = process.env.AUTH_SECRET;
+/**
+ * راز امضای JWT نشست ادمین.
+ *
+ * همیشه از `process.env.JWT_SECRET` خوانده می‌شود — نه به‌صورت پویا
+ * دوباره ساخته می‌شود و نه مقدار پیش‌فرض تصادفی/مشتق‌شده دارد. اگر تنظیم
+ * نشده باشد، در هر محیطی (نه فقط production) با خطای واضح متوقف می‌شود؛
+ * چون یک مقدار پیش‌فرض ساکت یعنی امضا/راستی‌آزمایی JWT بین ری‌استارت‌ها یا
+ * نمونه‌های مختلف سرور می‌تواند ناسازگار شود و نشست ادمین را نامعتبر کند.
+ */
+export function getJwtSecret() {
+  const value = process.env.JWT_SECRET;
 
   if (value) return value;
 
-  if (process.env.NODE_ENV === "production") {
-    throw new Error(
-      "AUTH_SECRET is not set. Generate one with `openssl rand -base64 32` and set it in the production environment before starting the app.",
-    );
-  }
-
-  return `shahname-dev:${getAdminPassword()}`;
+  throw new Error(
+    "JWT_SECRET is not set. Generate one with `openssl rand -base64 32` and set it as an environment variable before starting the app.",
+  );
 }
 
 export function verifyAdminPassword(password: string) {
@@ -133,7 +177,7 @@ export async function createAdminSessionToken() {
     sub: "dashboard",
   };
   const body = bytesToBase64Url(encoder.encode(JSON.stringify(payload)));
-  const signature = await sign(body, getAuthSecret());
+  const signature = await sign(body, getJwtSecret());
 
   return `${body}.${signature}`;
 }
@@ -145,7 +189,7 @@ export async function verifyAdminSessionToken(token?: string) {
 
   if (!body || !signature || extra) return false;
 
-  const expectedSignature = await sign(body, getAuthSecret());
+  const expectedSignature = await sign(body, getJwtSecret());
 
   if (!constantTimeEqual(signature, expectedSignature)) return false;
 

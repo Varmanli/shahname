@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 import {
   ADMIN_SESSION_COOKIE,
-  ADMIN_SESSION_MAX_AGE,
   createAdminSessionToken,
+  getAdminSessionCookieOptions,
   getPublicOrigin,
   isQuickAdminAccessEnabled,
   verifyAdminPassword,
@@ -52,16 +52,13 @@ export async function POST(request: Request) {
   const response = NextResponse.redirect(new URL(next, getPublicOrigin(request)), {
     status: 303,
   });
+  const token = await createAdminSessionToken();
 
-  response.cookies.set({
-    httpOnly: true,
-    maxAge: ADMIN_SESSION_MAX_AGE,
-    name: ADMIN_SESSION_COOKIE,
-    path: "/",
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    value: await createAdminSessionToken(),
-  });
+  response.cookies.set(
+    ADMIN_SESSION_COOKIE,
+    token,
+    getAdminSessionCookieOptions(request),
+  );
 
   return response;
 }
