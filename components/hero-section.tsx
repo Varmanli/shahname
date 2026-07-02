@@ -9,7 +9,7 @@ export function HeroSection() {
       <div className="absolute inset-0 z-0">
         <Image
           alt="تصویر فردوسی"
-          src="/images/ferdosi-1.png"
+          src="/images/ferdosi-1.webp"
           fill
           priority
           className="object-cover md:object-center"
