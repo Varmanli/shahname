@@ -108,13 +108,15 @@ export function AdminSidebar() {
               مدیر کل سیستم
             </span>
           </div>
-          <Link
-            href="/admin/logout"
-            className="mr-auto grid size-10 place-items-center rounded-xl text-shah-black-600 transition hover:bg-red-500/10 hover:text-red-700 dark:text-zinc-300 dark:hover:text-red-200"
-            title="خروج"
-          >
-            <FiLogOut className="size-5" aria-hidden />
-          </Link>
+          <form action="/admin/logout" className="mr-auto" method="post">
+            <button
+              className="grid size-10 place-items-center rounded-xl text-shah-black-600 transition hover:bg-red-500/10 hover:text-red-700 dark:text-zinc-300 dark:hover:text-red-200"
+              title="خروج"
+              type="submit"
+            >
+              <FiLogOut className="size-5" aria-hidden />
+            </button>
+          </form>
         </div>
       </div>
     </aside>
@@ -131,13 +133,15 @@ export function AdminMobileNav() {
           پنل <span className="text-shah-gold-500">مدیریت</span>
         </Link>
         <div className="flex items-center gap-2">
-          <Link
-            href="/admin/logout"
-            className="grid size-11 place-items-center rounded-2xl bg-card/70 text-foreground transition hover:bg-red-500/10 hover:text-red-700 dark:bg-shah-black-900/70 dark:text-zinc-300 dark:hover:text-red-200"
-            title="خروج"
-          >
-            <FiLogOut className="size-5" aria-hidden />
-          </Link>
+          <form action="/admin/logout" method="post">
+            <button
+              className="grid size-11 place-items-center rounded-2xl bg-card/70 text-foreground transition hover:bg-red-500/10 hover:text-red-700 dark:bg-shah-black-900/70 dark:text-zinc-300 dark:hover:text-red-200"
+              title="خروج"
+              type="submit"
+            >
+              <FiLogOut className="size-5" aria-hidden />
+            </button>
+          </form>
           <div className="w-36">
           <AdminThemeToggle />
           </div>
