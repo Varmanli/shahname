@@ -36,6 +36,18 @@ ENV NODE_ENV=production
 ENV PORT=3002
 ENV HOSTNAME=0.0.0.0
 
+# ARG scope does not cross FROM boundaries, so NEXT_PUBLIC_SITE_URL from the
+# builder stage above is NOT automatically available here. The app reads
+# process.env.NEXT_PUBLIC_SITE_URL at RUNTIME too (see lib/auth-core.ts —
+# getPublicOrigin() and the admin session cookie's `secure` flag), so it
+# must also be set as a runtime env var in this final stage. Coolify must
+# supply NEXT_PUBLIC_SITE_URL as BOTH a build-time variable (for the
+# builder stage above) AND a runtime environment variable (consumed here) —
+# these are two separate settings in Coolify's UI; missing the runtime one
+# silently falls back to (less reliable) proxy-header detection.
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+
 RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
 
 COPY --from=builder /app/public ./public

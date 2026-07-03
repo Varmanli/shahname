@@ -45,6 +45,22 @@ export function getPublicOrigin(request: Request) {
 }
 
 /**
+ * وقتی `NEXT_PUBLIC_SITE_URL` تنظیم شده، پرچم `secure` کوکی را از روی همان
+ * مقدار (که ثابت و قابل‌اعتماد است) تعیین می‌کنیم، نه از روی هدرهای
+ * پراکسی مثل `x-forwarded-proto` که پشت Traefik/Coolify می‌توانند بسته به
+ * تنظیمات پراکسی، هاپ فعلی، یا حتی مسیر درخواست ناسازگار باشند. یک پرچم
+ * `secure` که گاهی درست و گاهی غلط تشخیص داده شود دقیقاً همان چیزی است که
+ * باعث می‌شود مرورگر کوکی نشست را بین درخواست‌ها گاهی ذخیره و گاهی رد کند.
+ */
+function isConfiguredPublicOriginHttps(): boolean | undefined {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
+  if (!configured) return undefined;
+
+  return configured.toLowerCase().startsWith("https://");
+}
+
+/**
  * تنظیمات یکسانِ کوکی نشست ادمین — تنها منبع حقیقت برای مسیر، انقضا و
  * پرچم‌های امنیتی کوکی، تا هیچ‌جای دیگری از کد این مقادیر را جداگانه
  * تکرار نکند و از واگرایی جلوگیری شود.
@@ -59,7 +75,7 @@ export function getAdminSessionCookieOptions(request: Request) {
     maxAge: ADMIN_SESSION_MAX_AGE,
     path: "/",
     sameSite: "lax" as const,
-    secure: getRequestProtocol(request) === "https",
+    secure: isConfiguredPublicOriginHttps() ?? getRequestProtocol(request) === "https",
   };
 }
 
@@ -182,29 +198,74 @@ export async function createAdminSessionToken() {
   return `${body}.${signature}`;
 }
 
-export async function verifyAdminSessionToken(token?: string) {
-  if (!token) return false;
+export type AdminAuthDebugResult =
+  | { ok: true }
+  | {
+      ok: false;
+      reason:
+        | "missing-cookie"
+        | "missing-secret"
+        | "malformed-token"
+        | "invalid-signature"
+        | "expired-token";
+    };
+
+/**
+ * نسخهٔ قابل‌مشاهدهٔ راستی‌آزمایی نشست — علت دقیق رد شدن توکن را برمی‌گرداند
+ * تا فقط برای لاگ‌های امن دیباگ استفاده شود (هرگز برای پاسخ به کلاینت).
+ * `verifyAdminSessionToken` یک پوستهٔ نازک روی همین تابع است، تا منطق
+ * راستی‌آزمایی دقیقاً یک‌جا نگه داشته شود.
+ */
+export async function verifyAdminSessionTokenDebug(
+  token?: string,
+): Promise<AdminAuthDebugResult> {
+  if (!token) return { ok: false, reason: "missing-cookie" };
 
   const [body, signature, extra] = token.split(".");
 
-  if (!body || !signature || extra) return false;
+  if (!body || !signature || extra) {
+    return { ok: false, reason: "malformed-token" };
+  }
 
-  const expectedSignature = await sign(body, getJwtSecret());
+  let secret: string;
 
-  if (!constantTimeEqual(signature, expectedSignature)) return false;
+  try {
+    secret = getJwtSecret();
+  } catch {
+    return { ok: false, reason: "missing-secret" };
+  }
+
+  const expectedSignature = await sign(body, secret);
+
+  if (!constantTimeEqual(signature, expectedSignature)) {
+    return { ok: false, reason: "invalid-signature" };
+  }
 
   try {
     const payload = JSON.parse(
       new TextDecoder().decode(base64UrlToBytes(body)),
     ) as Partial<AdminSessionPayload>;
 
-    return (
-      payload.sub === "dashboard" &&
-      payload.role === "admin" &&
-      typeof payload.exp === "number" &&
-      payload.exp > Math.floor(Date.now() / 1000)
-    );
+    if (
+      payload.sub !== "dashboard" ||
+      payload.role !== "admin" ||
+      typeof payload.exp !== "number"
+    ) {
+      return { ok: false, reason: "malformed-token" };
+    }
+
+    if (payload.exp <= Math.floor(Date.now() / 1000)) {
+      return { ok: false, reason: "expired-token" };
+    }
+
+    return { ok: true };
   } catch {
-    return false;
+    return { ok: false, reason: "malformed-token" };
   }
+}
+
+export async function verifyAdminSessionToken(token?: string) {
+  const result = await verifyAdminSessionTokenDebug(token);
+
+  return result.ok;
 }

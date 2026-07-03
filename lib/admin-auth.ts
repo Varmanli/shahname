@@ -1,11 +1,24 @@
 import { cookies } from "next/headers";
 
-import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from "@/lib/auth-core";
+import { ADMIN_SESSION_COOKIE, verifyAdminSessionTokenDebug } from "@/lib/auth-core";
 
 export async function isAdminAuthenticated() {
   const cookieStore = await cookies();
+  const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+  const result = await verifyAdminSessionTokenDebug(token);
 
-  return verifyAdminSessionToken(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
+  // TEMP debug logging — this layout guard runs *after* proxy.ts already
+  // allowed the request through, so a failure logged here (with proxy.ts
+  // having logged authenticated: true for the same request) would point at
+  // an Edge-vs-Node runtime inconsistency rather than a cookie/proxy issue.
+  if (!result.ok) {
+    console.log("[admin-auth] layout-check-failed", {
+      hasCookie: Boolean(token),
+      reason: result.reason,
+    });
+  }
+
+  return result.ok;
 }
 
 export async function clearAdminSessionCookie() {
@@ -22,7 +35,16 @@ export async function requireAdminRequest(request: Request) {
     .find((item) => item.startsWith(`${ADMIN_SESSION_COOKIE}=`))
     ?.slice(ADMIN_SESSION_COOKIE.length + 1);
 
-  if (await verifyAdminSessionToken(token)) return null;
+  const result = await verifyAdminSessionTokenDebug(token);
+
+  if (result.ok) return null;
+
+  // TEMP debug logging — same reasoning as isAdminAuthenticated above.
+  console.log("[admin-auth] api-check-failed", {
+    path: new URL(request.url).pathname,
+    hasCookie: Boolean(token),
+    reason: result.reason,
+  });
 
   return Response.json(
     { message: "برای انجام این عملیات باید وارد پنل مدیریت شوید." },
