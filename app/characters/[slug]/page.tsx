@@ -16,6 +16,7 @@ import { SmoothScrollLink } from "@/components/smooth-scroll-link";
 import { recordPageView } from "@/lib/analytics-store";
 import { readCharacters } from "@/lib/character-store";
 import { getFamilyRelations } from "@/lib/character-relations";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import {
   DEFAULT_OG_IMAGE,
   SITE_NAME,
@@ -556,7 +557,7 @@ function RelatedStoriesSection({
           object-cover transition-transform duration-700 ease-out
           group-hover:scale-[1.05]
         "
-                    unoptimized={story.coverImage.startsWith("/uploads/")}
+                    unoptimized={shouldUseUnoptimizedImage(story.coverImage)}
                   />
                 ) : (
                   <span className="grid h-full min-h-56 place-items-center bg-shah-lapis-900 text-5xl font-black text-shah-gold-300">
@@ -636,7 +637,7 @@ function RelatedCharactersSection({ characters }: { characters: Character[] }) {
                   fill
                   sizes="64px"
                   className="object-cover"
-                  unoptimized={character.portraitImage.startsWith("/uploads/")}
+                  unoptimized={shouldUseUnoptimizedImage(character.portraitImage)}
                 />
               ) : (
                 character.name.slice(0, 1)

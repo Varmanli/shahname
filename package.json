@@ -12,6 +12,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx scripts/seed-db.ts",
+    "media:backfill:uploads": "tsx scripts/backfill-upload-urls.ts",
     "media:migrate:arvan": "tsx scripts/migrate-local-uploads-to-arvan.ts"
   },
   "dependencies": {

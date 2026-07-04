@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { Story } from "@/types/story";
 
 type StoryCardProps = {
@@ -49,7 +50,7 @@ export function StoryCard({ animationDelay, story }: StoryCardProps) {
             z-0 object-cover transition-transform duration-1000 ease-out
             group-hover:scale-110
           "
-          unoptimized={coverImage.startsWith("/uploads/")}
+          unoptimized={shouldUseUnoptimizedImage(coverImage)}
         />
 
         <div className="absolute top-4 right-4 z-20 flex h-12 w-12 items-center justify-center">

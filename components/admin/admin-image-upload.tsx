@@ -2,6 +2,8 @@ import Image from "next/image";
 import { DragEvent, useRef, useState } from "react";
 import { FiImage, FiRefreshCw, FiTrash2, FiUploadCloud } from "react-icons/fi";
 
+import { shouldUseUnoptimizedImage } from "@/lib/images";
+
 type AdminImageUploadProps = {
   label: string;
   onChange: (file: File | null) => void;
@@ -103,9 +105,7 @@ export function AdminImageUpload({
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="object-cover transition duration-500 group-hover:scale-105"
-              unoptimized={
-                preview.startsWith("blob:") || preview.startsWith("/uploads/")
-              }
+                unoptimized={shouldUseUnoptimizedImage(preview)}
             />
 
             <span className="absolute inset-0 bg-linear-to-t from-black/65 via-black/10 to-transparent opacity-0 transition duration-200 group-hover:opacity-100" />

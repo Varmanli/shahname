@@ -4,6 +4,7 @@ import { and, asc, eq } from "drizzle-orm";
 
 import { db } from "@/lib/server/db";
 import { homeHeroSlides } from "@/lib/server/db/schema";
+import { normalizeStoredAssetUrl } from "@/lib/uploads";
 import type { HomeHeroSlide, HomeHeroSlideInput } from "@/types/home-hero-slide";
 
 function normalizeSlide(row: typeof homeHeroSlides.$inferSelect): HomeHeroSlide {
@@ -11,7 +12,7 @@ function normalizeSlide(row: typeof homeHeroSlides.$inferSelect): HomeHeroSlide 
     id: row.id,
     title: row.title,
     subtitle: row.subtitle,
-    image: row.image,
+    image: normalizeStoredAssetUrl(row.image) ?? "",
     primaryButtonLabel: row.primaryButtonLabel,
     primaryButtonHref: row.primaryButtonHref,
     secondaryButtonLabel: row.secondaryButtonLabel,
@@ -49,6 +50,7 @@ export async function createHomeHeroSlide(input: HomeHeroSlideInput) {
     .insert(homeHeroSlides)
     .values({
       ...input,
+      image: normalizeStoredAssetUrl(input.image) ?? "",
       id: randomUUID(),
       createdAt: now,
       updatedAt: now,
@@ -63,6 +65,7 @@ export async function updateHomeHeroSlide(id: string, input: HomeHeroSlideInput)
     .update(homeHeroSlides)
     .set({
       ...input,
+      image: normalizeStoredAssetUrl(input.image) ?? "",
       updatedAt: new Date().toISOString(),
     })
     .where(eq(homeHeroSlides.id, id))

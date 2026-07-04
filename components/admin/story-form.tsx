@@ -26,6 +26,7 @@ import {
 } from "@/components/admin/admin-form-controls";
 import { AdminImageUpload } from "@/components/admin/admin-image-upload";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { Character } from "@/types/character";
 import type {
   Story,
@@ -1096,7 +1097,7 @@ function CharacterAvatar({
           fill
           sizes={size === "sm" ? "24px" : "40px"}
           className="object-cover"
-          unoptimized={image.startsWith("/uploads/")}
+          unoptimized={shouldUseUnoptimizedImage(image)}
         />
       ) : (
         <span className="relative z-10">{displayName.slice(0, 1)}</span>

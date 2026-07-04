@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 import useEmblaCarousel from "embla-carousel-react";
 
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
 import type { HomeHeroSlide } from "@/types/home-hero-slide";
 
@@ -114,7 +115,7 @@ function HeroSlide({
             priority={priority}
             sizes="100vw"
             className="scale-[1.02] object-cover"
-            unoptimized={slide.image.startsWith("/uploads/")}
+            unoptimized={shouldUseUnoptimizedImage(slide.image)}
           />
         </div>
 

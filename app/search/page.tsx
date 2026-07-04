@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { SiteLayout } from "@/components/site-layout";
 import { readCharacters } from "@/lib/character-store";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo";
 import { readStories } from "@/lib/story-store";
 import type { Character } from "@/types/character";
@@ -325,7 +326,7 @@ function CharacterResultCard({ character }: { character: Character }) {
             fill
             sizes="112px"
             className="object-cover transition duration-700 group-hover:scale-105"
-            unoptimized={image.startsWith("/uploads/")}
+            unoptimized={shouldUseUnoptimizedImage(image)}
           />
         ) : (
           character.name.slice(0, 1)
@@ -361,7 +362,7 @@ function StoryResultCard({ story }: { story: Story }) {
           fill
           sizes="(min-width: 640px) 192px, 100vw"
           className="object-cover transition duration-700 group-hover:scale-105"
-          unoptimized={image.startsWith("/uploads/")}
+          unoptimized={shouldUseUnoptimizedImage(image)}
         />
       </span>
       <span className="grid content-start gap-2 p-5">

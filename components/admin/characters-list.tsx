@@ -14,6 +14,7 @@ import {
 
 import { AdminPagination } from "@/components/admin/admin-pagination";
 import { AdminSelect } from "@/components/admin/admin-form-controls";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { SelectOption } from "@/components/select-control";
 import type { Character } from "@/types/character";
 
@@ -318,7 +319,7 @@ function CharacterCard({
             fill
             sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
             className="object-cover transition duration-700 group-hover:scale-105"
-            unoptimized={bannerImage.startsWith("/uploads/")}
+            unoptimized={shouldUseUnoptimizedImage(bannerImage)}
           />
         ) : (
           <div className="absolute inset-0 bg-linear-to-br from-shah-lapis-950 via-shah-lapis-800 to-shah-gold-700" />
@@ -349,7 +350,7 @@ function CharacterCard({
                 fill
                 sizes="112px"
                 className="object-cover transition duration-500 group-hover:scale-110"
-                unoptimized={portraitImage.startsWith("/uploads/")}
+                unoptimized={shouldUseUnoptimizedImage(portraitImage)}
               />
             ) : (
               character.name.slice(0, 1)

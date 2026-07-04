@@ -17,6 +17,7 @@ import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { readAnalyticsSummary } from "@/lib/analytics-store";
 import type { DailyViewStat, TopViewedTarget } from "@/lib/analytics-store";
 import { readCharacters } from "@/lib/character-store";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import { readStories } from "@/lib/story-store";
 import type { Character } from "@/types/character";
 import type { Story } from "@/types/story";
@@ -554,7 +555,7 @@ function ContentRow({
             fill
             sizes="64px"
             className="object-cover transition duration-500 group-hover:scale-110"
-            unoptimized={image.startsWith("/uploads/")}
+            unoptimized={shouldUseUnoptimizedImage(image)}
           />
         ) : (
           title.slice(0, 1)

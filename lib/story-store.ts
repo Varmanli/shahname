@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { asc, eq } from "drizzle-orm";
 
 import { db } from "@/lib/server/db";
+import { normalizeHtmlAssetUrls, normalizeStoredAssetUrl } from "@/lib/uploads";
 import {
   stories,
   storyCharacters,
@@ -45,8 +46,10 @@ async function readStoryChildren(storyId: string) {
     sections: sections.map((section) => ({
       id: section.id,
       title: section.title,
-      content: section.content,
-      ...(section.image ? { image: section.image } : {}),
+      content: normalizeHtmlAssetUrls(section.content),
+      ...(section.image
+        ? { image: normalizeStoredAssetUrl(section.image) ?? undefined }
+        : {}),
     })),
     characters: characters.map((character) => ({
       name: character.name,
@@ -54,7 +57,7 @@ async function readStoryChildren(storyId: string) {
     })),
     scenes: scenes.map((scene) => ({
       id: scene.id,
-      image: scene.image,
+      image: normalizeStoredAssetUrl(scene.image) ?? scene.image,
       ...(scene.title ? { title: scene.title } : {}),
     })),
   };
@@ -69,12 +72,12 @@ async function toStory(row: typeof stories.$inferSelect): Promise<Story> {
     slug: row.slug,
     subtitle: row.subtitle,
     shortDescription: row.shortDescription || row.summary,
-    content: row.content,
+    content: normalizeHtmlAssetUrls(row.content),
     sections: children.sections,
     characters: children.characters,
-    coverImage: row.coverImage,
+    coverImage: normalizeStoredAssetUrl(row.coverImage) ?? "",
     scenes: children.scenes,
-    quote: row.quote,
+    quote: normalizeHtmlAssetUrls(row.quote),
     order: row.order,
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
@@ -97,8 +100,8 @@ async function replaceStoryChildren(storyId: string, input: StoryInput) {
         id: section.id || randomUUID(),
         storyId,
         title: section.title,
-        content: section.content,
-        image: section.image,
+        content: normalizeHtmlAssetUrls(section.content),
+        image: normalizeStoredAssetUrl(section.image),
         order: index,
       })),
     );
@@ -121,7 +124,7 @@ async function replaceStoryChildren(storyId: string, input: StoryInput) {
       input.scenes.map((scene, index) => ({
         id: scene.id || randomUUID(),
         storyId,
-        image: scene.image,
+        image: normalizeStoredAssetUrl(scene.image) ?? scene.image,
         title: scene.title,
         order: index,
       })),
@@ -149,9 +152,9 @@ export async function writeStories(nextStories: Story[]) {
         subtitle: story.subtitle,
         summary: story.shortDescription,
         shortDescription: story.shortDescription,
-        content: story.content,
-        coverImage: story.coverImage,
-        quote: story.quote,
+        content: normalizeHtmlAssetUrls(story.content),
+        coverImage: normalizeStoredAssetUrl(story.coverImage) ?? "",
+        quote: normalizeHtmlAssetUrls(story.quote),
         order: story.order,
         createdAt: story.createdAt,
         updatedAt: story.updatedAt,
@@ -176,9 +179,9 @@ export async function createStory(input: StoryInput) {
       subtitle: input.subtitle,
       summary: input.shortDescription,
       shortDescription: input.shortDescription,
-      content: input.content,
-      coverImage: input.coverImage,
-      quote: input.quote,
+      content: normalizeHtmlAssetUrls(input.content),
+      coverImage: normalizeStoredAssetUrl(input.coverImage) ?? "",
+      quote: normalizeHtmlAssetUrls(input.quote),
       order: input.order,
       createdAt: now,
       updatedAt: now,
@@ -198,9 +201,9 @@ export async function updateStory(id: string, input: StoryInput) {
       subtitle: input.subtitle,
       summary: input.shortDescription,
       shortDescription: input.shortDescription,
-      content: input.content,
-      coverImage: input.coverImage,
-      quote: input.quote,
+      content: normalizeHtmlAssetUrls(input.content),
+      coverImage: normalizeStoredAssetUrl(input.coverImage) ?? "",
+      quote: normalizeHtmlAssetUrls(input.quote),
       order: input.order,
       updatedAt: new Date().toISOString(),
     })

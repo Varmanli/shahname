@@ -1,5 +1,5 @@
 import { requireAdminRequest } from "@/lib/admin-auth";
-import { uploadFileToArvan } from "@/lib/server/arvan-storage";
+import { saveUploadedFile } from "@/lib/uploads";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -40,14 +40,14 @@ export async function POST(request: Request) {
       return jsonError("فرمت این فایل برای آپلود مجاز نیست.", 400);
     }
 
-    const uploaded = await uploadFileToArvan(file);
+    const uploaded = await saveUploadedFile(file);
 
     return Response.json(
       { success: true, key: uploaded.key, url: uploaded.url },
       { status: 201 },
     );
   } catch (error) {
-    console.error("Arvan upload failed", error);
+    console.error("File upload failed", error);
 
     return jsonError("خطا در آپلود فایل", 500);
   }

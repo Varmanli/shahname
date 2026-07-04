@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FiCheck, FiSearch, FiX } from "react-icons/fi";
 
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { CharacterSummary } from "@/types/character";
 
 type CharacterRelationSelectProps = {
@@ -231,7 +232,7 @@ function Avatar({
           fill
           sizes={size === "sm" ? "20px" : "32px"}
           className="object-cover"
-          unoptimized={option.avatar.startsWith("/uploads/")}
+          unoptimized={shouldUseUnoptimizedImage(option.avatar)}
         />
       ) : (
         <span className={`${textClass} font-black`}>

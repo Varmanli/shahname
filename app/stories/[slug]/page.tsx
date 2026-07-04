@@ -15,6 +15,7 @@ import { StorySection } from "@/components/story-section";
 import { StoryToc } from "@/components/story-toc";
 import { recordPageView } from "@/lib/analytics-store";
 import { readCharacters } from "@/lib/character-store";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import {
   DEFAULT_OG_IMAGE,
   SITE_NAME,
@@ -392,7 +393,7 @@ function Characters({
                     fill
                     sizes="48px"
                     className="object-cover transition duration-500 group-hover:scale-110"
-                    unoptimized={image.startsWith("/uploads/")}
+                    unoptimized={shouldUseUnoptimizedImage(image)}
                   />
                 ) : (
                   reference.name.slice(0, 1)

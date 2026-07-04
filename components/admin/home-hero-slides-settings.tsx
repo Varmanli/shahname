@@ -22,6 +22,7 @@ import {
   AdminTextInput,
 } from "@/components/admin/admin-form-controls";
 import { AdminImageUpload } from "@/components/admin/admin-image-upload";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
 import type {
   HomeHeroContentPosition,
@@ -617,7 +618,7 @@ function HeroSlideCard({
               fill
               sizes="(min-width: 1280px) 22rem, 100vw"
               className="object-cover transition duration-500 group-hover:scale-105"
-              unoptimized={slide.image.startsWith("/uploads/")}
+              unoptimized={shouldUseUnoptimizedImage(slide.image)}
             />
           ) : (
             <div className="grid h-full place-items-center text-shah-gold-200">
@@ -709,7 +710,7 @@ function HeroSlidePreview({ form }: { form: SlideFormState }) {
           fill
           sizes="(min-width: 1280px) 60vw, 100vw"
           className="object-cover opacity-50"
-          unoptimized={form.image.startsWith("/uploads/")}
+          unoptimized={shouldUseUnoptimizedImage(form.image)}
         />
       ) : null}
 

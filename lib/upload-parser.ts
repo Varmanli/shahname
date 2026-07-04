@@ -1,6 +1,6 @@
 import "server-only";
 
-import { uploadFileToArvan } from "@/lib/server/arvan-storage";
+import { saveUploadedFile } from "@/lib/uploads";
 
 const allowedImageTypes = new Set([
   "image/jpeg",
@@ -15,6 +15,6 @@ export async function saveUploadedImage(file: File) {
     throw new Error("فقط فایل تصویری jpeg، png، webp، gif یا svg مجاز است.");
   }
 
-  const uploaded = await uploadFileToArvan(file);
+  const uploaded = await saveUploadedFile(file);
   return uploaded.url;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ReactNode } from "react";
 
 import { DetailTabsSlider } from "@/components/detail-tabs-slider";
@@ -16,14 +16,8 @@ type CharacterDetailTabsProps = {
 };
 
 export function CharacterDetailTabs({ tabs }: CharacterDetailTabsProps) {
-  const [activeTabId, setActiveTabId] = useState(tabs[0]?.id ?? "");
-  const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
-
-  useEffect(() => {
-    if (!tabs.some((tab) => tab.id === activeTabId)) {
-      setActiveTabId(tabs[0]?.id ?? "");
-    }
-  }, [activeTabId, tabs]);
+  const [requestedTabId, setRequestedTabId] = useState(tabs[0]?.id ?? "");
+  const activeTab = tabs.find((tab) => tab.id === requestedTabId) ?? tabs[0];
 
   if (!activeTab) return null;
 
@@ -32,7 +26,7 @@ export function CharacterDetailTabs({ tabs }: CharacterDetailTabsProps) {
       <DetailTabsSlider
         tabs={tabs.map((tab) => ({ id: tab.id, label: tab.label }))}
         activeTab={activeTab.id}
-        onTabChange={setActiveTabId}
+        onTabChange={setRequestedTabId}
       />
 
       <div

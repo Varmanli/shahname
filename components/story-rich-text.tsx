@@ -14,6 +14,7 @@ import {
   linkCharacterNamesInHtml,
   type StoryCharacterLinkData,
 } from "@/lib/story-character-links";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 
 type StoryRichTextProps = {
   characters: StoryCharacterLinkData[];
@@ -123,7 +124,7 @@ export function StoryRichText({
                   fill
                   sizes="56px"
                   className="object-cover"
-                  unoptimized={previewCharacter.avatar.startsWith("/uploads/")}
+                  unoptimized={shouldUseUnoptimizedImage(previewCharacter.avatar)}
                 />
               ) : (
                 previewCharacter.name.slice(0, 1)

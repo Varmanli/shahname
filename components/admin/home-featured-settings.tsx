@@ -11,6 +11,7 @@ import {
   FiX,
 } from "react-icons/fi";
 
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { Character } from "@/types/character";
 import type { SiteSettings } from "@/types/site-settings";
 import type { Story } from "@/types/story";
@@ -447,7 +448,7 @@ function ItemImage({ item }: { item: SelectableItem }) {
           fill
           sizes="48px"
           className="object-cover transition duration-500 group-hover:scale-110"
-          unoptimized={item.image.startsWith("/uploads/")}
+          unoptimized={shouldUseUnoptimizedImage(item.image)}
         />
       ) : (
         <span className="grid h-full w-full place-items-center bg-shah-lapis-950">

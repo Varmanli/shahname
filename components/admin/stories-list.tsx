@@ -18,6 +18,7 @@ import {
 
 import { AdminPagination } from "@/components/admin/admin-pagination";
 import { AdminSelect } from "@/components/admin/admin-form-controls";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { Story } from "@/types/story";
 
 type StoriesListProps = {
@@ -414,7 +415,7 @@ function StoryCover({ story }: { story: Story }) {
           fill
           sizes="(min-width: 1280px) 28vw, (min-width: 768px) 45vw, 100vw"
           className="object-cover transition duration-500 group-hover:scale-105"
-          unoptimized={story.coverImage.startsWith("/uploads/")}
+          unoptimized={shouldUseUnoptimizedImage(story.coverImage)}
         />
       ) : (
         <div className="grid h-full place-items-center bg-linear-to-br from-shah-lapis-950 via-shah-lapis-900 to-shah-black-950 text-shah-gold-200">

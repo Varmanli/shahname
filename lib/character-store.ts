@@ -4,6 +4,7 @@ import { asc, eq } from "drizzle-orm";
 
 import { normalizeInputRelations } from "@/lib/character-relations";
 import { normalizeCharacterTraits } from "@/lib/traits";
+import { normalizeHtmlAssetUrls, normalizeStoredAssetUrl } from "@/lib/uploads";
 import { db } from "@/lib/server/db";
 import { characterRelations, characters } from "@/lib/server/db/schema";
 import type {
@@ -78,13 +79,13 @@ async function toCharacter(row: typeof characters.$inferSelect): Promise<Charact
     lineageGroup: row.lineageGroup,
     lineageId: row.lineageId ?? undefined,
     enemies: row.enemies,
-    shortDescription: row.shortDescription,
-    fullDescription: row.fullDescription,
+    shortDescription: normalizeHtmlAssetUrls(row.shortDescription),
+    fullDescription: normalizeHtmlAssetUrls(row.fullDescription),
     traits: normalizeCharacterTraits(row.traits),
     achievements: row.achievements,
-    quote: row.quote,
-    portraitImage: row.portraitImage || row.avatarUrl,
-    sceneImage: row.sceneImage,
+    quote: normalizeHtmlAssetUrls(row.quote),
+    portraitImage: normalizeStoredAssetUrl(row.portraitImage || row.avatarUrl) ?? "",
+    sceneImage: normalizeStoredAssetUrl(row.sceneImage) ?? "",
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
   };
@@ -116,14 +117,14 @@ function toCharacterRow(
     lineageGroup: input.lineageGroup,
     lineageId: input.lineageId,
     enemies: input.enemies,
-    shortDescription: input.shortDescription,
-    fullDescription: input.fullDescription,
+    shortDescription: normalizeHtmlAssetUrls(input.shortDescription),
+    fullDescription: normalizeHtmlAssetUrls(input.fullDescription),
     traits: input.traits,
     achievements: input.achievements,
-    quote: input.quote,
-    avatarUrl: input.portraitImage,
-    portraitImage: input.portraitImage,
-    sceneImage: input.sceneImage,
+    quote: normalizeHtmlAssetUrls(input.quote),
+    avatarUrl: normalizeStoredAssetUrl(input.portraitImage) ?? "",
+    portraitImage: normalizeStoredAssetUrl(input.portraitImage) ?? "",
+    sceneImage: normalizeStoredAssetUrl(input.sceneImage) ?? "",
     ...(dates ?? {}),
   };
 }
