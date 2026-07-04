@@ -1,8 +1,10 @@
 import { CharactersSection } from "@/components/characters-section";
 import { HeroSection } from "@/components/hero-section";
+import { HomeHeroSlider } from "@/components/home-hero-slider";
 import { SiteLayout } from "@/components/site-layout";
 import { StoriesSection } from "@/components/stories-section";
 import { readCharacters } from "@/lib/character-store";
+import { readActiveHomeHeroSlides } from "@/lib/home-hero-slides-store";
 import { readSiteSettings } from "@/lib/site-settings-store";
 import { readStories } from "@/lib/story-store";
 
@@ -20,10 +22,11 @@ function selectFeaturedItems<T extends { id: string }>(items: T[], selectedIds: 
 }
 
 export default async function Home() {
-  const [characters, stories, settings] = await Promise.all([
+  const [characters, stories, settings, heroSlides] = await Promise.all([
     readCharacters(),
     readStories(),
     readSiteSettings(),
+    readActiveHomeHeroSlides(),
   ]);
   const featuredCharacters = selectFeaturedItems(
     characters,
@@ -34,7 +37,7 @@ export default async function Home() {
   return (
     <SiteLayout>
       <main className="w-full">
-        <HeroSection />
+        {heroSlides.length ? <HomeHeroSlider slides={heroSlides} /> : <HeroSection />}
       </main>
 
       <CharactersSection

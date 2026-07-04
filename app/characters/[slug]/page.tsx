@@ -5,7 +5,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { CharacterPageActions } from "@/components/character-page-actions";
 import { CharacterDetailTabs } from "@/components/character-detail-tabs";
 import { JsonLd } from "@/components/json-ld";
 import type { CharacterDetailTab } from "@/components/character-detail-tabs";
@@ -160,7 +159,7 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
             <TextCard title="روایت کامل" centeredTitle>
               <article
                 id="full-story"
-                className="character-story prose max-w-none text-right text-lg leading-[2.6] text-shah-black-800 dark:prose-invert dark:text-zinc-200/90"
+                className="character-story prose max-w-none text-right text-[15px] leading-8 text-shah-black-800 dark:prose-invert dark:text-zinc-200/90 md:text-base md:leading-9"
                 dangerouslySetInnerHTML={{
                   __html: character.fullDescription,
                 }}
@@ -236,12 +235,15 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
     url: absoluteUrl(canonicalPath),
     inLanguage: "fa-IR",
     ...(character.title ? { jobTitle: character.title } : {}),
-    ...(character.epithets.length
-      ? { alternateName: character.epithets }
-      : {}),
+    ...(character.epithets.length ? { alternateName: character.epithets } : {}),
     ...(characterImage ? { image: characterImage } : {}),
     ...(family.father?.name || character.father
-      ? { parent: { "@type": "Person", name: family.father?.name || character.father } }
+      ? {
+          parent: {
+            "@type": "Person",
+            name: family.father?.name || character.father,
+          },
+        }
       : {}),
     ...(family.children.length
       ? {
@@ -256,7 +258,12 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "خانه", item: absoluteUrl("/") },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "خانه",
+        item: absoluteUrl("/"),
+      },
       {
         "@type": "ListItem",
         position: 2,
@@ -491,7 +498,7 @@ function IntroSection({ character }: { character: Character }) {
   return (
     <TextCard title="معرفی کوتاه">
       <article
-        className="character-story relative mt-8 text-right text-xl font-medium leading-[2.35] text-shah-black-800 dark:text-zinc-200/90"
+        className="character-story relative mt-5 text-right text-[15px] font-medium leading-8 text-shah-black-800 dark:text-zinc-200/90 md:text-base md:leading-9"
         dangerouslySetInnerHTML={{
           __html: character.shortDescription,
         }}
@@ -521,13 +528,13 @@ function RelatedStoriesSection({
   return (
     <TextCard title="روایت‌های مرتبط">
       {stories.length ? (
-        <div className="mt-10 grid gap-5">
+        <div className="mt-6 grid gap-4">
           {stories.map((story) => (
             <Link
               key={story.id}
               href={`/stories/${encodeURIComponent(story.slug)}`}
               className="
-    group relative grid overflow-hidden rounded-4xl
+    group relative grid overflow-hidden rounded-[1.7rem]
     border border-shah-gold-500/15
     bg-white shadow-[0_18px_60px_-38px_rgba(0,0,0,0.35)]
     transition-all duration-500 ease-out
@@ -561,22 +568,22 @@ function RelatedStoriesSection({
               </span>
 
               {/* محتوا */}
-              <span className="relative flex min-w-0 flex-col justify-center p-6 md:p-7">
+              <span className="relative flex min-w-0 flex-col justify-center p-5 md:p-6">
                 <span className="mb-3 inline-flex w-fit items-center rounded-full bg-shah-gold-500/10 px-3 py-1 text-[11px] font-black text-shah-gold-700 dark:text-shah-gold-300">
                   روایت شاهنامه
                 </span>
 
-                <span className="text-2xl font-black leading-10 text-zinc-900 transition-colors duration-300 group-hover:text-shah-gold-600 dark:text-white">
+                <span className="text-lg font-black leading-8 text-zinc-900 transition-colors duration-300 group-hover:text-shah-gold-600 dark:text-white md:text-xl md:leading-9">
                   {story.title}
                 </span>
 
                 {story.subtitle ? (
-                  <span className="mt-2 line-clamp-2 text-sm font-bold leading-7 text-zinc-600 dark:text-zinc-400">
+                  <span className="mt-2 line-clamp-2 text-xs font-bold leading-6 text-zinc-600 dark:text-zinc-400 md:text-sm md:leading-7">
                     {story.subtitle}
                   </span>
                 ) : null}
 
-                <span className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-zinc-100 px-4 py-2 text-xs font-black text-zinc-800 transition-all duration-300 group-hover:bg-shah-lapis-700 group-hover:text-white dark:bg-white/10 dark:text-zinc-100">
+                <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-full bg-zinc-100 px-4 py-2 text-[11px] font-black text-zinc-800 transition-all duration-300 group-hover:bg-shah-lapis-700 group-hover:text-white dark:bg-white/10 dark:text-zinc-100">
                   خواندن روایت
                   <svg
                     className="h-4 w-4 rotate-180 transition-transform duration-300 group-hover:-translate-x-1"
@@ -597,8 +604,8 @@ function RelatedStoriesSection({
           ))}
         </div>
       ) : (
-        <div className="mt-10 rounded-[1.6rem] border border-dashed border-shah-gold-500/30 bg-shah-gold-500/8 px-6 py-10 text-center">
-          <p className="text-base font-black text-shah-black-900 dark:text-white">
+        <div className="mt-6 rounded-[1.25rem] border border-dashed border-shah-gold-500/30 bg-shah-gold-500/8 px-5 py-8 text-center">
+          <p className="text-sm font-black text-shah-black-900 dark:text-white md:text-base">
             هنوز روایتی برای {character.name} ثبت نشده است.
           </p>
           <p className="mt-2 text-sm font-medium leading-7 text-shah-black-600 dark:text-zinc-300">
@@ -614,14 +621,14 @@ function RelatedStoriesSection({
 function RelatedCharactersSection({ characters }: { characters: Character[] }) {
   return (
     <TextCard title="شخصیت‌های مرتبط">
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {characters.map((character) => (
           <Link
             key={character.id}
             href={`/characters/${encodeURIComponent(character.slug)}`}
-            className="group flex items-center gap-4 rounded-3xl border border-shah-gold-500/15 bg-white/70 p-4 transition hover:-translate-y-1 hover:border-shah-gold-500/40 dark:border-white/10 dark:bg-black/18"
+            className="group flex items-center gap-3 rounded-[1.4rem] border border-shah-gold-500/15 bg-white/70 p-3.5 transition hover:-translate-y-1 hover:border-shah-gold-500/40 dark:border-white/10 dark:bg-black/18"
           >
-            <span className="relative grid size-16 shrink-0 place-items-center overflow-hidden rounded-2xl bg-shah-lapis-900 text-xl font-black text-shah-gold-200">
+            <span className="relative grid size-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-shah-lapis-900 text-lg font-black text-shah-gold-200">
               {character.portraitImage ? (
                 <Image
                   src={character.portraitImage}
@@ -636,7 +643,7 @@ function RelatedCharactersSection({ characters }: { characters: Character[] }) {
               )}
             </span>
             <span className="min-w-0">
-              <span className="block truncate text-lg font-black text-shah-black-900 group-hover:text-shah-gold-700 dark:text-white">
+              <span className="block truncate text-sm font-black text-shah-black-900 group-hover:text-shah-gold-700 dark:text-white md:text-base">
                 {character.name}
               </span>
               <span className="mt-1 block truncate text-xs font-bold text-muted-foreground">
@@ -690,8 +697,6 @@ function QuickInfo({
             {character.title}
           </p>
         ) : null}
-
-        <CharacterPageActions name={character.name} />
 
         <dl className="mt-8 overflow-hidden rounded-3xl border border-shah-gold-500/15 bg-white/55 dark:border-white/8 dark:bg-black/20">
           <InfoRow label="نقش" value={character.role} />
@@ -799,7 +804,7 @@ function Traits({ traits }: { traits: CharacterTrait[] }) {
 
   return (
     <SideCard title="ویژگی‌ها">
-      <div className="mt-7 grid grid-cols-2 gap-4">
+      <div className="mt-5 grid grid-cols-2 gap-3">
         {sortedTraits.map((trait) => {
           const preset = getTraitPreset(trait.key);
           if (!preset) return null;
@@ -812,7 +817,7 @@ function Traits({ traits }: { traits: CharacterTrait[] }) {
             <article
               key={trait.key}
               className={cn(
-                "group relative isolate overflow-hidden rounded-[1.7rem] border p-4 text-center transition-all duration-300",
+                "group relative isolate overflow-hidden rounded-[1.35rem] border p-3.5 text-center transition-all duration-300",
                 "bg-linear-to-br from-white via-shah-cream-50 to-shah-gold-50/60",
                 "shadow-[inset_0_1px_0_rgba(255,255,255,0.75),0_10px_28px_rgba(26,26,26,0.06)] hover:-translate-y-1",
                 "dark:from-white/[0.07] dark:via-white/2.5 dark:to-black/30 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
@@ -821,7 +826,7 @@ function Traits({ traits }: { traits: CharacterTrait[] }) {
                   : "hover:border-shah-gold-500/45 hover:shadow-[0_18px_45px_rgba(184,134,11,0.16)] dark:hover:border-shah-gold-300/50 dark:hover:shadow-[0_18px_45px_rgba(184,134,11,0.18)]",
                 trait.featured
                   ? cn(
-                      "col-span-2 p-5",
+                      "col-span-2 p-4 md:p-5",
                       isNegative
                         ? "border-red-500/35 shadow-[0_0_38px_rgba(127,29,29,0.12)] dark:border-red-300/45 dark:shadow-[0_0_38px_rgba(127,29,29,0.22)]"
                         : "border-shah-gold-500/35 shadow-[0_0_38px_rgba(184,134,11,0.12)] dark:border-shah-gold-300/45 dark:shadow-[0_0_38px_rgba(184,134,11,0.22)]",
@@ -858,7 +863,7 @@ function Traits({ traits }: { traits: CharacterTrait[] }) {
               {trait.featured ? (
                 <span
                   className={cn(
-                    "absolute left-4 top-4 rounded-full border px-3 py-1 text-[10px] font-black backdrop-blur-md",
+                    "absolute left-3 top-3 rounded-full border px-2.5 py-1 text-[10px] font-black backdrop-blur-md",
                     isNegative
                       ? "border-red-500/25 bg-red-500/10 text-red-800 dark:border-red-300/30 dark:text-red-100"
                       : "border-shah-gold-500/25 bg-shah-gold-500/10 text-shah-gold-800 dark:border-shah-gold-300/30 dark:text-shah-gold-200",
@@ -870,7 +875,7 @@ function Traits({ traits }: { traits: CharacterTrait[] }) {
 
               <div
                 className={cn(
-                  "relative mx-auto flex h-16 w-16 items-center justify-center rounded-full border text-3xl",
+                  "relative mx-auto flex h-14 w-14 items-center justify-center rounded-full border text-2xl",
                   "transition duration-300 group-hover:scale-110",
                   isNegative
                     ? "shadow-[0_0_22px_rgba(239,68,68,0.18)]"
@@ -882,17 +887,17 @@ function Traits({ traits }: { traits: CharacterTrait[] }) {
                 <Icon className="relative z-10" />
               </div>
 
-              <h3 className="relative mt-4 text-sm font-black text-shah-black-900 dark:text-zinc-50">
+              <h3 className="relative mt-3 text-xs font-black text-shah-black-900 dark:text-zinc-50 md:text-sm">
                 {preset.label}
               </h3>
 
               {trait.featured ? (
-                <p className="relative mx-auto mt-2 max-w-xs text-xs font-medium leading-6 text-shah-black-600 dark:text-zinc-300">
+                <p className="relative mx-auto mt-2 max-w-xs text-[11px] font-medium leading-6 text-shah-black-600 dark:text-zinc-300 md:text-xs">
                   {preset.description}
                 </p>
               ) : null}
 
-              <div className="relative mt-4 flex items-center justify-center gap-2">
+              <div className="relative mt-3 flex items-center justify-center gap-2">
                 <LevelDots level={trait.level} negative={isNegative} />
               </div>
             </article>
@@ -935,11 +940,11 @@ function LevelDots({
 function Achievements({ achievements }: { achievements: string[] }) {
   return (
     <SideCard title="دستاوردها">
-      <ul className="mt-6 grid gap-4">
+      <ul className="mt-5 grid gap-3">
         {achievements.map((achievement) => (
           <li
             key={achievement}
-            className="group relative overflow-hidden rounded-[1.6rem] border border-shah-gold-500/20 bg-linear-to-br from-white via-shah-cream-50 to-shah-gold-50/70 px-5 py-4 shadow-[0_10px_28px_rgba(26,26,26,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-shah-gold-500/40 hover:shadow-[0_15px_40px_rgba(184,134,11,0.16)] dark:border-shah-gold-400/20 dark:from-white/5 dark:via-black/30 dark:to-black/60 dark:shadow-none dark:hover:border-shah-gold-300/40 dark:hover:shadow-[0_15px_40px_rgba(184,134,11,0.18)]"
+            className="group relative overflow-hidden rounded-[1.35rem] border border-shah-gold-500/20 bg-linear-to-br from-white via-shah-cream-50 to-shah-gold-50/70 px-4 py-3.5 shadow-[0_10px_28px_rgba(26,26,26,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-shah-gold-500/40 hover:shadow-[0_15px_40px_rgba(184,134,11,0.16)] dark:border-shah-gold-400/20 dark:from-white/5 dark:via-black/30 dark:to-black/60 dark:shadow-none dark:hover:border-shah-gold-300/40 dark:hover:shadow-[0_15px_40px_rgba(184,134,11,0.18)]"
           >
             {/* glow */}
             <div className="absolute inset-0 opacity-0 blur-2xl transition group-hover:opacity-100 bg-[radial-gradient(circle_at_20%_0%,rgba(250,204,21,0.2),transparent_55%)]" />
@@ -948,7 +953,7 @@ function Achievements({ achievements }: { achievements: string[] }) {
             <div className="absolute -right-6 -top-6 h-20 w-20 rounded-full border border-shah-gold-500/15 opacity-40 dark:border-white/10 dark:opacity-30" />
             <div className="absolute -left-6 bottom-0 h-16 w-16 rounded-full border border-shah-gold-500/10 dark:border-white/5" />
 
-            <div className="relative flex items-start gap-4">
+            <div className="relative flex items-start gap-3">
               {/* diamond icon */}
               <div className="relative mt-1 flex h-6 w-6 items-center justify-center">
                 <span className="absolute h-2.5 w-2.5 rotate-45 bg-shah-gold-400 shadow-[0_0_10px_rgba(250,204,21,0.8)]" />
@@ -969,15 +974,15 @@ function Achievements({ achievements }: { achievements: string[] }) {
 
 function QuoteSection({ quote }: { quote: string }) {
   return (
-    <section className="relative overflow-hidden rounded-4xl border border-shah-gold-500/20 bg-linear-to-br from-white via-shah-cream-50 to-shah-gold-50/60 p-6 shadow-xl shadow-shah-black-900/10 dark:border-shah-gold-400/20 dark:from-[#111111] dark:via-[#0d0d0d] dark:to-shah-lapis-950/50 dark:shadow-black/40 md:p-8">
+    <section className="relative overflow-hidden rounded-[1.7rem] border border-shah-gold-500/20 bg-linear-to-br from-white via-shah-cream-50 to-shah-gold-50/60 p-5 shadow-xl shadow-shah-black-900/10 dark:border-shah-gold-400/20 dark:from-[#111111] dark:via-[#0d0d0d] dark:to-shah-lapis-950/50 dark:shadow-black/40 md:p-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_15%,rgba(184,134,11,0.10),transparent_34%),radial-gradient(circle_at_88%_85%,rgba(26,62,141,0.12),transparent_32%)]" />
 
-      <div className="relative z-10 mb-7 flex items-center justify-between gap-4">
+      <div className="relative z-10 mb-5 flex items-center justify-between gap-3">
         <div className="h-px flex-1 bg-linear-to-r from-transparent via-shah-gold-500/35 to-transparent" />
 
         <div className="flex items-center gap-3">
           <span className="h-2 w-2 rotate-45 bg-shah-gold-500 shadow-[0_0_12px_rgba(250,204,21,0.7)]" />
-          <h3 className="text-lg font-black text-shah-black-900 dark:text-white">
+          <h3 className="text-base font-black text-shah-black-900 dark:text-white md:text-lg">
             بیت برگزیده
           </h3>
         </div>
@@ -985,13 +990,13 @@ function QuoteSection({ quote }: { quote: string }) {
         <div className="h-px flex-1 bg-linear-to-r from-transparent via-shah-gold-500/35 to-transparent" />
       </div>
 
-      <div className="relative z-10 rounded-3xl border border-shah-gold-500/15 bg-white/55 px-6 py-7 dark:border-white/10 dark:bg-black/20">
-        <span className="pointer-events-none absolute -top-5 right-6 text-6xl font-black leading-none text-shah-gold-500/20">
+      <div className="relative z-10 rounded-[1.35rem] border border-shah-gold-500/15 bg-white/55 px-5 py-6 dark:border-white/10 dark:bg-black/20">
+        <span className="pointer-events-none absolute -top-4 right-5 text-5xl font-black leading-none text-shah-gold-500/20">
           ”
         </span>
 
         <div
-          className="character-story quote-poem text-center text-lg font-black leading-[2.7] text-shah-lapis-950 dark:text-shah-cream-100 md:text-xl"
+          className="character-story quote-poem text-center text-base font-black leading-9 text-shah-lapis-950 dark:text-shah-cream-100 md:text-lg"
           dangerouslySetInnerHTML={{ __html: quote }}
         />
       </div>
@@ -1038,12 +1043,12 @@ function TextCard({
   centeredTitle?: boolean;
 }) {
   return (
-    <section className="relative overflow-hidden rounded-[2.25rem] border border-shah-gold-500/20 bg-white/85 p-7 text-right shadow-2xl shadow-shah-black-900/10 backdrop-blur-xl dark:bg-[#101010]/90 dark:shadow-black/40 md:p-10">
-      <div className="pointer-events-none absolute inset-0 rounded-[2.25rem] ring-1 ring-inset ring-shah-gold-500/10 dark:ring-white/5" />
+    <section className="relative overflow-hidden rounded-[1.7rem] border border-shah-gold-500/20 bg-white/85 p-5 text-right shadow-xl shadow-shah-black-900/8 backdrop-blur-xl dark:bg-[#101010]/90 dark:shadow-black/40 md:p-6">
+      <div className="pointer-events-none absolute inset-0 rounded-[1.7rem] ring-1 ring-inset ring-shah-gold-500/10 dark:ring-white/5" />
       <div className="pointer-events-none absolute -left-24 -top-24 h-56 w-56 rounded-full bg-shah-gold-500/10 blur-3xl dark:bg-shah-gold-500/5" />
 
       {centeredTitle ? (
-        <div className="mb-10 flex items-center gap-4">
+        <div className="mb-6 flex items-center gap-3">
           <div className="h-px flex-1 bg-linear-to-r from-transparent to-shah-gold-500/30" />
           <SectionTitle>{title}</SectionTitle>
           <div className="h-px flex-1 bg-linear-to-l from-transparent to-shah-gold-500/30" />
@@ -1059,7 +1064,7 @@ function TextCard({
 
 function SideCard({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-4xl border border-shah-gold-500/20 bg-white/85 p-7 text-right shadow-2xl shadow-shah-black-900/10 backdrop-blur-xl dark:bg-[#101010]/90 dark:shadow-black/40">
+    <section className="rounded-[1.7rem] border border-shah-gold-500/20 bg-white/85 p-5 text-right shadow-xl shadow-shah-black-900/8 backdrop-blur-xl dark:bg-[#101010]/90 dark:shadow-black/40 md:p-6">
       <SectionTitle>{title}</SectionTitle>
       {children}
     </section>
@@ -1068,9 +1073,9 @@ function SideCard({ title, children }: { title: string; children: ReactNode }) {
 
 function SectionTitle({ children }: { children: ReactNode }) {
   return (
-    <h2 className="relative w-fit border-r-4 border-shah-gold-500 pr-5 text-2xl font-black text-shah-black-900 dark:text-white">
+    <h2 className="relative w-fit border-r-4 border-shah-gold-500 pr-4 text-lg font-black text-shah-black-900 dark:text-white md:text-xl">
       {children}
-      <span className="absolute -bottom-3 right-0 h-px w-28 bg-linear-to-l from-shah-gold-500/80 to-transparent" />
+      <span className="absolute -bottom-2.5 right-0 h-px w-20 bg-linear-to-l from-shah-gold-500/80 to-transparent md:w-24" />
     </h2>
   );
 }

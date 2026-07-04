@@ -12,6 +12,7 @@ import {
 } from "react";
 import {
   FiBookOpen,
+  FiFilter,
   FiSearch,
   FiX,
 } from "react-icons/fi";
@@ -19,6 +20,7 @@ import { HiOutlineClock } from "react-icons/hi2";
 
 import { SelectControl } from "@/components/select-control";
 import { ArchiveSearchPanel } from "@/components/archive-search-panel";
+import { PageHeroHeader } from "@/components/page-hero-header";
 import { StoryCard } from "@/components/story-card";
 import {
   archiveOptions,
@@ -141,63 +143,73 @@ export function StoriesArchive({
   }
 
   return (
-    <section className="relative z-10 space-y-10">
-      <ArchiveSearchPanel
-        activeFilters={activeFilters}
-        filterControls={
-          <>
-            <FilterMenu
-              label="دوره"
-              options={archiveOptions.eras}
-              selected={filters.era ?? []}
-              onToggle={(value) => toggleList("era", value)}
-            />
-            <FilterMenu
-              label="شخصیت"
-              options={characterOptions.map((item) => item.slug)}
-              selected={filters.character ?? []}
-              labels={Object.fromEntries(
-                characterOptions.map((item) => [item.slug, item.name]),
-              )}
-              onToggle={(value) => toggleList("character", value)}
-            />
-            <FilterMenu
-              label="درون‌مایه"
-              options={archiveOptions.storyThemes}
-              selected={filters.theme ?? []}
-              onToggle={(value) => toggleList("theme", value)}
-            />
-            <FilterMenu
-              label="طول"
-              options={archiveOptions.storyLengths}
-              selected={filters.length ?? []}
-              onToggle={(value) => toggleList("length", value)}
-            />
-            <SortMenu
-              value={filters.sort ?? "newest"}
-              onChange={(sort) =>
-                navigate({ ...filters, cursor: undefined, page: 1, sort })
-              }
-            />
-          </>
-        }
-        onClearSearch={() => removeFilter("search")}
-        onMobileFiltersOpen={() => setIsDrawerOpen(true)}
-        onRemoveFilter={(filter) =>
-          removeFilter(filter.key as keyof StoryArchiveQuery, filter.value)
-        }
-        onResetFilters={resetFilters}
-        onSearchChange={setDraftSearch}
-        onSearchKeyDown={onSearchKeyDown}
-        placeholder="جستجو در عنوان، متن روایت، برچسب‌ها و شخصیت‌ها..."
-        searchValue={draftSearch}
+    <section className="relative mx-auto w-full max-w-7xl px-4 py-32 sm:px-6 md:py-36">
+      <PageHeroHeader
+        className="mb-16 md:mb-20"
+        description="مجموعه‌ای از روایت‌های شاهنامه، بازآفرینی‌شده در قالبی ساخت‌یافته و قابل جستجو، برای مرور سیر داستانی و پیوندهای میان شخصیت‌ها."
+        eyebrow="Persian Epic Archive"
+        highlight="روایت‌ها"
+        title="دیوان"
       />
+
+      <div className="mb-10">
+        <ArchiveSearchPanel
+          activeFilters={activeFilters}
+          filterControls={
+            <>
+              <FilterMenu
+                label="دوره"
+                options={archiveOptions.eras}
+                selected={filters.era ?? []}
+                onToggle={(value) => toggleList("era", value)}
+              />
+              <FilterMenu
+                label="شخصیت"
+                options={characterOptions.map((item) => item.slug)}
+                selected={filters.character ?? []}
+                labels={Object.fromEntries(
+                  characterOptions.map((item) => [item.slug, item.name]),
+                )}
+                onToggle={(value) => toggleList("character", value)}
+              />
+              <FilterMenu
+                label="درون‌مایه"
+                options={archiveOptions.storyThemes}
+                selected={filters.theme ?? []}
+                onToggle={(value) => toggleList("theme", value)}
+              />
+              <FilterMenu
+                label="طول"
+                options={archiveOptions.storyLengths}
+                selected={filters.length ?? []}
+                onToggle={(value) => toggleList("length", value)}
+              />
+              <SortMenu
+                value={filters.sort ?? "newest"}
+                onChange={(sort) =>
+                  navigate({ ...filters, cursor: undefined, page: 1, sort })
+                }
+              />
+            </>
+          }
+          onClearSearch={() => removeFilter("search")}
+          onMobileFiltersOpen={() => setIsDrawerOpen(true)}
+          onRemoveFilter={(filter) =>
+            removeFilter(filter.key as keyof StoryArchiveQuery, filter.value)
+          }
+          onResetFilters={resetFilters}
+          onSearchChange={setDraftSearch}
+          onSearchKeyDown={onSearchKeyDown}
+          placeholder="جستجو در عنوان، متن روایت، برچسب‌ها و شخصیت‌ها..."
+          searchValue={draftSearch}
+        />
+      </div>
 
       {isPending ? <StorySkeletonGrid /> : null}
 
       {!isPending && result.items.length ? (
         <>
-          <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8">
+          <div className="relative z-0 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8">
             {result.items.map((story) => (
               <div key={story.id} className="flex h-full animate-fade-up flex-col">
                 <StoryCard story={story} />
@@ -284,6 +296,7 @@ function FilterMenu({
 }) {
   return (
     <SelectControl
+      icon={<FiFilter className="shrink-0 text-shah-gold-500" />}
       multiple
       onChange={(value) => {
         const next = value as string[];

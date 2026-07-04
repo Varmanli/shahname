@@ -63,6 +63,11 @@ export const pageViewTargetTypeEnum = pgEnum("page_view_target_type", [
   "page",
 ]);
 
+export const heroContentPositionEnum = pgEnum("hero_content_position", [
+  "left",
+  "right",
+]);
+
 const createdAt = timestamp("created_at", { withTimezone: true, mode: "string" })
   .notNull()
   .defaultNow();
@@ -250,6 +255,24 @@ export const contactMessages = pgTable("contact_messages", {
 export const siteSettings = pgTable("site_settings", {
   key: text("key").primaryKey(),
   value: jsonb("value").$type<unknown>().notNull(),
+  updatedAt,
+});
+
+export const homeHeroSlides = pgTable("home_hero_slides", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  subtitle: text("subtitle").notNull().default(""),
+  image: text("image").notNull().default(""),
+  primaryButtonLabel: text("primary_button_label").notNull().default(""),
+  primaryButtonHref: text("primary_button_href").notNull().default(""),
+  secondaryButtonLabel: text("secondary_button_label").notNull().default(""),
+  secondaryButtonHref: text("secondary_button_href").notNull().default(""),
+  contentPosition: heroContentPositionEnum("content_position")
+    .notNull()
+    .default("right"),
+  order: integer("order").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt,
   updatedAt,
 });
 

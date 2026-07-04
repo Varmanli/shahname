@@ -22,6 +22,13 @@
       "when": 1781387802900,
       "tag": "0002_free_carmella_unuscione",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1783123415458,
+      "tag": "0003_glamorous_korath",
+      "breakpoints": true
     }
   ]
 }

@@ -24,6 +24,8 @@ import {
   FiLink,
   FiList,
   FiType,
+  FiUploadCloud,
+  FiX,
 } from "react-icons/fi";
 import {
   MdFormatListNumbered,
@@ -43,19 +45,29 @@ type RichTextEditorProps = {
 const editorContentClasses = [
   "rich-text-preview",
   "character-story",
-  "px-5",
-  "py-5",
+  "max-w-none",
+  "px-4",
+  "py-4",
   "text-right",
-  "text-xl",
-  "leading-[2]",
+  "text-sm",
+  "font-medium",
+  "leading-8",
   "text-foreground",
   "outline-none",
-  "max-w-none",
+  "prose-p:my-2",
+  "prose-headings:font-black",
+  "prose-headings:text-foreground",
+  "prose-blockquote:border-r-4",
+  "prose-blockquote:border-shah-gold-500/40",
+  "prose-blockquote:bg-shah-gold-500/6",
+  "prose-blockquote:rounded-2xl",
+  "prose-blockquote:px-4",
+  "prose-blockquote:py-2",
 ].join(" ");
 
 export function RichTextEditor({
   allowImages = false,
-  minHeightClass = "min-h-64",
+  minHeightClass = "min-h-32",
   onChange,
   placeholder = "متن را وارد کنید...",
   value,
@@ -87,7 +99,7 @@ export function RichTextEditor({
               allowBase64: true,
               HTMLAttributes: {
                 class:
-                  "my-6 max-h-[32rem] w-full rounded-2xl object-cover shadow-lg",
+                  "my-5 max-h-[28rem] w-full rounded-2xl object-cover shadow-xl shadow-shah-black-900/8",
               },
             }),
           ]
@@ -106,9 +118,12 @@ export function RichTextEditor({
   });
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 focus-within:border-shah-gold-500 focus-within:ring-2 focus-within:ring-shah-gold-400">
+    <div className="overflow-hidden rounded-[1.35rem] border border-shah-gold-500/12 bg-white/64 text-card-foreground shadow-inner shadow-white/25 backdrop-blur-xl transition-all duration-200 focus-within:border-shah-gold-500/35 focus-within:bg-white/80 focus-within:ring-4 focus-within:ring-shah-gold-500/8 dark:border-white/10 dark:bg-white/[0.035] dark:shadow-none dark:focus-within:bg-white/5.5">
       <EditorToolbar editor={editor} allowImages={allowImages} />
-      <EditorContent editor={editor} />
+
+      <div className="relative">
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 }
@@ -127,7 +142,10 @@ function EditorToolbar({
   }
 
   function setLink() {
-    const previousUrl = editor?.getAttributes("link").href as string | undefined;
+    const previousUrl = editor?.getAttributes("link").href as
+      | string
+      | undefined;
+
     const url = window.prompt("آدرس لینک را وارد کنید", previousUrl ?? "");
 
     if (url === null) return;
@@ -142,119 +160,160 @@ function EditorToolbar({
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-1.5 border-b border-border bg-muted/50 p-2">
-        <ToolbarButton
-          label="ضخیم"
-          active={editor.isActive("bold")}
-          onClick={() => editor.chain().focus().toggleBold().run()}
-        >
-          <FiBold aria-hidden className="size-4" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="ایتالیک"
-          active={editor.isActive("italic")}
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-        >
-          <FiItalic aria-hidden className="size-4" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="زیرخط"
-          active={editor.isActive("underline")}
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-        >
-          <MdFormatUnderlined aria-hidden className="size-5" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="خط خورده"
-          active={editor.isActive("strike")}
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-        >
-          <MdFormatStrikethrough aria-hidden className="size-5" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="هایلایت"
-          active={editor.isActive("highlight")}
-          onClick={() => editor.chain().focus().toggleHighlight().run()}
-        >
-          <FiEdit3 aria-hidden className="size-4" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="پاراگراف"
-          active={editor.isActive("paragraph")}
-          onClick={() => editor.chain().focus().setParagraph().run()}
-        >
-          <FiType aria-hidden className="size-4" />
-        </ToolbarButton>
-        {[1, 2, 3, 4].map((level) => (
-          <ToolbarButton
-            key={level}
-            label={`تیتر ${level}`}
-            active={editor.isActive("heading", { level })}
-            onClick={() =>
-              editor
-                .chain()
-                .focus()
-                .setHeading({ level: level as 1 | 2 | 3 | 4 })
-                .run()
-            }
-          >
-            <span className="text-xs font-black leading-none" dir="ltr">
-              H{level}
-            </span>
-          </ToolbarButton>
-        ))}
-        <ToolbarButton
-          label="لیست"
-          active={editor.isActive("bulletList")}
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-        >
-          <FiList aria-hidden className="size-4" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="لیست شماره‌دار"
-          active={editor.isActive("orderedList")}
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        >
-          <MdFormatListNumbered aria-hidden className="size-5" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="نقل قول"
-          active={editor.isActive("blockquote")}
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        >
-          <MdFormatQuote aria-hidden className="size-5" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="چینش راست"
-          active={editor.isActive({ textAlign: "right" })}
-          onClick={() => editor.chain().focus().setTextAlign("right").run()}
-        >
-          <FiAlignRight aria-hidden className="size-4" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="چینش وسط"
-          active={editor.isActive({ textAlign: "center" })}
-          onClick={() => editor.chain().focus().setTextAlign("center").run()}
-        >
-          <FiAlignCenter aria-hidden className="size-4" />
-        </ToolbarButton>
-        <ToolbarButton label="لینک" onClick={setLink} active={editor.isActive("link")}>
-          <FiLink aria-hidden className="size-4" />
-        </ToolbarButton>
-        {allowImages ? (
-          <ToolbarButton label="آپلود تصویر" onClick={() => setImageModalOpen(true)}>
-            <FiImage aria-hidden className="size-4" />
-          </ToolbarButton>
-        ) : null}
-        <ToolbarButton label="واگرد" onClick={() => editor.chain().focus().undo().run()}>
-          <FiCornerUpRight aria-hidden className="size-4" />
-        </ToolbarButton>
-        <ToolbarButton
-          label="بازانجام"
-          onClick={() => editor.chain().focus().redo().run()}
-        >
-          <FiCornerUpLeft aria-hidden className="size-4" />
-        </ToolbarButton>
+      <div className="border-b border-shah-gold-500/10 bg-white/52 px-2 py-2 dark:border-white/8 dark:bg-black/12">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <ToolbarGroup>
+            <ToolbarButton
+              label="ضخیم"
+              active={editor.isActive("bold")}
+              onClick={() => editor.chain().focus().toggleBold().run()}
+            >
+              <FiBold aria-hidden className="size-3.5" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="ایتالیک"
+              active={editor.isActive("italic")}
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+            >
+              <FiItalic aria-hidden className="size-3.5" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="زیرخط"
+              active={editor.isActive("underline")}
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+            >
+              <MdFormatUnderlined aria-hidden className="size-4" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="خط خورده"
+              active={editor.isActive("strike")}
+              onClick={() => editor.chain().focus().toggleStrike().run()}
+            >
+              <MdFormatStrikethrough aria-hidden className="size-4" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="هایلایت"
+              active={editor.isActive("highlight")}
+              onClick={() => editor.chain().focus().toggleHighlight().run()}
+            >
+              <FiEdit3 aria-hidden className="size-3.5" />
+            </ToolbarButton>
+          </ToolbarGroup>
+
+          <ToolbarGroup>
+            <ToolbarButton
+              label="پاراگراف"
+              active={editor.isActive("paragraph")}
+              onClick={() => editor.chain().focus().setParagraph().run()}
+            >
+              <FiType aria-hidden className="size-3.5" />
+            </ToolbarButton>
+
+            {[1, 2, 3, 4].map((level) => (
+              <ToolbarButton
+                key={level}
+                label={`تیتر ${level}`}
+                active={editor.isActive("heading", { level })}
+                onClick={() =>
+                  editor
+                    .chain()
+                    .focus()
+                    .setHeading({ level: level as 1 | 2 | 3 | 4 })
+                    .run()
+                }
+              >
+                <span className="text-[10px] font-black leading-none" dir="ltr">
+                  H{level}
+                </span>
+              </ToolbarButton>
+            ))}
+          </ToolbarGroup>
+
+          <ToolbarGroup>
+            <ToolbarButton
+              label="لیست"
+              active={editor.isActive("bulletList")}
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+            >
+              <FiList aria-hidden className="size-3.5" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="لیست شماره‌دار"
+              active={editor.isActive("orderedList")}
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            >
+              <MdFormatListNumbered aria-hidden className="size-4" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="نقل قول"
+              active={editor.isActive("blockquote")}
+              onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            >
+              <MdFormatQuote aria-hidden className="size-4" />
+            </ToolbarButton>
+          </ToolbarGroup>
+
+          <ToolbarGroup>
+            <ToolbarButton
+              label="چینش راست"
+              active={editor.isActive({ textAlign: "right" })}
+              onClick={() => editor.chain().focus().setTextAlign("right").run()}
+            >
+              <FiAlignRight aria-hidden className="size-3.5" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="چینش وسط"
+              active={editor.isActive({ textAlign: "center" })}
+              onClick={() =>
+                editor.chain().focus().setTextAlign("center").run()
+              }
+            >
+              <FiAlignCenter aria-hidden className="size-3.5" />
+            </ToolbarButton>
+          </ToolbarGroup>
+
+          <ToolbarGroup>
+            <ToolbarButton
+              label="لینک"
+              onClick={setLink}
+              active={editor.isActive("link")}
+            >
+              <FiLink aria-hidden className="size-3.5" />
+            </ToolbarButton>
+
+            {allowImages ? (
+              <ToolbarButton
+                label="آپلود تصویر"
+                onClick={() => setImageModalOpen(true)}
+              >
+                <FiImage aria-hidden className="size-3.5" />
+              </ToolbarButton>
+            ) : null}
+          </ToolbarGroup>
+
+          <ToolbarGroup>
+            <ToolbarButton
+              label="واگرد"
+              onClick={() => editor.chain().focus().undo().run()}
+            >
+              <FiCornerUpRight aria-hidden className="size-3.5" />
+            </ToolbarButton>
+
+            <ToolbarButton
+              label="بازانجام"
+              onClick={() => editor.chain().focus().redo().run()}
+            >
+              <FiCornerUpLeft aria-hidden className="size-3.5" />
+            </ToolbarButton>
+          </ToolbarGroup>
+        </div>
       </div>
 
       {allowImages && imageModalOpen ? (
@@ -264,6 +323,14 @@ function EditorToolbar({
         />
       ) : null}
     </>
+  );
+}
+
+function ToolbarGroup({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex items-center gap-1 rounded-xl border border-shah-gold-500/10 bg-white/58 p-1 shadow-sm shadow-shah-black-900/3 dark:border-white/8 dark:bg-white/[0.035]">
+      {children}
+    </div>
   );
 }
 
@@ -283,11 +350,17 @@ function ImageUploadModal({
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files?.[0] ?? null;
+
     if (preview) URL.revokeObjectURL(preview);
 
     setFile(selectedFile);
     setStatus("");
     setPreview(selectedFile ? URL.createObjectURL(selectedFile) : "");
+  }
+
+  function closeModal() {
+    if (preview) URL.revokeObjectURL(preview);
+    onClose();
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -308,6 +381,7 @@ function ImageUploadModal({
       method: "POST",
       body: formData,
     });
+
     const payload = await response.json();
 
     setIsUploading(false);
@@ -323,8 +397,7 @@ function ImageUploadModal({
       .setImage({ src: payload.url, alt: alt.trim() || file.name })
       .run();
 
-    if (preview) URL.revokeObjectURL(preview);
-    onClose();
+    closeModal();
   }
 
   const portalTarget = typeof document === "undefined" ? null : document.body;
@@ -333,52 +406,66 @@ function ImageUploadModal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] grid place-items-center bg-black/55 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-9999 grid place-items-center bg-black/60 p-4 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-label="آپلود تصویر"
     >
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-2xl"
+        className="w-full max-w-xl overflow-hidden rounded-[1.7rem] border border-shah-gold-500/14 bg-white/94 text-card-foreground shadow-2xl shadow-black/25 backdrop-blur-2xl dark:border-white/10 dark:bg-shah-black-950/94"
       >
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <h2 className="text-lg font-black">آپلود تصویر</h2>
+        <div className="flex items-center justify-between gap-4 border-b border-shah-gold-500/10 px-4 py-3 dark:border-white/8">
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-shah-gold-800 dark:text-shah-gold-200">
+              Image
+            </p>
+            <h2 className="mt-1 text-base font-black text-foreground">
+              آپلود تصویر
+            </h2>
+          </div>
+
           <button
             type="button"
-            onClick={() => {
-              if (preview) URL.revokeObjectURL(preview);
-              onClose();
-            }}
-            className="rounded-lg border border-border px-3 py-2 text-sm font-bold transition hover:bg-muted"
+            onClick={closeModal}
+            className="grid size-9 place-items-center rounded-xl border border-shah-gold-500/12 bg-white/58 text-foreground transition hover:bg-red-500/10 hover:text-red-700 dark:border-white/10 dark:bg-white/4.5 dark:hover:text-red-200"
+            aria-label="بستن"
           >
-            بستن
+            <FiX aria-hidden className="size-4" />
           </button>
         </div>
 
-        <div className="grid gap-5 p-5">
+        <div className="grid gap-4 p-4">
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="relative grid min-h-64 place-items-center overflow-hidden rounded-2xl border-2 border-dashed border-border bg-muted text-center transition hover:border-shah-gold-500"
+            className="group relative grid min-h-52 place-items-center overflow-hidden rounded-[1.35rem] border border-dashed border-shah-gold-500/24 bg-shah-gold-500/6 text-center transition hover:border-shah-gold-500/50 hover:bg-shah-gold-500/10 dark:border-white/12 dark:bg-white/[0.035]"
           >
             {preview ? (
-              <span
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${preview})` }}
-              />
+              <>
+                <span
+                  className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${preview})` }}
+                />
+                <span className="absolute inset-0 bg-linear-to-t from-black/55 via-black/5 to-transparent opacity-0 transition group-hover:opacity-100" />
+                <span className="relative z-10 inline-flex items-center gap-2 rounded-xl bg-white/95 px-3 py-2 text-xs font-black text-shah-black-950 opacity-0 shadow-lg backdrop-blur-xl transition group-hover:opacity-100">
+                  <FiUploadCloud aria-hidden className="size-4" />
+                  تعویض تصویر
+                </span>
+              </>
             ) : (
-              <span className="grid gap-2 px-5 text-sm font-bold text-muted-foreground">
-                <FiImage aria-hidden className="mx-auto size-10 text-shah-gold-600" />
-                تصویر را انتخاب کنید
-                <span className="text-xs font-medium">JPG, PNG, WebP, GIF</span>
+              <span className="grid gap-2.5 px-5 text-xs font-bold text-muted-foreground">
+                <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-shah-gold-500/10 text-shah-gold-700 dark:text-shah-gold-200">
+                  <FiImage aria-hidden className="size-6" />
+                </span>
+                <span className="text-sm font-black text-foreground">
+                  انتخاب تصویر
+                </span>
+                <span className="text-[11px] font-bold">
+                  JPG · PNG · WebP · GIF
+                </span>
               </span>
             )}
-            {preview ? (
-              <span className="absolute inset-0 grid place-items-center bg-black/0 text-sm font-black text-white opacity-0 transition hover:bg-black/35 hover:opacity-100">
-                تعویض تصویر
-              </span>
-            ) : null}
           </button>
 
           <input
@@ -389,38 +476,40 @@ function ImageUploadModal({
             className="sr-only"
           />
 
-          <label className="grid gap-2 text-base font-semibold text-foreground">
+          <label className="grid gap-1.5 text-xs font-black text-foreground">
             متن جایگزین
             <input
               value={alt}
               onChange={(event) => setAlt(event.target.value)}
               placeholder="توضیح کوتاه تصویر"
-              className="admin-input h-12 text-base"
+              className="h-10 w-full rounded-xl border border-shah-gold-500/12 bg-white/64 px-3 text-xs font-bold text-foreground outline-none transition placeholder:text-muted-foreground/55 focus:border-shah-gold-500/35 focus:bg-white focus:ring-4 focus:ring-shah-gold-500/8 dark:border-white/10 dark:bg-white/4.5 dark:focus:bg-white/6.5"
             />
           </label>
 
           {status ? (
-            <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
+            <p className="rounded-xl border border-red-500/18 bg-red-50/90 px-3 py-2 text-xs font-black leading-6 text-red-700 dark:border-red-400/20 dark:bg-red-950/30 dark:text-red-200">
               {status}
             </p>
           ) : null}
         </div>
 
-        <div className="flex justify-end gap-3 border-t border-border bg-muted/35 px-5 py-4">
+        <div className="flex justify-end gap-2.5 border-t border-shah-gold-500/10 bg-shah-gold-500/5 px-4 py-3 dark:border-white/8 dark:bg-white/2.5">
           <button
             type="button"
-            onClick={() => {
-              if (preview) URL.revokeObjectURL(preview);
-              onClose();
-            }}
-            className="h-11 rounded-xl border border-border px-5 text-sm font-bold transition hover:bg-muted"
+            onClick={closeModal}
+            className="h-10 rounded-xl border border-shah-gold-500/12 bg-white/62 px-4 text-xs font-black text-foreground transition hover:bg-muted/70 dark:border-white/10 dark:bg-white/4.5"
           >
             انصراف
           </button>
+
           <button
             type="submit"
             disabled={isUploading}
-            className="h-11 rounded-xl bg-primary px-6 text-sm font-bold text-white shadow-md transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
+            className={`h-10 rounded-xl px-5 text-xs font-black shadow-lg transition ${
+              isUploading
+                ? "cursor-not-allowed bg-shah-lapis-900/55 text-white/65"
+                : "bg-shah-lapis-900 text-shah-gold-100 shadow-shah-lapis-900/15 hover:-translate-y-0.5 hover:bg-shah-lapis-800 hover:text-white dark:bg-shah-gold-500 dark:text-shah-black-950 dark:hover:bg-shah-gold-400"
+            }`}
           >
             {isUploading ? "در حال آپلود..." : "درج تصویر"}
           </button>
@@ -449,10 +538,10 @@ function ToolbarButton({
       onClick={onClick}
       title={label}
       aria-label={label}
-      className={`grid size-10 place-items-center rounded-xl border text-sm font-bold transition ${
+      className={`grid size-7 place-items-center rounded-lg border text-xs font-black transition ${
         active
-          ? "border-shah-gold-500 bg-shah-gold-500 text-white shadow-sm"
-          : "border-border bg-card text-foreground hover:border-shah-gold-500 hover:bg-shah-gold-50 hover:text-shah-gold-700 dark:hover:bg-shah-gold-500/10 dark:hover:text-shah-gold-200"
+          ? "border-shah-gold-500 bg-shah-gold-500 text-shah-black-950 shadow-sm shadow-shah-gold-500/15"
+          : "border-transparent text-foreground/76 hover:border-shah-gold-500/30 hover:bg-shah-gold-500/10 hover:text-shah-gold-800 dark:hover:text-shah-gold-100"
       }`}
     >
       {children}

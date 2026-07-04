@@ -1,5 +1,7 @@
 "use client";
 
+import { FiStar } from "react-icons/fi";
+
 import { TRAIT_PRESETS } from "@/lib/traits";
 import type {
   CharacterTrait,
@@ -17,11 +19,11 @@ type TraitSelectorProps = {
 const levelOptions: TraitLevel[] = [1, 2, 3, 4, 5];
 
 const toneClasses = {
-  gold: "text-shah-gold-300 border-shah-gold-400/30 bg-shah-gold-500/10",
-  lapis: "text-blue-200 border-blue-300/20 bg-shah-lapis-700/30",
-  red: "text-red-200 border-red-300/20 bg-red-500/10",
-  emerald: "text-emerald-200 border-emerald-300/20 bg-emerald-500/10",
-  violet: "text-violet-200 border-violet-300/20 bg-violet-500/10",
+  gold: "text-shah-gold-300 border-shah-gold-400/25 bg-shah-gold-500/8",
+  lapis: "text-blue-200 border-blue-300/20 bg-shah-lapis-700/25",
+  red: "text-red-200 border-red-300/20 bg-red-500/8",
+  emerald: "text-emerald-200 border-emerald-300/20 bg-emerald-500/8",
+  violet: "text-violet-200 border-violet-300/20 bg-violet-500/8",
 };
 
 const categoryLabels: Record<TraitCategory, string> = {
@@ -69,7 +71,7 @@ export function TraitSelector({ onChange, value }: TraitSelectorProps) {
   }
 
   return (
-    <div className="grid gap-8">
+    <div className="grid gap-5">
       {traitGroups.map((category) => {
         const presets = TRAIT_PRESETS.filter(
           (trait) => trait.category === category,
@@ -78,37 +80,41 @@ export function TraitSelector({ onChange, value }: TraitSelectorProps) {
         if (!presets.length) return null;
 
         const isNegative = category === "negative";
+        const selectedCount = presets.filter((trait) =>
+          getSelected(trait.key),
+        ).length;
 
         return (
-          <section key={category} className="grid gap-4">
-            <div className="flex items-end justify-between gap-4">
+          <section key={category} className="grid gap-2.5">
+            <div className="flex items-end justify-between gap-3">
               <div>
                 <h3
                   className={cn(
-                    "text-lg font-black",
-                    isNegative ? "text-red-100" : "text-shah-gold-200",
+                    "text-[13px] font-black",
+                    isNegative ? "text-red-200" : "text-shah-gold-200",
                   )}
                 >
                   {categoryLabels[category]}
                 </h3>
-                <p className="mt-1 text-xs font-semibold text-zinc-500">
+                <p className="mt-0.5 text-[10px] font-semibold text-zinc-500">
                   {categoryHints[category]}
                 </p>
               </div>
 
               <span
                 className={cn(
-                  "rounded-full border px-3 py-1 text-[10px] font-black",
+                  "shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-black",
                   isNegative
-                    ? "border-red-400/30 bg-red-500/10 text-red-100"
-                    : "border-shah-gold-400/25 bg-shah-gold-500/10 text-shah-gold-200",
+                    ? "border-red-400/25 bg-red-500/8 text-red-200"
+                    : "border-shah-gold-400/20 bg-shah-gold-500/8 text-shah-gold-200",
                 )}
               >
+                {new Intl.NumberFormat("fa-IR").format(selectedCount)} /{" "}
                 {new Intl.NumberFormat("fa-IR").format(presets.length)}
               </span>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
               {presets.map((trait) => {
                 const selected = getSelected(trait.key);
                 const Icon = trait.icon;
@@ -127,119 +133,94 @@ export function TraitSelector({ onChange, value }: TraitSelectorProps) {
                       }
                     }}
                     className={cn(
-                      "cursor-pointer",
-                      "group relative overflow-hidden rounded-2xl border p-4 text-right transition duration-300",
-                      "bg-[#101010]/80 hover:-translate-y-1",
+                      "group relative cursor-pointer rounded-xl border p-2.5 text-right transition-all duration-200",
+                      "bg-[#101010]/70 hover:-translate-y-0.5",
                       traitIsNegative
-                        ? "hover:border-red-300/50 hover:bg-red-500/10"
-                        : "hover:border-shah-gold-300/50 hover:bg-shah-gold-500/5",
+                        ? "hover:border-red-300/40 hover:bg-red-500/8"
+                        : "hover:border-shah-gold-300/40 hover:bg-shah-gold-500/5",
                       selected
                         ? traitIsNegative
-                          ? "border-red-300/70 shadow-[0_0_30px_rgba(239,68,68,0.18)]"
-                          : "border-shah-gold-300/70 shadow-[0_0_30px_rgba(184,134,11,0.22)]"
+                          ? "border-red-300/60 bg-red-500/8"
+                          : "border-shah-gold-300/60 bg-shah-gold-500/6"
                         : traitIsNegative
-                          ? "border-red-400/20"
+                          ? "border-red-400/15"
                           : "border-white/10",
                     )}
                   >
-                    <div
-                      className={cn(
-                        "absolute inset-0 opacity-0 blur-2xl transition duration-500 group-hover:opacity-100",
-                        traitIsNegative
-                          ? "bg-[radial-gradient(circle_at_50%_0%,rgba(239,68,68,0.2),transparent_55%)]"
-                          : "bg-[radial-gradient(circle_at_50%_0%,rgba(250,204,21,0.2),transparent_55%)]",
-                      )}
-                    />
-
                     {selected?.featured ? (
                       <span
                         className={cn(
-                          "absolute left-4 top-4 rounded-full border px-3 py-1 text-[10px] font-black",
+                          "absolute left-2 top-2 grid size-4 place-items-center rounded-full border",
                           traitIsNegative
-                            ? "border-red-300/30 bg-red-500/10 text-red-100"
-                            : "border-shah-gold-300/30 bg-shah-gold-500/10 text-shah-gold-200",
+                            ? "border-red-300/30 bg-red-500/15 text-red-200"
+                            : "border-shah-gold-300/30 bg-shah-gold-500/15 text-shah-gold-200",
                         )}
+                        title="ویژگی شاخص"
                       >
-                        شاخص
+                        <FiStar aria-hidden className="size-2.5" />
                       </span>
                     ) : null}
 
-                    <div className="relative z-10 flex items-start gap-4">
+                    <div className="flex items-start gap-2.5">
                       <div
                         className={cn(
-                          "flex h-14 w-14 shrink-0 items-center justify-center rounded-full border text-2xl transition group-hover:scale-110",
-                          traitIsNegative
-                            ? "shadow-[0_0_20px_rgba(239,68,68,0.18)]"
-                            : "shadow-[0_0_20px_rgba(184,134,11,0.2)]",
+                          "flex size-8 shrink-0 items-center justify-center rounded-lg border text-base transition group-hover:scale-105",
                           toneClasses[trait.tone],
                         )}
                       >
                         <Icon />
                       </div>
 
-                      <div className="min-w-0">
-                        <h3 className="text-base font-black text-zinc-100">
+                      <div className="min-w-0 pt-0.5">
+                        <h3 className="truncate text-[12px] font-black text-zinc-100">
                           {trait.label}
                         </h3>
-                        <p className="mt-2 text-xs font-medium leading-6 text-zinc-400">
+                        <p className="mt-0.5 line-clamp-1 text-[10px] font-medium leading-4 text-zinc-500">
                           {trait.description}
                         </p>
                       </div>
                     </div>
 
                     {selected ? (
-                      <div className="relative z-10 mt-5 grid gap-4 border-t border-white/10 pt-4">
-                        <div
-                          className="grid gap-2"
-                          onClick={(event) => event.stopPropagation()}
-                        >
-                          <span
-                            className={cn(
-                              "text-xs font-black",
-                              traitIsNegative
-                                ? "text-red-100"
-                                : "text-shah-gold-200",
-                            )}
-                          >
-                            شدت ویژگی
-                          </span>
-                          <div className="flex gap-2">
-                            {levelOptions.map((level) => (
-                              <button
-                                type="button"
-                                key={level}
-                                onClick={() => updateLevel(trait.key, level)}
-                                className={cn(
-                                  "h-3 w-3 rounded-full transition",
-                                  level <= selected.level
-                                    ? traitIsNegative
-                                      ? "bg-red-300 shadow-[0_0_8px_rgba(239,68,68,0.7)]"
-                                      : "bg-shah-gold-300 shadow-[0_0_8px_rgba(250,204,21,0.7)]"
-                                    : "bg-white/15 hover:bg-white/30",
-                                )}
-                                aria-label={`شدت ${level}`}
-                              />
-                            ))}
-                          </div>
+                      <div
+                        className="relative z-10 mt-2.5 flex items-center justify-between gap-2 border-t border-white/8 pt-2"
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <div className="flex gap-1">
+                          {levelOptions.map((level) => (
+                            <button
+                              type="button"
+                              key={level}
+                              onClick={() => updateLevel(trait.key, level)}
+                              className={cn(
+                                "h-2 w-2 rounded-full transition",
+                                level <= selected.level
+                                  ? traitIsNegative
+                                    ? "bg-red-300"
+                                    : "bg-shah-gold-300"
+                                  : "bg-white/12 hover:bg-white/25",
+                              )}
+                              aria-label={`شدت ${level}`}
+                            />
+                          ))}
                         </div>
 
-                        <label
-                          className="flex cursor-pointer items-center justify-between gap-3 text-xs font-black text-zinc-200"
-                          onClick={(event) => event.stopPropagation()}
+                        <button
+                          type="button"
+                          onClick={() => toggleFeatured(trait.key)}
+                          title="ویژگی شاخص"
+                          aria-pressed={Boolean(selected.featured)}
+                          className={cn(
+                            "grid size-5 place-items-center rounded-full border transition",
+                            selected.featured
+                              ? traitIsNegative
+                                ? "border-red-300/50 bg-red-500/15 text-red-200"
+                                : "border-shah-gold-300/50 bg-shah-gold-500/15 text-shah-gold-200"
+                              : "border-white/12 text-white/30 hover:text-white/60",
+                          )}
                         >
-                          <span>ویژگی شاخص</span>
-                          <input
-                            type="checkbox"
-                            checked={Boolean(selected.featured)}
-                            onChange={() => toggleFeatured(trait.key)}
-                            className={cn(
-                              "h-5 w-5",
-                              traitIsNegative
-                                ? "accent-red-500"
-                                : "accent-shah-gold-500",
-                            )}
-                          />
-                        </label>
+                          <FiStar aria-hidden className="size-2.5" />
+                        </button>
                       </div>
                     ) : null}
                   </div>

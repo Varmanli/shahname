@@ -26,6 +26,7 @@
     "@tiptap/starter-kit": "^3.22.5",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
+    "embla-carousel-react": "^8.6.0",
     "html-react-parser": "^6.0.1",
     "html-to-image": "^1.11.13",
     "jspdf": "^4.2.1",
