@@ -76,7 +76,7 @@ export function StoryHero({ story }: StoryHeroProps) {
 
           {/* Title */}
           <header className="max-w-5xl">
-            <h1 className="text-5xl font-black leading-[1.08] text-white drop-shadow-[0_14px_40px_rgba(0,0,0,0.6)] sm:text-6xl md:text-8xl lg:text-9xl">
+            <h1 className="text-5xl font-black leading-[1.08] text-white drop-shadow-[0_14px_40px_rgba(0,0,0,0.6)] sm:text-6xl md:text-4xl lg:text-6xl">
               {story.title}
             </h1>
 
@@ -90,7 +90,7 @@ export function StoryHero({ story }: StoryHeroProps) {
           {/* Description + Actions */}
           <div className="mt-8 flex max-w-3xl flex-col items-start gap-6">
             {story.subtitle ? (
-              <p className="text-lg font-bold leading-9 text-shah-cream-100/90 drop-shadow-md sm:text-xl md:text-3xl md:leading-[1.7]">
+              <p className="text-lg font-bold leading-9 text-shah-cream-100/90 drop-shadow-md sm:text-lg md:text-2xl md:leading-[1.7]">
                 {story.subtitle}
               </p>
             ) : null}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 import { cn } from "@/lib/utils";
@@ -28,26 +27,6 @@ export function DetailTabsSlider<T extends string>({
     dragFree: true,
     containScroll: "trimSnaps",
   });
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const syncState = () => {
-      setCanScrollPrev(emblaApi.canScrollPrev());
-      setCanScrollNext(emblaApi.canScrollNext());
-    };
-
-    syncState();
-    emblaApi.on("select", syncState);
-    emblaApi.on("reInit", syncState);
-
-    return () => {
-      emblaApi.off("select", syncState);
-      emblaApi.off("reInit", syncState);
-    };
-  }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -61,17 +40,6 @@ export function DetailTabsSlider<T extends string>({
   return (
     <div className="sticky top-22 z-30 min-w-0 rounded-[1.35rem] border border-shah-gold-500/18 bg-white/85 p-1.5 shadow-xl shadow-shah-black-900/8 backdrop-blur-xl dark:bg-[#101010]/90 dark:shadow-black/35">
       <div className="relative">
-        <CarouselArrow
-          direction="next"
-          disabled={!canScrollNext}
-          onClick={() => emblaApi?.scrollNext()}
-        />
-        <CarouselArrow
-          direction="prev"
-          disabled={!canScrollPrev}
-          onClick={() => emblaApi?.scrollPrev()}
-        />
-
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-white/95 to-transparent dark:from-[#101010]/95" />
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-linear-to-r from-white/95 to-transparent dark:from-[#101010]/95" />
 
@@ -115,39 +83,5 @@ export function DetailTabsSlider<T extends string>({
         </div>
       </div>
     </div>
-  );
-}
-
-function CarouselArrow({
-  direction,
-  disabled,
-  onClick,
-}: {
-  direction: "next" | "prev";
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  const Icon = direction === "next" ? FiChevronRight : FiChevronLeft;
-  const positionClass =
-    direction === "next"
-      ? "right-1 md:right-1.5"
-      : "left-1 md:left-1.5";
-
-  return (
-    <button
-      type="button"
-      aria-label={direction === "next" ? "اسلاید بعدی" : "اسلاید قبلی"}
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "absolute top-1/2 z-20 hidden size-8 -translate-y-1/2 place-items-center rounded-full border text-xs shadow-md backdrop-blur transition md:grid",
-        positionClass,
-        disabled
-          ? "cursor-not-allowed border-shah-gold-500/10 bg-white/70 text-shah-gold-700/35 dark:border-white/8 dark:bg-black/35 dark:text-zinc-500"
-          : "border-shah-gold-500/20 bg-white/90 text-shah-gold-800 hover:bg-shah-gold-500 hover:text-shah-black-950 dark:border-white/10 dark:bg-black/55 dark:text-shah-gold-200 dark:hover:text-black",
-      )}
-    >
-      <Icon className="size-4" aria-hidden />
-    </button>
   );
 }

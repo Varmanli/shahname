@@ -11,7 +11,7 @@ export function StoriesSection({ stories }: StoriesSectionProps) {
   const featuredStories = stories.slice(0, 6);
 
   return (
-    <section className="relative mx-auto w-full max-w-7xl px-6 pb-20">
+    <section className="relative mx-auto w-full max-w-7xl px-6 pb-10">
       {/* هدر بازطراحی شده: کاملاً یکسان با بخش شخصیت‌ها */}
       <header className="relative mb-40 flex flex-col items-center text-center">
         <div className="mb-4 flex items-center gap-3">
@@ -20,7 +20,7 @@ export function StoriesSection({ stories }: StoriesSectionProps) {
           </span>
         </div>
 
-        <h2 className="text-6xl font-black tracking-tighter text-zinc-900 md:text-8xl dark:text-white">
+        <h2 className="text-4xl font-black tracking-tighter text-zinc-900 md:text-8xl dark:text-white">
           روایت‌های{" "}
           <span className="text-shah-gold-500 drop-shadow-sm">ماندگار</span>
         </h2>
@@ -64,7 +64,7 @@ export function StoriesSection({ stories }: StoriesSectionProps) {
 
           <div className="relative z-10 flex items-center gap-4">
             <div className="h-2 w-2 rotate-45 border border-shah-gold-300 opacity-50 transition-all duration-500 group-hover:rotate-180 group-hover:border-shah-gold-400 group-hover:opacity-100" />
-            <span className="text-lg font-black tracking-tight text-shah-gold-50 transition-colors duration-500 group-hover:text-white">
+            <span className="text-sm md:text-lg font-black tracking-tight text-shah-gold-50 transition-colors duration-500 group-hover:text-white">
               مشاهده دیوان کامل
             </span>
             <div className="flex items-center transition-transform duration-500 group-hover:-translate-x-2">

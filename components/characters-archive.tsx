@@ -282,8 +282,9 @@ function FilterMenu({
       onChange={(value) => {
         const next = value as string[];
         const changed =
-          options.find((option) => selected.includes(option) !== next.includes(option)) ??
-          "";
+          options.find(
+            (option) => selected.includes(option) !== next.includes(option),
+          ) ?? "";
         if (changed) onToggle(changed);
       }}
       options={options.map((option) => ({
@@ -472,6 +473,7 @@ function ArchivePagination({
   totalPages: number;
 }) {
   if (totalPages <= 1) return null;
+
   const pages = Array.from(
     { length: totalPages },
     (_, index) => index + 1,
@@ -480,35 +482,87 @@ function ArchivePagination({
       page === 1 || page === totalPages || Math.abs(page - currentPage) <= 1,
   );
 
+  const hasPrev = currentPage > 1;
+  const hasNext = currentPage < totalPages;
+
+  const getHref = (page: number) =>
+    buildCharactersUrl(pathname, {
+      ...filters,
+      cursor: undefined,
+      page,
+    });
+
   return (
     <nav
-      className="mt-16 flex flex-wrap items-center justify-center gap-2"
+      className="mt-16 flex w-full justify-center px-4"
       aria-label="صفحه‌بندی"
     >
-      {pages.map((page, index) => {
-        const previous = pages[index - 1];
-        return (
-          <div key={page} className="flex items-center gap-2">
-            {previous && page - previous > 1 ? (
-              <span className="px-1 text-zinc-500">...</span>
-            ) : null}
-            <Link
-              href={buildCharactersUrl(pathname, {
-                ...filters,
-                cursor: undefined,
-                page,
-              })}
-              className={`flex h-11 min-w-11 items-center justify-center rounded-xl border px-4 text-sm font-black transition ${
-                page === currentPage
-                  ? "border-shah-gold-500 bg-shah-gold-500 text-white"
-                  : "border-border bg-card text-card-foreground hover:border-accent"
-              }`}
-            >
-              {toFaNumber(page)}
-            </Link>
-          </div>
-        );
-      })}
+      <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/75 p-2 shadow-[0_18px_55px_rgba(0,0,0,0.10)] backdrop-blur-2xl dark:shadow-[0_18px_55px_rgba(0,0,0,0.35)]">
+        <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-l from-transparent via-shah-gold-300/45 to-transparent" />
+        <div className="pointer-events-none absolute -right-10 top-1/2 h-20 w-32 -translate-y-1/2 rounded-full bg-shah-gold-400/10 blur-3xl" />
+
+        <div className="relative z-10 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+          <Link
+            href={hasPrev ? getHref(currentPage - 1) : "#"}
+            aria-disabled={!hasPrev}
+            tabIndex={hasPrev ? 0 : -1}
+            className={`group flex h-10 items-center justify-center rounded-2xl border px-3 text-xs font-black transition-all sm:h-11 sm:px-4 sm:text-sm ${
+              hasPrev
+                ? "border-border/80 bg-background/70 text-foreground/75 hover:border-shah-gold-400/50 hover:bg-shah-gold-400 hover:text-[#071426] hover:shadow-[0_10px_28px_rgba(246,184,31,0.20)]"
+                : "pointer-events-none border-border/40 bg-muted/40 text-muted-foreground/45"
+            }`}
+          >
+            قبلی
+          </Link>
+
+          <div className="mx-1 hidden h-6 w-px bg-border/70 sm:block" />
+
+          {pages.map((page, index) => {
+            const previous = pages[index - 1];
+            const isActive = page === currentPage;
+
+            return (
+              <div key={page} className="flex items-center gap-1.5 sm:gap-2">
+                {previous && page - previous > 1 ? (
+                  <span className="flex h-10 min-w-8 items-center justify-center rounded-xl text-sm font-black text-muted-foreground sm:h-11">
+                    ...
+                  </span>
+                ) : null}
+
+                <Link
+                  href={getHref(page)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`relative flex h-10 min-w-10 items-center justify-center rounded-2xl border px-3 text-sm font-black transition-all duration-300 sm:h-11 sm:min-w-11 sm:px-4 ${
+                    isActive
+                      ? "border-shah-gold-400 bg-shah-gold-400 text-[#071426] shadow-[0_12px_30px_rgba(246,184,31,0.30)]"
+                      : "border-border/70 bg-background/65 text-foreground/70 hover:-translate-y-0.5 hover:border-shah-gold-400/45 hover:bg-shah-gold-400/12 hover:text-foreground hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)]"
+                  }`}
+                >
+                  {isActive ? (
+                    <span className="absolute inset-x-2 -bottom-px h-px rounded-full bg-white/60" />
+                  ) : null}
+                  <span className="relative z-10">{toFaNumber(page)}</span>
+                </Link>
+              </div>
+            );
+          })}
+
+          <div className="mx-1 hidden h-6 w-px bg-border/70 sm:block" />
+
+          <Link
+            href={hasNext ? getHref(currentPage + 1) : "#"}
+            aria-disabled={!hasNext}
+            tabIndex={hasNext ? 0 : -1}
+            className={`group flex h-10 items-center justify-center rounded-2xl border px-3 text-xs font-black transition-all sm:h-11 sm:px-4 sm:text-sm ${
+              hasNext
+                ? "border-border/80 bg-background/70 text-foreground/75 hover:border-shah-gold-400/50 hover:bg-shah-gold-400 hover:text-[#071426] hover:shadow-[0_10px_28px_rgba(246,184,31,0.20)]"
+                : "pointer-events-none border-border/40 bg-muted/40 text-muted-foreground/45"
+            }`}
+          >
+            بعدی
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 }

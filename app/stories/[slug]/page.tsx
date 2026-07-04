@@ -182,7 +182,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
       <JsonLd data={articleJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
-      <main className="relative min-h-screen overflow-hidden bg-shah-cream-50 pb-24 text-shah-black-950 dark:bg-shah-black-950 dark:text-shah-cream-100">
+      <main className="relative min-h-screen bg-shah-cream-50 pb-24 text-shah-black-950 dark:bg-shah-black-950 dark:text-shah-cream-100">
         <ReadingProgress targetId="story-content" />
 
         <PageBackground />
@@ -305,12 +305,8 @@ function MainStory({
         />
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start">
-        <aside className="lg:sticky lg:top-28">
-          <StoryToc items={tocItems} />
-        </aside>
-
-        <div className="min-w-0">
+      <div className="grid min-w-0 gap-6 lg:items-start">
+        <div dir="rtl" className="min-w-0">
           {story.content ? (
             <StoryRichText
               characters={characterLinks}
@@ -320,7 +316,9 @@ function MainStory({
           ) : null}
 
           {story.sections.length ? (
-            <div className="mt-8 space-y-8">
+            <div className="space-y-2">
+              {" "}
+              <StoryToc items={tocItems} />
               {story.sections.map((section, index) => (
                 <StorySection
                   key={section.id}

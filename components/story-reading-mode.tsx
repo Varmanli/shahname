@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+import { useSiteChrome } from "@/components/site-chrome-context";
 import { ReadingProgress } from "@/components/reading-progress";
 import { SmoothScrollLink } from "@/components/smooth-scroll-link";
 import { StoryEndingNavigation } from "@/components/story-ending-navigation";
@@ -32,6 +33,15 @@ export function StoryReadingMode({
 }: StoryReadingModeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const { setImmersiveMode } = useSiteChrome();
+
+  useEffect(() => {
+    setImmersiveMode(isOpen);
+
+    return () => {
+      setImmersiveMode(false);
+    };
+  }, [isOpen, setImmersiveMode]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -82,6 +92,7 @@ export function StoryReadingMode({
     dark:shadow-[0_14px_40px_rgba(0,0,0,0.35)]
 
     sm:w-auto sm:min-w-47.5
+    
   "
       >
         {/* Glow */}
@@ -146,7 +157,7 @@ export function StoryReadingMode({
       {isOpen ? (
         <div
           id="story-reading-scroll"
-          className="fixed inset-0 z-100 overflow-y-auto bg-shah-cream-50 text-shah-black-950 dark:bg-[#080808] dark:text-shah-cream-100"
+          className="fixed inset-0 z-9999 overflow-y-auto bg-shah-cream-50 text-shah-black-950 dark:bg-[#080808] dark:text-shah-cream-100"
           role="dialog"
           aria-modal="true"
           aria-label={`مطالعه تمام‌صفحه ${story.title}`}
@@ -190,7 +201,7 @@ export function StoryReadingMode({
                 {story.title}
               </h1>
               {story.subtitle ? (
-                <p className="mt-5 text-2xl font-black leading-10 text-decorative dark:text-shah-gold-300">
+                <p className="mt-5 md:text-xl font-black leading-10 text-decorative dark:text-shah-gold-300">
                   {story.subtitle}
                 </p>
               ) : null}
@@ -312,7 +323,7 @@ export function StoryReadingMode({
                       {toFaNumber(index + 1)}
                     </span>
 
-                    <h2 className="text-2xl font-black leading-10 text-zinc-900 dark:text-white">
+                    <h2 className="md:text-2xl text-lg font-black leading-10 text-zinc-900 dark:text-white">
                       {section.title}
                     </h2>
                   </div>
@@ -320,7 +331,7 @@ export function StoryReadingMode({
                   <StoryRichText
                     characters={characters}
                     html={section.content}
-                    className="character-story text-[1.45rem] leading-[2.9] text-shah-black-800 dark:text-shah-cream-100/88"
+                    className="character-story text-lg md:text-xl leading-[2.9] text-shah-black-800 dark:text-shah-cream-100/88"
                   />
 
                   {section.image ? (

@@ -347,7 +347,7 @@ function Hero({ character }: { character: Character }) {
               href="/characters"
               className="text-primary/70 transition hover:text-accent dark:text-white/70 dark:hover:text-white"
             >
-              پهلوانان
+              ناموران
             </Link>
           </div>
 
@@ -637,7 +637,9 @@ function RelatedCharactersSection({ characters }: { characters: Character[] }) {
                   fill
                   sizes="64px"
                   className="object-cover"
-                  unoptimized={shouldUseUnoptimizedImage(character.portraitImage)}
+                  unoptimized={shouldUseUnoptimizedImage(
+                    character.portraitImage,
+                  )}
                 />
               ) : (
                 character.name.slice(0, 1)
@@ -667,7 +669,7 @@ function QuickInfo({
   relatedStories: Story[];
 }) {
   return (
-    <section className="relative overflow-hidden rounded-[2.35rem] border border-shah-gold-500/25 bg-linear-to-br from-white via-shah-cream-50 to-shah-gold-50/70 p-4 text-right shadow-2xl shadow-shah-black-900/10 backdrop-blur-xl dark:border-shah-gold-400/25 dark:from-white/[0.07] dark:via-[#101010]/95 dark:to-black/70 dark:shadow-black/50">
+    <section className="relative overflow-hidden rounded-[2.35rem] border border-shah-gold-500/25 bg-linear-to-br from-white via-shah-cream-50 to-shah-gold-50/70 p-3 text-right shadow-2xl shadow-shah-black-900/10 backdrop-blur-xl dark:border-shah-gold-400/25 dark:from-white/[0.07] dark:via-[#101010]/95 dark:to-black/70 dark:shadow-black/50 sm:p-4">
       <div className="pointer-events-none absolute inset-0 rounded-[2.35rem] ring-1 ring-inset ring-shah-gold-500/10 dark:ring-white/5" />
       <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-shah-gold-400/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-20 bottom-10 h-44 w-44 rounded-full bg-shah-lapis-500/15 blur-3xl" />
@@ -686,20 +688,20 @@ function QuickInfo({
         </div>
       ) : null}
 
-      <div className="relative px-3 py-7">
+      <div className="relative px-1 py-6 sm:px-3 sm:py-7">
         <div className="mx-auto mb-5 h-px w-28 bg-linear-to-r from-transparent via-shah-gold-400/70 to-transparent" />
 
-        <h2 className="text-center text-3xl font-black text-shah-black-900 dark:text-white">
+        <h2 className="text-center text-2xl font-black text-shah-black-900 dark:text-white sm:text-3xl">
           {character.name}
         </h2>
 
         {character.title ? (
-          <p className="mt-2 text-center text-sm font-bold leading-7 text-shah-gold-700 dark:text-shah-gold-300">
+          <p className="mx-auto mt-2 max-w-xs text-center text-sm font-bold leading-7 text-shah-gold-700 dark:text-shah-gold-300">
             {character.title}
           </p>
         ) : null}
 
-        <dl className="mt-8 overflow-hidden rounded-3xl border border-shah-gold-500/15 bg-white/55 dark:border-white/8 dark:bg-black/20">
+        <dl className="mt-7 overflow-hidden rounded-[1.6rem] border border-shah-gold-500/15 bg-white/60 shadow-[0_16px_35px_rgba(26,26,26,0.06)] dark:border-white/8 dark:bg-black/20 dark:shadow-none sm:mt-8 sm:rounded-3xl">
           <InfoRow label="نقش" value={character.role} />
           <InfoRow label="ملیت" value={character.nationality} />
           <InfoRow label="معنای نام" value={character.nameMeaning} />
@@ -712,11 +714,16 @@ function QuickInfo({
           />
         </dl>
 
-        <div className="mt-5 rounded-3xl border border-shah-gold-500/15 bg-white/50 p-4 dark:border-white/8 dark:bg-black/20">
-          <h3 className="text-sm font-black text-shah-gold-700 dark:text-shah-gold-300">
-            پیوندهای نزدیک
-          </h3>
-          <div className="mt-3 grid gap-2">
+        <div className="mt-5 rounded-[1.6rem] border border-shah-gold-500/15 bg-white/55 p-4 shadow-[0_16px_35px_rgba(26,26,26,0.05)] dark:border-white/8 dark:bg-black/20 dark:shadow-none sm:rounded-3xl">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-sm font-black text-shah-gold-700 dark:text-shah-gold-300">
+              پیوندهای نزدیک
+            </h3>
+
+            <span className="h-px flex-1 bg-linear-to-l from-shah-gold-400/35 to-transparent" />
+          </div>
+
+          <div className="mt-3 grid gap-2.5">
             <MiniRelation
               label="پدر"
               value={family.father?.name || character.father}
@@ -741,13 +748,16 @@ function QuickInfo({
 
 function MiniRelation({ label, value }: { label: string; value?: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-shah-gold-500/7 px-3 py-2 text-xs font-bold">
-      <span className="text-shah-gold-700 dark:text-shah-gold-300">
-        {label}
-      </span>
-      <span className="truncate text-shah-black-800 dark:text-zinc-200">
-        {value || "ثبت نشده"}
-      </span>
+    <div className="group rounded-2xl border border-shah-gold-500/10 bg-shah-gold-500/7 px-4 py-3 transition-all hover:border-shah-gold-500/25 hover:bg-shah-gold-500/10 dark:border-white/8 dark:bg-white/[0.035] dark:hover:bg-white/5.5">
+      <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <span className="text-xs font-black text-shah-gold-700 dark:text-shah-gold-300">
+          {label}
+        </span>
+
+        <span className="min-w-0 text-sm font-bold leading-7 text-shah-black-800 dark:text-zinc-200 sm:text-left">
+          {value || "ثبت نشده"}
+        </span>
+      </div>
     </div>
   );
 }
@@ -756,18 +766,19 @@ function InfoRow({ label, value }: { label: string; value?: string }) {
   if (!value) return null;
 
   return (
-    <div className="group grid grid-cols-[6.5rem_1fr] items-start gap-4 border-b border-shah-gold-500/15 px-4 py-4 last:border-b-0 transition hover:bg-shah-gold-500/4.5 dark:border-white/8 dark:hover:bg-white/[0.035]">
-      <dt className="text-right text-sm font-black text-shah-gold-700 dark:text-shah-gold-300">
-        {label}
-      </dt>
+    <div className="group border-b border-shah-gold-500/15 last:border-b-0 transition hover:bg-shah-gold-500/4.5 dark:border-white/8 dark:hover:bg-white/[0.035]">
+      <div className="flex flex-col gap-1.5 px-4 py-4 sm:grid sm:grid-cols-[6.5rem_1fr] sm:items-start sm:gap-4 sm:px-5">
+        <dt className="text-right text-xs font-black tracking-tight text-shah-gold-700/90 dark:text-shah-gold-300 sm:text-sm">
+          {label}
+        </dt>
 
-      <dd className="text-right text-sm font-semibold leading-7 text-shah-black-800 dark:text-zinc-200">
-        {value}
-      </dd>
+        <dd className="text-right text-sm font-semibold leading-7 text-shah-black-800 dark:text-zinc-200">
+          {value}
+        </dd>
+      </div>
     </div>
   );
 }
-
 const traitToneClasses: Record<
   TraitTone,
   {

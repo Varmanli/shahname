@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
 
-import { AnalyticsTracker } from "@/components/analytics-tracker";
-import { BackToTopButton } from "@/components/back-to-top-button";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
+import { SiteChromeProvider } from "@/components/site-chrome-context";
+import { SiteLayoutClient } from "@/components/site-layout-client";
 
 type SiteLayoutProps = {
   children: ReactNode;
@@ -18,12 +16,13 @@ export function SiteLayout({
   disableAnalytics = false,
 }: SiteLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground font-sans">
-      <Header />
-      <div className={withHeaderOffset ? "" : undefined}>{children}</div>
-      <Footer />
-      <BackToTopButton />
-      {disableAnalytics ? null : <AnalyticsTracker />}
-    </div>
+    <SiteChromeProvider>
+      <SiteLayoutClient
+        withHeaderOffset={withHeaderOffset}
+        disableAnalytics={disableAnalytics}
+      >
+        {children}
+      </SiteLayoutClient>
+    </SiteChromeProvider>
   );
 }

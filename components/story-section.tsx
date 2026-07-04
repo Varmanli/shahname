@@ -26,7 +26,7 @@ export function StorySection({
   return (
     <section
       id={anchorId}
-      className="grid scroll-mt-28 gap-6 border-b border-border/70 py-12 last:border-b-0"
+      className="grid scroll-mt-28 gap-6 px-3 md:px-0 border-b border-border/70 py-12 last:border-b-0"
     >
       <div className="mb-8 flex items-center gap-4" dir="rtl">
         {sectionNumber ? (
@@ -47,14 +47,14 @@ export function StorySection({
           </span>
         ) : null}
 
-        <h2 className="text-2xl font-black leading-10 text-zinc-900 dark:text-white">
+        <h2 className="text-xl md:text-2xl font-black leading-10 text-zinc-900 dark:text-white">
           {section.title}
         </h2>
       </div>
       <StoryRichText
         characters={characters}
         html={section.content}
-        className="character-story text-right text-xl leading-loose text-shah-black-800 dark:text-zinc-200/90"
+        className="character-story text-right md:text-lg leading-loose text-shah-black-800 dark:text-zinc-200/90"
       />
       <div className="my-4 flex items-center justify-center gap-3">
         <span className="h-px w-20 bg-linear-to-l from-transparent to-shah-gold-500/45" />

@@ -19,7 +19,7 @@ export function CharactersSection({
     : false;
 
   return (
-    <section className="relative mx-auto w-full max-w-7xl px-6 py-40">
+    <section className="relative mx-auto w-full max-w-7xl px-6 py-20">
       {/* هدر بازطراحی شده: تمیز، لوکس و متین */}
       <header className="relative mb-40 flex flex-col items-center text-center">
         {/* متن بالای هدر - بسیار ریز و با فاصله حروف زیاد */}
@@ -29,7 +29,7 @@ export function CharactersSection({
           </span>
         </div>
 
-        <h2 className="text-6xl font-black tracking-tighter text-zinc-900 md:text-8xl dark:text-white">
+        <h2 className="text-4xl font-black tracking-tighter text-zinc-900 md:text-8xl dark:text-white">
           ناموران{" "}
           <span className="text-shah-gold-500 drop-shadow-sm">شاهنامه</span>
         </h2>
