@@ -1,4 +1,4 @@
-import { saveUploadedImage } from "@/lib/upload-parser";
+import { saveUploadedImageAsset } from "@/lib/upload-parser";
 import { requireAdminRequest } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
@@ -19,9 +19,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const url = await saveUploadedImage(image);
+    const uploaded = await saveUploadedImageAsset(image);
 
-    return Response.json({ url }, { status: 201 });
+    return Response.json(
+      { key: uploaded.key, url: uploaded.url },
+      { status: 201 },
+    );
   } catch (error) {
     return Response.json(
       {

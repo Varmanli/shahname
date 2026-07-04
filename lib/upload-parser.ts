@@ -10,11 +10,15 @@ const allowedImageTypes = new Set([
   "image/svg+xml",
 ]);
 
-export async function saveUploadedImage(file: File) {
+export async function saveUploadedImageAsset(file: File) {
   if (!allowedImageTypes.has(file.type)) {
     throw new Error("فقط فایل تصویری jpeg، png، webp، gif یا svg مجاز است.");
   }
 
-  const uploaded = await saveUploadedFile(file);
+  return saveUploadedFile(file);
+}
+
+export async function saveUploadedImage(file: File) {
+  const uploaded = await saveUploadedImageAsset(file);
   return uploaded.url;
 }

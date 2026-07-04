@@ -27,14 +27,16 @@ npm run media:backfill:uploads
 
 ## Uploads
 
-Uploaded files are stored on local disk under `uploads/` by default and served by the app from same-domain paths like `/uploads/2026/07/file.webp`.
+Uploaded files are stored in Arvan Cloud / S3 and served by the app from same-domain paths like `/uploads/2026/07/file.webp`.
 
-Environment variables:
+The database should store relative asset URLs such as `/uploads/2026/07/file.webp`.
+The underlying Arvan object key remains `uploads/2026/07/file.webp`.
 
-- `UPLOAD_DIR`: optional absolute or relative storage directory. Defaults to `./uploads`.
-- `NEXT_PUBLIC_UPLOAD_BASE_URL`: optional public base URL. Leave unset to use `/uploads`.
+If an existing database still contains absolute Arvan URLs, normalize them once:
 
-Production deployments need a persistent volume mounted at the upload directory.
+```bash
+npm run media:backfill:uploads
+```
 
 - Empty database: run `npm run db:migrate`, then create content normally.
 - Existing database: run `npm run db:migrate`, then `npm run media:backfill:uploads` once.

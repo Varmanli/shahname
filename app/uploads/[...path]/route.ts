@@ -1,85 +1,111 @@
-import { extractUploadKey, getContentTypeForPath, readStoredUpload } from "@/lib/uploads";
+import { Readable } from "node:stream";
+
+import { getContentTypeForPath } from "@/lib/uploads";
+import {
+  getArvanObject,
+  headArvanObject,
+} from "@/lib/server/arvan-storage";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-function responseHeaders(contentType: string, size: number) {
-  return {
+type RouteContext = {
+  params: Promise<{ path: string[] }>;
+};
+
+function createObjectKey(pathSegments: string[]) {
+  return ["uploads", ...pathSegments].join("/");
+}
+
+function createHeaders(contentType: string, contentLength?: number) {
+  const headers = new Headers({
     "Cache-Control": "public, max-age=31536000, immutable",
-    "Content-Length": String(size),
     "Content-Type": contentType,
-  };
-}
+  });
 
-async function buildUploadResponse(pathSegments: string[]) {
-  const joined = pathSegments.join("/");
-  const key = extractUploadKey(`/uploads/${joined}`);
-
-  if (!key) {
-    return Response.json({ message: "فایل پیدا نشد." }, { status: 404 });
+  if (typeof contentLength === "number") {
+    headers.set("Content-Length", String(contentLength));
   }
 
-  try {
-    const upload = await readStoredUpload(key);
-    const contentType = getContentTypeForPath(upload.absolutePath);
-
-    return new Response(
-      Uint8Array.from(upload.buffer),
-      {
-        status: 200,
-        headers: responseHeaders(contentType, upload.size),
-      },
-    );
-  } catch {
-    return Response.json({ message: "فایل پیدا نشد." }, { status: 404 });
-  }
+  return headers;
 }
 
-async function getPathSegments(paramsPromise: Promise<unknown>) {
-  const params = await paramsPromise;
-
+function bodyToWebStream(body: unknown): ReadableStream<Uint8Array> | null {
   if (
-    typeof params === "object" &&
-    params !== null &&
-    "path" in params &&
-    Array.isArray(params.path)
+    typeof body === "object" &&
+    body !== null &&
+    "transformToWebStream" in body &&
+    typeof body.transformToWebStream === "function"
   ) {
-    return params.path.filter(
-      (segment): segment is string => typeof segment === "string",
-    );
+    return body.transformToWebStream();
   }
 
-  return [];
-}
-
-export async function GET(
-  _request: Request,
-  context: { params: Promise<unknown> },
-) {
-  return buildUploadResponse(await getPathSegments(context.params));
-}
-
-export async function HEAD(
-  _request: Request,
-  context: { params: Promise<unknown> },
-) {
-  const path = await getPathSegments(context.params);
-  const joined = path.join("/");
-  const key = extractUploadKey(`/uploads/${joined}`);
-
-  if (!key) {
-    return new Response(null, { status: 404 });
+  if (body instanceof Readable) {
+    return Readable.toWeb(body) as ReadableStream<Uint8Array>;
   }
+
+  return null;
+}
+
+function isMissingObjectError(error: unknown) {
+  return (
+    typeof error === "object" &&
+      error !== null &&
+      ("name" in error
+        ? error.name === "NoSuchKey" || error.name === "NotFound"
+        : false)
+  );
+}
+
+export async function GET(_request: Request, context: RouteContext) {
+  const { path } = await context.params;
+  const key = createObjectKey(path);
 
   try {
-    const upload = await readStoredUpload(key);
-    const contentType = getContentTypeForPath(upload.absolutePath);
+    const object = await getArvanObject(key);
+    const body = bodyToWebStream(object.Body);
+
+    if (!body) {
+      return new Response("Not found", { status: 404 });
+    }
+
+    return new Response(body, {
+      status: 200,
+      headers: createHeaders(
+        object.ContentType || getContentTypeForPath(key),
+        object.ContentLength,
+      ),
+    });
+  } catch (error) {
+    if (isMissingObjectError(error)) {
+      return new Response("Not found", { status: 404 });
+    }
+
+    console.error("Failed to read upload from Arvan S3", { error, key });
+    return new Response("Not found", { status: 404 });
+  }
+}
+
+export async function HEAD(_request: Request, context: RouteContext) {
+  const { path } = await context.params;
+  const key = createObjectKey(path);
+
+  try {
+    const object = await headArvanObject(key);
 
     return new Response(null, {
       status: 200,
-      headers: responseHeaders(contentType, upload.size),
+      headers: createHeaders(
+        object.ContentType || getContentTypeForPath(key),
+        object.ContentLength,
+      ),
     });
-  } catch {
+  } catch (error) {
+    if (isMissingObjectError(error)) {
+      return new Response(null, { status: 404 });
+    }
+
+    console.error("Failed to head upload from Arvan S3", { error, key });
     return new Response(null, { status: 404 });
   }
 }

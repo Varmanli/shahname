@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const uploaded = await saveUploadedFile(file);
 
     return Response.json(
-      { success: true, key: uploaded.key, url: uploaded.url },
+      { key: uploaded.key, url: uploaded.url },
       { status: 201 },
     );
   } catch (error) {
