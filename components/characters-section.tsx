@@ -21,7 +21,7 @@ export function CharactersSection({
   return (
     <section className="relative mx-auto w-full max-w-7xl px-6 py-20">
       {/* هدر بازطراحی شده: تمیز، لوکس و متین */}
-      <header className="relative mb-40 flex flex-col items-center text-center">
+      <header className="relative mb-20 flex flex-col items-center text-center">
         {/* متن بالای هدر - بسیار ریز و با فاصله حروف زیاد */}
         <div className="mb-4 flex items-center gap-3">
           <span className="text-[9px] font-bold uppercase tracking-[0.8em] text-shah-gold-600/60">
@@ -29,7 +29,7 @@ export function CharactersSection({
           </span>
         </div>
 
-        <h2 className="text-4xl font-black tracking-tighter text-zinc-900 md:text-8xl dark:text-white">
+        <h2 className="text-5xl font-black tracking-tighter text-zinc-900 md:text-8xl dark:text-white">
           ناموران{" "}
           <span className="text-shah-gold-500 drop-shadow-sm">شاهنامه</span>
         </h2>
@@ -43,7 +43,7 @@ export function CharactersSection({
 
       {/* گرید متقارن و قدرتمند */}
       {displayedCharacters.length > 0 ? (
-        <div className="grid grid-cols-1 gap-x-12 gap-y-24 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-12 md:gap-y-24 sm:grid-cols-2 lg:grid-cols-3">
           {displayedCharacters.map((character) => (
             <div key={character.id} className="relative flex justify-center">
               <CharacterCard character={character} />
@@ -70,7 +70,7 @@ export function CharactersSection({
               {/* المان لوزی سمت راست */}
               <div className="h-2 w-2 rotate-45 border border-shah-gold-300 opacity-50 transition-all duration-500 group-hover:rotate-180 group-hover:border-shah-gold-400 group-hover:opacity-100" />
 
-              <span className="text-lg font-black tracking-tight text-shah-gold-50 transition-colors duration-500 group-hover:text-white">
+              <span className="md:text-lg  font-black tracking-tight text-shah-gold-50 transition-colors duration-500 group-hover:text-white">
                 مشاهده تالار کامل
               </span>
 

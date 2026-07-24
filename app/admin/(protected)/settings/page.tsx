@@ -55,7 +55,7 @@ export default async function SettingsPage() {
 
           <div className="grid gap-2 sm:grid-cols-2 lg:w-88">
             <SettingsStat label="شخصیت‌ها" value={characters.length} />
-            <SettingsStat label="داستان‌ها" value={stories.length} />
+            <SettingsStat label="روایت‌ها" value={stories.length} />
           </div>
         </div>
       </section>
@@ -74,7 +74,7 @@ export default async function SettingsPage() {
             <AdminField label="توضیح کوتاه">
               <AdminTextarea
                 className="min-h-28 resize-y py-3 text-sm leading-7"
-                defaultValue="پایگاه داستان‌ها و شخصیت‌های شاهنامه"
+                defaultValue="پایگاه روایت‌ها و شخصیت‌های شاهنامه"
               />
             </AdminField>
           </div>
@@ -83,7 +83,7 @@ export default async function SettingsPage() {
         <SettingsCard
           icon={<FiStar aria-hidden className="size-4" />}
           title="آیتم‌های ویژه صفحه اصلی"
-          description="شخصیت‌ها و داستان‌هایی که در صفحه اصلی برجسته نمایش داده می‌شوند."
+          description="شخصیت‌ها و روایت‌ها که در صفحه اصلی برجسته نمایش داده می‌شوند."
         >
           <HomeFeaturedSettings
             characters={characters}

@@ -6,13 +6,13 @@ import { SiteLayout } from "@/components/site-layout";
 export const metadata: Metadata = {
   title: "صفحه پیدا نشد",
   description:
-    "این برگ از شاهنامه پیدا نشد. به خانه بازگردید یا در میان داستان‌ها و شخصیت‌ها جست‌وجو کنید.",
+    "این برگ از شاهنامه پیدا نشد. به خانه بازگردید یا در میان روایت‌ها و شخصیت‌ها جست‌وجو کنید.",
   robots: { index: false, follow: true },
 };
 
 const actions = [
   { href: "/", label: "بازگشت به خانه", primary: true },
-  { href: "/stories", label: "مشاهده داستان‌ها", primary: false },
+  { href: "/stories", label: "مشاهده روایت‌ها", primary: false },
   { href: "/characters", label: "مشاهده شخصیت‌ها", primary: false },
 ];
 
@@ -24,14 +24,14 @@ export default function NotFound() {
         className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-32 text-center text-shah-black-900 dark:text-shah-cream-100"
       >
         {/* درخشش‌های محیطی نرم */}
-        <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-shah-gold-500/10 blur-[140px] dark:bg-shah-gold-500/12" />
+        <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-136 w-136 -translate-x-1/2 rounded-full bg-shah-gold-500/10 blur-[140px] dark:bg-shah-gold-500/12" />
         <div className="pointer-events-none absolute -bottom-20 right-1/4 -z-10 h-96 w-96 rounded-full bg-shah-lapis-500/10 blur-[120px]" />
 
         <section className="relative w-full max-w-2xl">
           {/* کارت الهام‌گرفته از نسخه‌های خطی */}
           <div className="relative overflow-hidden rounded-[2.5rem] border border-shah-gold-500/25 bg-white/80 p-10 shadow-2xl shadow-shah-black-900/10 backdrop-blur-2xl dark:border-shah-gold-400/20 dark:bg-shah-black-900/70 md:p-16">
             {/* قاب تزئینی داخلی */}
-            <div className="pointer-events-none absolute inset-4 rounded-[2rem] border border-shah-gold-500/15 dark:border-white/10" />
+            <div className="pointer-events-none absolute inset-4 rounded-4xl border border-shah-gold-500/15 dark:border-white/10" />
             <div className="pointer-events-none absolute -left-20 -top-20 size-56 rounded-full bg-shah-gold-500/10 blur-3xl" />
 
             <div className="relative">
@@ -55,7 +55,7 @@ export default function NotFound() {
 
               <p className="mx-auto mt-6 max-w-xl text-sm font-semibold leading-8 text-shah-black-500 dark:text-zinc-300 md:text-base">
                 شاید این روایت در گذر زمان گم شده باشد، اما می‌توانید به خانه
-                بازگردید یا در میان داستان‌ها و شخصیت‌ها جست‌وجو کنید.
+                بازگردید یا در میان روایت‌ها و شخصیت‌ها جست‌وجو کنید.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center justify-center gap-3">

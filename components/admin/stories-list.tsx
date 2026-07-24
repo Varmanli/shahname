@@ -46,7 +46,7 @@ type StorySort =
 const PAGE_SIZE = 9;
 
 const filterOptions: Array<{ label: string; value: StoryFilter }> = [
-  { label: "همه داستان‌ها", value: "all" },
+  { label: "همه روایت‌ها", value: "all" },
   { label: "دارای کاور", value: "has-cover" },
   { label: "بدون کاور", value: "no-cover" },
   { label: "دارای بخش", value: "has-sections" },
@@ -464,13 +464,7 @@ function StoryStat({
   );
 }
 
-function MetaBadge({
-  icon,
-  label,
-}: {
-  icon?: React.ReactNode;
-  label: string;
-}) {
+function MetaBadge({ icon, label }: { icon?: React.ReactNode; label: string }) {
   return (
     <span className="inline-flex h-7 items-center gap-1.5 rounded-full border border-shah-gold-500/14 bg-shah-gold-500/8 px-2.5 text-[10px] font-black text-shah-gold-800 dark:border-shah-gold-300/12 dark:text-shah-gold-100 [&>svg]:size-3.5">
       {icon}

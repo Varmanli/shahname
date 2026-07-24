@@ -29,7 +29,7 @@ const menuItems = [
     hint: "خاندان‌ها",
   },
   {
-    label: "داستان‌ها",
+    label: "روایت‌ها",
     href: "/admin/stories",
     icon: FiBookOpen,
     hint: "روایت‌ها",

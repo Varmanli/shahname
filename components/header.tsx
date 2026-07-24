@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
   { name: "خانه", href: "/" },
-  { name: "داستان‌ها", href: "/stories" },
+  { name: "روایت‌ها", href: "/stories" },
   { name: "شخصیت‌ها", href: "/characters" },
   { name: "تبارنامه‌ها", href: "/lineage" },
   { name: "درباره شاهنامه", href: "/about" },

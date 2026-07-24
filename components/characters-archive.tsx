@@ -203,7 +203,7 @@ export function CharactersArchive({
 
       {!isPending && result.items.length ? (
         <>
-          <div className="relative z-0 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10">
+          <div className="relative z-0 grid grid-cols-1 gap-x-6 md:gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10">
             {result.items.map((character) => (
               <div key={character.id} className="animate-fade-up">
                 <CharacterCard character={character} />

@@ -3,7 +3,7 @@ import Link from "next/link";
 const footerLinks = [
   { label: "خانه", href: "/" },
   { label: "شخصیت‌ها", href: "/characters" },
-  { label: "داستان‌ها", href: "/stories" },
+  { label: "روایت‌ها", href: "/stories" },
   { label: "درباره شاهنامه", href: "/about" },
 ];
 
@@ -20,7 +20,7 @@ export function Footer() {
             شاهـ<span className="text-shah-gold-500">نامه</span>
           </h2>
           <p className="mt-6 max-w-md text-sm leading-7 text-zinc-500 dark:text-zinc-400">
-            پایگاهی برای مرور شخصیت‌ها، داستان‌ها و جهان حماسی شاهنامه؛ جایی که
+            پایگاهی برای مرور شخصیت‌ها، روایت‌ها و جهان حماسی شاهنامه؛ جایی که
             اساطیر دگر بار جان می‌گیرند.
           </p>
         </div>

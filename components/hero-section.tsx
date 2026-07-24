@@ -32,7 +32,7 @@ export function HeroSection() {
             </h1>
 
             <p className="hero-reveal hero-reveal-delay-1 mx-auto max-w-lg text-base md:mx-0 md:text-lg font-medium leading-relaxed text-white">
-              گام در راه داستان‌های کهن ایران؛ <br />
+              گام در راه روایت‌های کهن ایران؛ <br />
               <span className="text-white">
                 از نخستین شاهان تا دلاوری‌های رستم و سهراب.
               </span>
@@ -57,7 +57,7 @@ export function HeroSection() {
                 "h-14 px-8 text-lg font-bold shadow-[0_0_20px_rgba(59,130,246,0.2)] transition-all border border-white/80 bg-white/10 text-white hover:bg-white/15 hover:border-white/40",
               )}
             >
-              داستان‌های حماسی
+              روایت‌های حماسی
             </Link>
           </div>
         </div>

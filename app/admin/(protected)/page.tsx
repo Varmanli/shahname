@@ -83,7 +83,7 @@ export default async function AdminDashboardPage() {
         <StatCard
           icon={<FiBookOpen aria-hidden className="size-6" />}
           label="روایت‌ها"
-          helper="داستان‌های ثبت‌شده"
+          helper="روایت‌های ثبت‌شده"
           tone="emerald"
           value={stories.length}
         />

@@ -22,7 +22,7 @@ const importanceItems = [
   },
   {
     description:
-      "در دل داستان‌ها، تصویری از حافظه جمعی، آیین‌ها و جهان‌بینی ایرانی دیده می‌شود.",
+      "در دل روایت‌ها تصویری از حافظه جمعی، آیین‌ها و جهان‌بینی ایرانی دیده می‌شود.",
     icon: "◆",
     title: "هویت ایرانی",
   },
@@ -93,7 +93,7 @@ export default function AboutPage() {
               <p className="mt-6 text-base font-semibold leading-9 text-shah-black-600 dark:text-zinc-300 md:text-lg">
                 شاهنامه، اثر جاودان حکیم ابوالقاسم فردوسی، یکی از ستون‌های بزرگ
                 فرهنگ ایرانی است؛ روایتی عظیم از آفرینش، شهریاری، پهلوانی، عشق،
-                سوگ، خرد و سرنوشت. این اثر فقط مجموعه‌ای از داستان‌ها نیست؛
+                سوگ، خرد و سرنوشت. این اثر فقط مجموعه‌ای از روایت‌ها نیست؛
                 نقشه‌ای از حافظه فرهنگی ایران است.
               </p>
 
@@ -168,7 +168,7 @@ export default function AboutPage() {
 
                   <p className="mt-6 max-w-3xl text-base font-semibold leading-9 text-shah-black-600 dark:text-shah-cream-100/82 md:text-lg">
                     شاهنامه‌سرا تلاشی است برای بازنمایی جهان شاهنامه در قالبی
-                    امروزی، تعاملی و قابل جستجو؛ جایی که داستان‌ها، شخصیت‌ها و
+                    امروزی، تعاملی و قابل جستجو؛ جایی که روایت‌ها شخصیت‌ها و
                     پیوندهای روایی فقط خوانده نمی‌شوند، بلکه کشف می‌شوند.
                   </p>
 
@@ -266,7 +266,9 @@ function SectionHeader({
 
       <h2
         className={`mt-3 text-3xl font-black tracking-tight md:text-5xl ${
-          inverse ? "text-shah-black-950 dark:text-white" : "text-shah-black-950 dark:text-white"
+          inverse
+            ? "text-shah-black-950 dark:text-white"
+            : "text-shah-black-950 dark:text-white"
         }`}
       >
         {title}

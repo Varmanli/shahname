@@ -13,7 +13,7 @@ export function StoriesSection({ stories }: StoriesSectionProps) {
   return (
     <section className="relative mx-auto w-full max-w-7xl px-6 pb-10">
       {/* هدر بازطراحی شده: کاملاً یکسان با بخش شخصیت‌ها */}
-      <header className="relative mb-40 flex flex-col items-center text-center">
+      <header className="relative mb-20 flex flex-col items-center text-center">
         <div className="mb-4 flex items-center gap-3">
           <span className="text-[9px] font-bold uppercase tracking-[0.8em] text-shah-gold-600/60">
             Chronicles of Ancient Kings
@@ -54,7 +54,7 @@ export function StoriesSection({ stories }: StoriesSectionProps) {
         </div>
       )}
       {/* دکمه "مشاهده دیوان کامل" - کپی دقیق دکمه تالار شخصیت‌ها */}
-      <div className="mt-32 flex justify-center">
+      <div className=" flex justify-center">
         <Link
           href="/stories"
           className="group relative inline-flex h-16 items-center justify-center px-16 overflow-hidden rounded-xl bg-shah-lapis-700 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(26,62,141,0.4)] active:scale-95"

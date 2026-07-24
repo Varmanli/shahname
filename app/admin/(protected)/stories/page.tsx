@@ -5,7 +5,7 @@ import { StoriesList } from "@/components/admin/stories-list";
 import { readStories } from "@/lib/story-store";
 
 export const metadata: Metadata = {
-  title: "مدیریت داستان‌ها",
+  title: "مدیریت روایت‌ها",
 };
 
 export const dynamic = "force-dynamic";
@@ -19,8 +19,8 @@ export default async function StoriesAdminPage() {
   return (
     <>
       <AdminPageHeader
-        title="همه داستان‌ها"
-        description="مدیریت، جستجو، ویرایش و حذف داستان‌های شاهنامه."
+        title="همه روایت‌ها"
+        description="مدیریت، جستجو، ویرایش و حذف روایت‌ها شاهنامه."
         actionHref="/admin/stories/new"
         actionLabel="ایجاد داستان جدید"
       />

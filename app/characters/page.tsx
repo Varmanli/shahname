@@ -23,7 +23,9 @@ type CharactersPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function CharactersPage({ searchParams }: CharactersPageProps) {
+export default async function CharactersPage({
+  searchParams,
+}: CharactersPageProps) {
   const characters = await readCharacters();
   const params = await searchParams;
   const parsed = parseArchiveParams(params);
@@ -58,7 +60,7 @@ export default async function CharactersPage({ searchParams }: CharactersPagePro
 }
 
 function uniqueSorted(values: string[]) {
-  return Array.from(new Set(values.map((value) => value.trim()).filter(Boolean))).sort(
-    (a, b) => a.localeCompare(b, "fa"),
-  );
+  return Array.from(
+    new Set(values.map((value) => value.trim()).filter(Boolean)),
+  ).sort((a, b) => a.localeCompare(b, "fa"));
 }
