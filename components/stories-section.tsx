@@ -57,7 +57,7 @@ export function StoriesSection({ stories }: StoriesSectionProps) {
       <div className=" flex justify-center">
         <Link
           href="/stories"
-          className="group relative inline-flex h-16 items-center justify-center px-16 overflow-hidden rounded-xl bg-shah-lapis-700 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(26,62,141,0.4)] active:scale-95"
+          className="group relative inline-flex h-14 items-center justify-center px-8 overflow-hidden rounded-xl bg-shah-lapis-700 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(26,62,141,0.4)] active:scale-95 md:h-16 md:px-16"
         >
           <div className="absolute inset-0 bg-linear-to-r from-shah-lapis-800 via-shah-lapis-600 to-shah-lapis-800 opacity-100 transition-all duration-500 group-hover:via-shah-lapis-500" />
           <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-full" />

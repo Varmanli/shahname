@@ -210,7 +210,6 @@
 @layer base {
   html {
     background: var(--background);
-    scroll-behavior: smooth;
   }
 
   body {

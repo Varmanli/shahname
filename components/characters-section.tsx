@@ -57,7 +57,7 @@ export function CharactersSection({
         <div className="mt-20 flex justify-center">
           <Link
             href={viewAllHref}
-            className="group relative inline-flex h-16 items-center justify-center px-16 overflow-hidden rounded-xl bg-shah-lapis-700 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(26,62,141,0.4)] active:scale-95"
+            className="group relative inline-flex h-14 items-center justify-center px-8 overflow-hidden rounded-xl bg-shah-lapis-700 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(26,62,141,0.4)] active:scale-95 md:h-16 md:px-16"
           >
             {/* افکت نوری پس‌زمینه (Glow) */}
             <div className="absolute inset-0 bg-linear-to-r from-shah-lapis-800 via-shah-lapis-600 to-shah-lapis-800 opacity-100 transition-all duration-500 group-hover:via-shah-lapis-500" />

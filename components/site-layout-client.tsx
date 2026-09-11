@@ -1,6 +1,8 @@
 "use client";
 
+import { useLayoutEffect } from "react";
 import type { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 
 import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { BackToTopButton } from "@/components/back-to-top-button";
@@ -20,6 +22,15 @@ export function SiteLayoutClient({
   disableAnalytics = false,
 }: SiteLayoutClientProps) {
   const { isImmersiveMode } = useSiteChrome();
+  const pathname = usePathname();
+
+  useLayoutEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div

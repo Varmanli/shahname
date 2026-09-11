@@ -148,25 +148,8 @@ export default async function CharacterPage({ params }: CharacterPageProps) {
     character.shortDescription
       ? {
           id: "intro",
-          label: "معرفی کوتاه",
+          label: "معرفی",
           children: <IntroSection character={character} />,
-        }
-      : null,
-    character.fullDescription
-      ? {
-          id: "story",
-          label: "روایت کامل",
-          children: (
-            <TextCard title="روایت کامل" centeredTitle>
-              <article
-                id="full-story"
-                className="character-story prose max-w-none text-right text-[15px] leading-8 text-shah-black-800 dark:prose-invert dark:text-zinc-200/90 md:text-base md:leading-9"
-                dangerouslySetInnerHTML={{
-                  __html: character.fullDescription,
-                }}
-              />
-            </TextCard>
-          ),
         }
       : null,
     character.traits.length
@@ -497,7 +480,7 @@ function Hero({ character }: { character: Character }) {
 
 function IntroSection({ character }: { character: Character }) {
   return (
-    <TextCard title="معرفی کوتاه">
+    <TextCard title="معرفی">
       <article
         className="character-story relative mt-5 text-right text-[15px] font-medium leading-8 text-shah-black-800 dark:text-zinc-200/90 md:text-base md:leading-9"
         dangerouslySetInnerHTML={{

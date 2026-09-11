@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { FiMenu, FiSearch, FiX, FiChevronLeft } from "react-icons/fi";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -35,11 +36,11 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 z-50 flex w-full justify-center px-4 transition-all duration-500 ${
-        scrolled ? "top-3 py-2" : "top-0 py-3"
+        scrolled ? "top-3 py-2" : "top-0 py-2"
       }`}
     >
       <div
-        className={`relative flex w-full max-w-7xl items-center justify-between gap-4 rounded-[1.75rem] border px-5 py-3 transition-all duration-500 sm:px-6 ${
+        className={`relative flex w-full max-w-7xl items-center justify-between gap-4 rounded-[1.75rem] border px-5 py-2 transition-all duration-500 sm:px-6 ${
           scrolled
             ? "border-shah-gold-300/40 bg-white/88 shadow-[0_22px_55px_rgba(15,23,42,0.14)] backdrop-blur-2xl dark:border-shah-gold-400/18 dark:bg-card/88 dark:shadow-[0_22px_55px_rgba(0,0,0,0.48)]"
             : "border-slate-200/80 bg-white/78 shadow-[0_16px_42px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-border dark:bg-card/72 dark:shadow-[0_16px_42px_rgba(0,0,0,0.34)]"
@@ -48,16 +49,29 @@ export function Header() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-l from-transparent via-shah-gold-300/55 to-transparent" />
         <div className="pointer-events-none absolute -right-20 top-1/2 h-24 w-56 -translate-y-1/2 rounded-full bg-shah-gold-300/16 blur-3xl dark:bg-shah-gold-400/10" />
 
-        <Link href="/" className="group flex shrink-0 items-center gap-3">
-          <span className="relative rounded-full bg-slate-100/90 px-3 py-1.5 text-xl font-black tracking-tight text-slate-900 ring-1 ring-slate-200/80 drop-shadow-[0_2px_10px_rgba(15,23,42,0.08)] transition group-hover:text-shah-gold-600 dark:bg-foreground/6 dark:text-foreground dark:ring-foreground/10 dark:drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] dark:group-hover:text-shah-gold-200 sm:text-2xl">
-            شاهنامه
-            <span className="text-shah-gold-500 dark:text-shah-gold-400">
-              ‌سرا
-            </span>
-          </span>
+        <Link
+          href="/"
+          className="group flex h-10 shrink-0 items-center transition sm:h-14"
+        >
+          <Image
+            src="/logo.png"
+            alt="شاهنامه‌سرا"
+            width={184}
+            height={56}
+            priority
+            className="h-10 w-auto object-contain transition group-hover:opacity-85 dark:hidden sm:h-14"
+          />
+          <Image
+            src="/logo-dark.png"
+            alt="شاهنامه‌سرا"
+            width={184}
+            height={56}
+            priority
+            className="hidden h-10 w-auto object-contain transition group-hover:opacity-85 dark:block sm:h-14"
+          />
         </Link>
 
-        <nav className="hidden items-center gap-x-2 lg:flex">
+        <nav className="hidden translate-y-1 items-center gap-x-2 lg:flex">
           {navItems.map((item) => {
             const isActive = isActivePath(item.href);
 

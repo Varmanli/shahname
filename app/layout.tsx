@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Vazirmatn } from "next/font/google";
+import Script from "next/script";
 import "yet-another-react-lightbox/styles.css";
 import "./globals.css";
 
@@ -149,10 +150,10 @@ export default function RootLayout({
       className={`${vazir.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body className="min-h-full flex flex-col">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <JsonLd data={websiteJsonLd} />
         <JsonLd data={organizationJsonLd} />
         {children}
