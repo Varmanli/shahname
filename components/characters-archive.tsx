@@ -140,7 +140,6 @@ export function CharactersArchive({
     <section className="relative mx-auto w-full max-w-7xl px-4 py-32 sm:px-6 md:py-36">
       <PageHeroHeader
         className="mb-16 md:mb-20"
-        description="جستجو و کاوش در شخصیت‌ها بر پایه نقش، دوره، پیوندهای خانوادگی و متن روایت‌ها."
         eyebrow="The Great Persian Epic"
         highlight="شاهنامه"
         title="ناموران"

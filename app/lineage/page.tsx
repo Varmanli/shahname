@@ -8,7 +8,6 @@ import { buildApprovedLineageTrees } from "@/lib/character-relations";
 import { readCharacters } from "@/lib/character-store";
 import { readLineages } from "@/lib/lineage-store";
 import { readRelationships } from "@/lib/relationship-store";
-import { LineageInfoButton } from "@/components/lineage-info-button";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -45,9 +44,7 @@ export default async function LineagePage({ searchParams }: LineagePageProps) {
       <main className="min-h-screen  px-5 py-24 text-right text-shah-black-900  dark:text-shah-cream-100 md:px-8">
         <section className="mx-auto max-w-7xl">
           <PageHeroHeader
-            action={<LineageInfoButton />}
-            className="my-20 md:mb-36"
-            description="نقشه‌ای تعاملی برای دنبال‌کردن تبارها، پیوندها و نسبت‌های روایی شخصیت‌های شاهنامه."
+            className="mb-16 md:mb-20 mt-14"
             eyebrow="Lineage of Persian Legends"
             highlight="شاهنامه"
             title="تبارنامه"

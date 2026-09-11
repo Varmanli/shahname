@@ -10,12 +10,7 @@ import {
   useState,
   useTransition,
 } from "react";
-import {
-  FiBookOpen,
-  FiFilter,
-  FiSearch,
-  FiX,
-} from "react-icons/fi";
+import { FiBookOpen, FiFilter, FiSearch, FiX } from "react-icons/fi";
 import { HiOutlineClock } from "react-icons/hi2";
 
 import { SelectControl } from "@/components/select-control";
@@ -146,7 +141,6 @@ export function StoriesArchive({
     <section className="relative mx-auto w-full max-w-7xl px-4 py-32 sm:px-6 md:py-36">
       <PageHeroHeader
         className="mb-16 md:mb-20"
-        description="مجموعه‌ای از روایت‌های شاهنامه، بازآفرینی‌شده در قالبی ساخت‌یافته و قابل جستجو، برای مرور سیر داستانی و پیوندهای میان شخصیت‌ها."
         eyebrow="Persian Epic Archive"
         highlight="روایت‌ها"
         title="دیوان"
@@ -211,7 +205,10 @@ export function StoriesArchive({
         <>
           <div className="relative z-0 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8">
             {result.items.map((story) => (
-              <div key={story.id} className="flex h-full animate-fade-up flex-col">
+              <div
+                key={story.id}
+                className="flex h-full animate-fade-up flex-col"
+              >
                 <StoryCard story={story} />
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-shah-gold-500/15 bg-white/60 px-4 py-3 text-xs font-black text-zinc-600 backdrop-blur dark:bg-white/5 dark:text-zinc-300">
                   <span className="flex items-center gap-2">
@@ -301,8 +298,9 @@ function FilterMenu({
       onChange={(value) => {
         const next = value as string[];
         const changed =
-          options.find((option) => selected.includes(option) !== next.includes(option)) ??
-          "";
+          options.find(
+            (option) => selected.includes(option) !== next.includes(option),
+          ) ?? "";
         if (changed) onToggle(changed);
       }}
       options={options.map((option) => ({

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 type PageHeroHeaderProps = {
   action?: ReactNode;
   className?: string;
-  description: ReactNode;
+  description?: ReactNode;
   eyebrow: string;
   highlight: ReactNode;
   title: ReactNode;
@@ -30,9 +30,7 @@ export function PageHeroHeader({
       <div className="flex items-start justify-center gap-3">
         <h1 className="text-5xl font-black tracking-tighter text-zinc-900 md:text-8xl dark:text-white">
           {title}{" "}
-          <span className="text-shah-gold-500 drop-shadow-sm">
-            {highlight}
-          </span>
+          <span className="text-shah-gold-500 drop-shadow-sm">{highlight}</span>
         </h1>
         {action}
       </div>
