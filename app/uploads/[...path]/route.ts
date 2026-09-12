@@ -17,6 +17,11 @@ function createObjectKey(pathSegments: string[]) {
   return ["uploads", ...pathSegments].join("/");
 }
 
+function createLegacyObjectKey(key: string) {
+  if (/^uploads\/legacy\//i.test(key)) return null;
+  return key.replace(/^uploads\//i, "uploads/legacy/");
+}
+
 function createHeaders(contentType: string, contentLength?: number) {
   const headers = new Headers({
     "Cache-Control": "public, max-age=31536000, immutable",
@@ -48,13 +53,43 @@ function bodyToWebStream(body: unknown): ReadableStream<Uint8Array> | null {
 }
 
 function isMissingObjectError(error: unknown) {
+  if (typeof error !== "object" || error === null) return false;
+
+  const value = error as {
+    name?: unknown;
+    Code?: unknown;
+    $metadata?: { httpStatusCode?: unknown };
+  };
+
   return (
-    typeof error === "object" &&
-      error !== null &&
-      ("name" in error
-        ? error.name === "NoSuchKey" || error.name === "NotFound"
-        : false)
+    value.name === "NoSuchKey" ||
+    value.name === "NotFound" ||
+    value.Code === "NoSuchKey" ||
+    value.Code === "NotFound" ||
+    value.$metadata?.httpStatusCode === 404
   );
+}
+
+async function getObjectWithLegacyFallback(key: string) {
+  try {
+    return await getArvanObject(key);
+  } catch (error) {
+    const legacyKey = createLegacyObjectKey(key);
+    if (!legacyKey || !isMissingObjectError(error)) throw error;
+
+    return getArvanObject(legacyKey);
+  }
+}
+
+async function headObjectWithLegacyFallback(key: string) {
+  try {
+    return await headArvanObject(key);
+  } catch (error) {
+    const legacyKey = createLegacyObjectKey(key);
+    if (!legacyKey || !isMissingObjectError(error)) throw error;
+
+    return headArvanObject(legacyKey);
+  }
 }
 
 export async function GET(_request: Request, context: RouteContext) {
@@ -62,7 +97,7 @@ export async function GET(_request: Request, context: RouteContext) {
   const key = createObjectKey(path);
 
   try {
-    const object = await getArvanObject(key);
+    const object = await getObjectWithLegacyFallback(key);
     const body = bodyToWebStream(object.Body);
 
     if (!body) {
@@ -91,7 +126,7 @@ export async function HEAD(_request: Request, context: RouteContext) {
   const key = createObjectKey(path);
 
   try {
-    const object = await headArvanObject(key);
+    const object = await headObjectWithLegacyFallback(key);
 
     return new Response(null, {
       status: 200,
