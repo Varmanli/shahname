@@ -3,13 +3,6 @@ import path from "node:path";
 import { uploadFileToArvan } from "@/lib/server/arvan-storage";
 
 const DEFAULT_UPLOAD_BASE_URL = "/uploads";
-const DEFAULT_PUBLIC_UPLOAD_BASE_URL =
-  "https://shahname.s3.ir-thr-at1.arvanstorage.ir";
-const PUBLIC_UPLOAD_BASE_URL =
-  process.env.ARVAN_S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "") ||
-  (process.env.ARVAN_S3_BUCKET?.trim() && process.env.ARVAN_S3_REGION?.trim()
-    ? `https://${process.env.ARVAN_S3_BUCKET.trim()}.s3.${process.env.ARVAN_S3_REGION.trim()}.arvanstorage.ir`
-    : DEFAULT_PUBLIC_UPLOAD_BASE_URL);
 
 type MaybeString = null | string | undefined;
 
@@ -52,18 +45,6 @@ function normalizeUploadKey(value: string) {
 export function createRelativeUploadUrl(key: string) {
   const normalizedKey = normalizeUploadKey(key);
   return `${DEFAULT_UPLOAD_BASE_URL}/${normalizedKey.slice("uploads/".length)}`;
-}
-
-export function createPublicUploadUrl(key: string) {
-  const normalizedKey = normalizeUploadKey(key);
-  if (!PUBLIC_UPLOAD_BASE_URL) return createRelativeUploadUrl(normalizedKey);
-
-  const encodedKey = normalizedKey
-    .split("/")
-    .map((segment) => encodeURIComponent(segment))
-    .join("/");
-
-  return `${PUBLIC_UPLOAD_BASE_URL}/${encodedKey}`;
 }
 
 export function sanitizeFileName(fileName: string) {
@@ -114,7 +95,7 @@ export function normalizeStoredAssetUrl(url: MaybeString): string | null {
   const key = extractUploadKey(url);
   if (!key) return typeof url === "string" ? url : null;
 
-  return createPublicUploadUrl(key);
+  return createRelativeUploadUrl(key);
 }
 
 export function normalizeHtmlAssetUrls(html: MaybeString): string {
@@ -122,7 +103,7 @@ export function normalizeHtmlAssetUrls(html: MaybeString): string {
 
   return html.replace(
     /https?:\/\/[^"'\s)]+\/uploads\/([^"'?#\s)]+)/gi,
-    (_match, key: string) => createPublicUploadUrl(key),
+    (_match, key: string) => createRelativeUploadUrl(key),
   );
 }
 

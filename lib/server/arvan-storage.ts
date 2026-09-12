@@ -29,21 +29,8 @@ function sanitizeFileName(fileName: string) {
   return ext ? `.${ext}` : "";
 }
 
-function createRelativeUploadUrl(key: string) {
-  return `/uploads/${key.replace(/^uploads\/+/i, "")}`;
-}
-
-function createPublicUploadUrl(key: string) {
-  const baseUrl = process.env.ARVAN_S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
-  if (!baseUrl) return createRelativeUploadUrl(key);
-
-  const encodedKey = key
-    .replace(/^\/+/, "")
-    .split("/")
-    .map((segment) => encodeURIComponent(segment))
-    .join("/");
-
-  return `${baseUrl}/${encodedKey}`;
+function createUploadUrl(key: string) {
+  return `/uploads/${key.replace(/^uploads\/+/, "")}`;
 }
 
 function requiredEnv(name: string) {
@@ -68,7 +55,11 @@ function getS3Client() {
   });
 }
 
-export const s3Client = getS3Client();
+let s3Client: S3Client | undefined;
+
+function getS3ClientInstance() {
+  return (s3Client ??= getS3Client());
+}
 
 export function getBucketName() {
   return requiredEnv("ARVAN_S3_BUCKET");
@@ -94,7 +85,7 @@ export async function uploadFileToArvan(file: File) {
   const key = createObjectKey(file);
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  await s3Client.send(
+  await getS3ClientInstance().send(
     new PutObjectCommand({
       Bucket: getBucketName(),
       Key: key,
@@ -105,12 +96,12 @@ export async function uploadFileToArvan(file: File) {
 
   return {
     key,
-    url: createPublicUploadUrl(key),
+    url: createUploadUrl(key),
   };
 }
 
 export function getArvanObject(key: string) {
-  return s3Client.send(
+  return getS3ClientInstance().send(
     new GetObjectCommand({
       Bucket: getBucketName(),
       Key: key,
@@ -119,7 +110,7 @@ export function getArvanObject(key: string) {
 }
 
 export function headArvanObject(key: string) {
-  return s3Client.send(
+  return getS3ClientInstance().send(
     new HeadObjectCommand({
       Bucket: getBucketName(),
       Key: key,

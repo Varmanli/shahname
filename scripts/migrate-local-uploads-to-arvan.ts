@@ -48,14 +48,8 @@ function getS3Client() {
   });
 }
 
-function createPublicUrl(key: string) {
-  const baseUrl = requiredEnv("ARVAN_S3_PUBLIC_BASE_URL").replace(/\/+$/, "");
-  const encodedKey = key
-    .split("/")
-    .map((segment) => encodeURIComponent(segment))
-    .join("/");
-
-  return `${baseUrl}/${encodedKey}`;
+function createStoredUrl(key: string) {
+  return `/uploads/${key.replace(/^uploads\/+/, "")}`;
 }
 
 function isLocalUpload(value: unknown): value is string {
@@ -177,7 +171,7 @@ async function uploadLocalFileToArvan(client: S3Client, url: string) {
     }),
   );
 
-  return createPublicUrl(key);
+  return createStoredUrl(key);
 }
 
 async function updateDataFiles(replacements: Map<string, string>) {
