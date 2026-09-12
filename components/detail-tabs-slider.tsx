@@ -38,7 +38,7 @@ export function DetailTabsSlider<T extends string>({
   }, [activeTab, emblaApi, tabs]);
 
   return (
-    <div className="sticky top-22 z-30 min-w-0 rounded-[1.35rem] border border-shah-gold-500/18 bg-white/85 p-1.5 shadow-xl shadow-shah-black-900/8 backdrop-blur-xl dark:bg-[#101010]/90 dark:shadow-black/35">
+    <div className="sticky top-22 z-30 min-w-0 rounded-[1.35rem] border border-shah-gold-500/18 bg-white/85 p-1.5 shadow-xl shadow-shah-black-900/8 backdrop-blur-md md:backdrop-blur-xl dark:bg-[#101010]/90 dark:shadow-black/35">
       <div className="relative">
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-white/95 to-transparent dark:from-[#101010]/95" />
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-linear-to-r from-white/95 to-transparent dark:from-[#101010]/95" />

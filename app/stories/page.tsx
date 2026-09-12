@@ -55,6 +55,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
   return (
     <SiteLayout withHeaderOffset>
       <StoriesArchive
+        key={result.filters.search ?? ""}
         characterOptions={characterOptions}
         result={result}
         totalCount={stories.length}

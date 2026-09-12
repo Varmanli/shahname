@@ -51,6 +51,7 @@ export default async function CharactersPage({
   return (
     <SiteLayout withHeaderOffset>
       <CharactersArchive
+        key={result.filters.search ?? ""}
         filterOptions={filterOptions}
         result={result}
         totalCount={characters.length}

@@ -52,7 +52,7 @@ export function StoryToc({ items }: StoryTocProps) {
   return (
     <div className="w-full min-w-0">
       <nav
-        className="relative w-full min-w-0 overflow-hidden rounded-[1.4rem] border border-shah-gold-500/12 bg-white/78 p-2 text-right shadow-[0_14px_35px_rgba(24,24,27,0.06)] backdrop-blur-2xl dark:border-white/8 dark:bg-zinc-950/50 dark:shadow-[0_18px_45px_rgba(0,0,0,0.34)]"
+        className="relative w-full min-w-0 overflow-hidden rounded-[1.4rem] border border-shah-gold-500/12 bg-white/78 p-2 text-right shadow-[0_14px_35px_rgba(24,24,27,0.06)] backdrop-blur-md md:backdrop-blur-2xl dark:border-white/8 dark:bg-zinc-950/50 dark:shadow-[0_18px_45px_rgba(0,0,0,0.34)]"
         aria-label="فهرست بخش‌های روایت"
         dir="rtl"
       >

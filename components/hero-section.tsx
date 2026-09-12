@@ -1,18 +1,18 @@
-import Image from "next/image";
 import Link from "next/link";
+
+import { ProtectedImage } from "@/components/protected-image";
 
 export function HeroSection() {
   return (
     <section className="relative isolate flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#050505] px-6 py-24 md:h-svh md:justify-start md:py-20">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image
+        <ProtectedImage
           alt="تصویر فردوسی"
           src="/images/ferdosi-v2.webp"
           fill
           priority
-          className="object-cover md:object-center"
-          style={{ objectPosition: "75% center" }}
+          className="object-cover object-[18%_center] md:object-[75%_center]"
           sizes="100vw"
         />
       </div>
@@ -42,13 +42,13 @@ export function HeroSection() {
             <Link
               href="/characters"
               aria-label="کاوش در شخصیت‌ها"
-              className="group relative h-[4.5rem] w-56 shrink-0 overflow-hidden rounded-2xl transition-all hover:-translate-y-1 active:scale-95 sm:h-24 sm:w-72"
+              className="group relative h-24 w-72 max-w-full shrink-0 select-none overflow-hidden rounded-2xl transition-all hover:-translate-y-1 active:scale-95 sm:w-80"
             >
-              <Image
+              <ProtectedImage
                 src="/button/character-v2.png"
                 alt="کاوش در شخصیت‌ها"
                 fill
-                sizes="(min-width: 640px) 18rem, 15rem"
+                sizes="(min-width: 640px) 20rem, 18rem"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </Link>
@@ -56,13 +56,13 @@ export function HeroSection() {
             <Link
               href="/stories"
               aria-label="روایت‌های حماسی"
-              className="group relative h-[4.5rem] w-56 shrink-0 overflow-hidden rounded-2xl transition-all hover:-translate-y-1 active:scale-95 sm:h-24 sm:w-72"
+              className="group relative h-24 w-72 max-w-full shrink-0 select-none overflow-hidden rounded-2xl transition-all hover:-translate-y-1 active:scale-95 sm:w-80"
             >
-              <Image
+              <ProtectedImage
                 src="/button/story.png"
                 alt="روایت‌های حماسی"
                 fill
-                sizes="(min-width: 640px) 18rem, 15rem"
+                sizes="(min-width: 640px) 20rem, 18rem"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </Link>

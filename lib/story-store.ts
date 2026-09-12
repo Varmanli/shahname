@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 
+import { revalidateTag, unstable_cache } from "next/cache";
 import { asc, eq } from "drizzle-orm";
 
 import { db } from "@/lib/server/db";
@@ -13,6 +14,8 @@ import {
 import { calculateStoryReadingTime } from "@/lib/reading-time";
 import type { Story, StoryInput } from "@/types/story";
 
+const STORIES_CACHE_TAG = "stories";
+
 export function createStorySlug(title: string) {
   return title
     .trim()
@@ -23,25 +26,13 @@ export function createStorySlug(title: string) {
     .replace(/^-|-$/g, "");
 }
 
-async function readStoryChildren(storyId: string) {
-  const [sections, characters, scenes] = await Promise.all([
-    db
-      .select()
-      .from(storySections)
-      .where(eq(storySections.storyId, storyId))
-      .orderBy(asc(storySections.order)),
-    db
-      .select()
-      .from(storyCharacters)
-      .where(eq(storyCharacters.storyId, storyId))
-      .orderBy(asc(storyCharacters.order)),
-    db
-      .select()
-      .from(storyScenes)
-      .where(eq(storyScenes.storyId, storyId))
-      .orderBy(asc(storyScenes.order)),
-  ]);
+type StoryChildren = Pick<Story, "characters" | "scenes" | "sections">;
 
+function normalizeStoryChildren(
+  sections: Array<typeof storySections.$inferSelect>,
+  characters: Array<typeof storyCharacters.$inferSelect>,
+  scenes: Array<typeof storyScenes.$inferSelect>,
+): StoryChildren {
   return {
     sections: sections.map((section) => ({
       id: section.id,
@@ -63,9 +54,32 @@ async function readStoryChildren(storyId: string) {
   };
 }
 
-async function toStory(row: typeof stories.$inferSelect): Promise<Story> {
-  const children = await readStoryChildren(row.id);
+function normalizeStoryInputChildren(input: StoryInput): StoryChildren {
+  return {
+    sections: input.sections.map((section) => ({
+      id: section.id,
+      title: section.title,
+      content: normalizeHtmlAssetUrls(section.content),
+      ...(section.image
+        ? { image: normalizeStoredAssetUrl(section.image) ?? undefined }
+        : {}),
+    })),
+    characters: input.characters.map((character) => ({
+      name: character.name,
+      slug: character.slug,
+    })),
+    scenes: input.scenes.map((scene) => ({
+      id: scene.id,
+      image: normalizeStoredAssetUrl(scene.image) ?? scene.image,
+      ...(scene.title ? { title: scene.title } : {}),
+    })),
+  };
+}
 
+function toStory(
+  row: typeof stories.$inferSelect,
+  children: StoryChildren,
+): Story {
   const story = {
     id: row.id,
     title: row.title,
@@ -132,13 +146,68 @@ async function replaceStoryChildren(storyId: string, input: StoryInput) {
   }
 }
 
-export async function readStories(): Promise<Story[]> {
-  const rows = await db
-    .select()
-    .from(stories)
-    .orderBy(asc(stories.order), asc(stories.title));
+async function readStoriesUncached(): Promise<Story[]> {
+  const [rows, sectionRows, characterRows, sceneRows] = await Promise.all([
+    db
+      .select()
+      .from(stories)
+      .orderBy(asc(stories.order), asc(stories.title)),
+    db
+      .select()
+      .from(storySections)
+      .orderBy(asc(storySections.storyId), asc(storySections.order)),
+    db
+      .select()
+      .from(storyCharacters)
+      .orderBy(asc(storyCharacters.storyId), asc(storyCharacters.order)),
+    db
+      .select()
+      .from(storyScenes)
+      .orderBy(asc(storyScenes.storyId), asc(storyScenes.order)),
+  ]);
 
-  return Promise.all(rows.map(toStory));
+  const sectionsByStory = new Map<string, Array<typeof storySections.$inferSelect>>();
+  const charactersByStory = new Map<string, Array<typeof storyCharacters.$inferSelect>>();
+  const scenesByStory = new Map<string, Array<typeof storyScenes.$inferSelect>>();
+
+  for (const section of sectionRows) {
+    const current = sectionsByStory.get(section.storyId) ?? [];
+    current.push(section);
+    sectionsByStory.set(section.storyId, current);
+  }
+
+  for (const character of characterRows) {
+    const current = charactersByStory.get(character.storyId) ?? [];
+    current.push(character);
+    charactersByStory.set(character.storyId, current);
+  }
+
+  for (const scene of sceneRows) {
+    const current = scenesByStory.get(scene.storyId) ?? [];
+    current.push(scene);
+    scenesByStory.set(scene.storyId, current);
+  }
+
+  return rows.map((row) =>
+    toStory(
+      row,
+      normalizeStoryChildren(
+        sectionsByStory.get(row.id) ?? [],
+        charactersByStory.get(row.id) ?? [],
+        scenesByStory.get(row.id) ?? [],
+      ),
+    ),
+  );
+}
+
+const readCachedStories = unstable_cache(
+  readStoriesUncached,
+  [STORIES_CACHE_TAG],
+  { revalidate: 60, tags: [STORIES_CACHE_TAG] },
+);
+
+export function readStories(): Promise<Story[]> {
+  return readCachedStories();
 }
 
 export async function writeStories(nextStories: Story[]) {
@@ -165,6 +234,8 @@ export async function writeStories(nextStories: Story[]) {
   for (const story of nextStories) {
     await replaceStoryChildren(story.id, story);
   }
+
+  revalidateTag(STORIES_CACHE_TAG, "max");
 }
 
 export async function createStory(input: StoryInput) {
@@ -189,7 +260,8 @@ export async function createStory(input: StoryInput) {
     .returning();
 
   await replaceStoryChildren(id, input);
-  return toStory(story);
+  revalidateTag(STORIES_CACHE_TAG, "max");
+  return toStory(story, normalizeStoryInputChildren(input));
 }
 
 export async function updateStory(id: string, input: StoryInput) {
@@ -213,10 +285,12 @@ export async function updateStory(id: string, input: StoryInput) {
   if (!story) return null;
 
   await replaceStoryChildren(id, input);
-  return toStory(story);
+  revalidateTag(STORIES_CACHE_TAG, "max");
+  return toStory(story, normalizeStoryInputChildren(input));
 }
 
 export async function deleteStory(id: string) {
   const deleted = await db.delete(stories).where(eq(stories.id, id)).returning();
+  if (deleted.length) revalidateTag(STORIES_CACHE_TAG, "max");
   return deleted.length > 0;
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { CharacterSummary } from "@/types/character";
 
 type CharacterMiniCardProps = {
@@ -22,6 +23,7 @@ export function CharacterMiniCard({ character, compact }: CharacterMiniCardProps
             fill
             sizes="56px"
             className="object-cover transition duration-500 group-hover:scale-105"
+            unoptimized={shouldUseUnoptimizedImage(character.avatar)}
           />
         ) : (
           <span className="grid h-full place-items-center bg-shah-lapis-900 text-xl font-black text-shah-gold-200">

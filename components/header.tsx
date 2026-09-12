@@ -42,8 +42,8 @@ export function Header() {
       <div
         className={`relative flex w-full max-w-7xl items-center justify-between gap-4 rounded-[1.75rem] border px-5 py-2 transition-all duration-500 sm:px-6 ${
           scrolled
-            ? "border-shah-gold-300/40 bg-white/88 shadow-[0_22px_55px_rgba(15,23,42,0.14)] backdrop-blur-2xl dark:border-shah-gold-400/18 dark:bg-card/88 dark:shadow-[0_22px_55px_rgba(0,0,0,0.48)]"
-            : "border-slate-200/80 bg-white/78 shadow-[0_16px_42px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-border dark:bg-card/72 dark:shadow-[0_16px_42px_rgba(0,0,0,0.34)]"
+            ? "border-shah-gold-300/40 bg-white/88 shadow-[0_22px_55px_rgba(15,23,42,0.14)] backdrop-blur-md md:backdrop-blur-2xl dark:border-shah-gold-400/18 dark:bg-card/88 dark:shadow-[0_22px_55px_rgba(0,0,0,0.48)]"
+            : "border-slate-200/80 bg-white/78 shadow-[0_16px_42px_rgba(15,23,42,0.10)] backdrop-blur-md md:backdrop-blur-xl dark:border-border dark:bg-card/72 dark:shadow-[0_16px_42px_rgba(0,0,0,0.34)]"
         }`}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-l from-transparent via-shah-gold-300/55 to-transparent" />
@@ -138,7 +138,7 @@ export function Header() {
               : "pointer-events-none scale-y-95 -translate-y-4 opacity-0"
           }`}
         >
-          <div className="overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-white/96 p-4 shadow-[0_40px_80px_rgba(15,23,42,0.18)] backdrop-blur-3xl dark:border-border dark:bg-card/95 dark:shadow-[0_40px_80px_rgba(0,0,0,0.7)]">
+          <div className="overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-white/96 p-4 shadow-[0_40px_80px_rgba(15,23,42,0.18)] backdrop-blur-md md:backdrop-blur-3xl dark:border-border dark:bg-card/95 dark:shadow-[0_40px_80px_rgba(0,0,0,0.7)]">
             <nav className="grid gap-2">
               {navItems.map((item, index) => {
                 const isActive = isActivePath(item.href);

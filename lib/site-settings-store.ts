@@ -1,10 +1,12 @@
 import { eq } from "drizzle-orm";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 import { db } from "@/lib/server/db";
 import { siteSettings } from "@/lib/server/db/schema";
 import type { SiteSettings } from "@/types/site-settings";
 
 const settingsKey = "home-featured";
+const SETTINGS_CACHE_TAG = "site-settings";
 const defaultSettings: SiteSettings = {
   homeCharacterIds: [],
   homeStoryIds: [],
@@ -23,7 +25,7 @@ function normalizeSettings(settings: Partial<SiteSettings>): SiteSettings {
   };
 }
 
-export async function readSiteSettings(): Promise<SiteSettings> {
+async function readSiteSettingsUncached(): Promise<SiteSettings> {
   const [row] = await db
     .select()
     .from(siteSettings)
@@ -34,6 +36,16 @@ export async function readSiteSettings(): Promise<SiteSettings> {
   }
 
   return normalizeSettings(row.value as Partial<SiteSettings>);
+}
+
+const readCachedSiteSettings = unstable_cache(
+  readSiteSettingsUncached,
+  [SETTINGS_CACHE_TAG],
+  { revalidate: 60, tags: [SETTINGS_CACHE_TAG] },
+);
+
+export function readSiteSettings(): Promise<SiteSettings> {
+  return readCachedSiteSettings();
 }
 
 export async function writeSiteSettings(settings: SiteSettings) {
@@ -52,4 +64,6 @@ export async function writeSiteSettings(settings: SiteSettings) {
         updatedAt: new Date().toISOString(),
       },
     });
+
+  revalidateTag(SETTINGS_CACHE_TAG, "max");
 }

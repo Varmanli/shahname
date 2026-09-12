@@ -1,10 +1,18 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
-import Lightbox from "yet-another-react-lightbox";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
+
+import { shouldUseUnoptimizedImage } from "@/lib/images";
+
+const LightboxViewer = dynamic(
+  () =>
+    import("@/components/lightbox-viewer").then(
+      (module) => module.LightboxViewer,
+    ),
+  { ssr: false },
+);
 
 type PortraitLightboxProps = {
   alt: string;
@@ -29,21 +37,22 @@ export function PortraitLightbox({
         className={className}
         aria-label={`${alt} را تمام‌صفحه باز کن`}
       >
-        <Image src={src} alt={alt} fill className={imageClassName} />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className={imageClassName}
+          unoptimized={shouldUseUnoptimizedImage(src)}
+        />
       </button>
 
-      <Lightbox
-        open={open}
-        close={() => setOpen(false)}
-        slides={[{ src, alt }]}
-        plugins={[Fullscreen, Zoom]}
-        carousel={{ finite: true }}
-        controller={{ closeOnBackdropClick: true }}
-        zoom={{
-          maxZoomPixelRatio: 4,
-          scrollToZoom: true,
-        }}
-      />
+      {open ? (
+        <LightboxViewer
+          open={open}
+          close={() => setOpen(false)}
+          slides={[{ src, alt }]}
+        />
+      ) : null}
     </>
   );
 }

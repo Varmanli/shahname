@@ -1,11 +1,14 @@
 import { randomUUID } from "node:crypto";
 
+import { revalidateTag, unstable_cache } from "next/cache";
 import { and, asc, eq } from "drizzle-orm";
 
 import { db } from "@/lib/server/db";
 import { homeHeroSlides } from "@/lib/server/db/schema";
 import { normalizeStoredAssetUrl } from "@/lib/uploads";
 import type { HomeHeroSlide, HomeHeroSlideInput } from "@/types/home-hero-slide";
+
+const HOME_HERO_SLIDES_CACHE_TAG = "home-hero-slides";
 
 function normalizeSlide(row: typeof homeHeroSlides.$inferSelect): HomeHeroSlide {
   return {
@@ -25,7 +28,7 @@ function normalizeSlide(row: typeof homeHeroSlides.$inferSelect): HomeHeroSlide 
   };
 }
 
-export async function readHomeHeroSlides() {
+async function readHomeHeroSlidesUncached() {
   const rows = await db
     .select()
     .from(homeHeroSlides)
@@ -34,7 +37,17 @@ export async function readHomeHeroSlides() {
   return rows.map(normalizeSlide);
 }
 
-export async function readActiveHomeHeroSlides() {
+const readCachedHomeHeroSlides = unstable_cache(
+  readHomeHeroSlidesUncached,
+  [HOME_HERO_SLIDES_CACHE_TAG, "all"],
+  { revalidate: 60, tags: [HOME_HERO_SLIDES_CACHE_TAG] },
+);
+
+export function readHomeHeroSlides() {
+  return readCachedHomeHeroSlides();
+}
+
+async function readActiveHomeHeroSlidesUncached() {
   const rows = await db
     .select()
     .from(homeHeroSlides)
@@ -42,6 +55,16 @@ export async function readActiveHomeHeroSlides() {
     .orderBy(asc(homeHeroSlides.order), asc(homeHeroSlides.createdAt));
 
   return rows.map(normalizeSlide);
+}
+
+const readCachedActiveHomeHeroSlides = unstable_cache(
+  readActiveHomeHeroSlidesUncached,
+  [HOME_HERO_SLIDES_CACHE_TAG, "active"],
+  { revalidate: 60, tags: [HOME_HERO_SLIDES_CACHE_TAG] },
+);
+
+export function readActiveHomeHeroSlides() {
+  return readCachedActiveHomeHeroSlides();
 }
 
 export async function createHomeHeroSlide(input: HomeHeroSlideInput) {
@@ -57,6 +80,7 @@ export async function createHomeHeroSlide(input: HomeHeroSlideInput) {
     })
     .returning();
 
+  revalidateTag(HOME_HERO_SLIDES_CACHE_TAG, "max");
   return normalizeSlide(slide);
 }
 
@@ -71,6 +95,7 @@ export async function updateHomeHeroSlide(id: string, input: HomeHeroSlideInput)
     .where(eq(homeHeroSlides.id, id))
     .returning();
 
+  if (slide) revalidateTag(HOME_HERO_SLIDES_CACHE_TAG, "max");
   return slide ? normalizeSlide(slide) : null;
 }
 
@@ -80,6 +105,7 @@ export async function deleteHomeHeroSlide(id: string) {
     .where(eq(homeHeroSlides.id, id))
     .returning();
 
+  if (deleted.length) revalidateTag(HOME_HERO_SLIDES_CACHE_TAG, "max");
   return deleted.length > 0;
 }
 
@@ -98,6 +124,7 @@ export async function reorderHomeHeroSlides(
     }
   });
 
+  revalidateTag(HOME_HERO_SLIDES_CACHE_TAG, "max");
   return readHomeHeroSlides();
 }
 
@@ -111,6 +138,7 @@ export async function setHomeHeroSlideActiveState(id: string, isActive: boolean)
     .where(eq(homeHeroSlides.id, id))
     .returning();
 
+  if (slide) revalidateTag(HOME_HERO_SLIDES_CACHE_TAG, "max");
   return slide ? normalizeSlide(slide) : null;
 }
 

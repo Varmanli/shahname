@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { Character } from "@/types/character";
 
 export function CharacterCard({ character }: { character: Character }) {
@@ -25,6 +27,7 @@ export function CharacterCard({ character }: { character: Character }) {
               fill
               sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
               className="object-cover transition-all duration-1000 group-hover:scale-110"
+              unoptimized={shouldUseUnoptimizedImage(character.portraitImage)}
             />
           ) : (
             <div className="absolute inset-0 bg-linear-to-br from-shah-lapis-900 to-zinc-900" />
@@ -41,7 +44,7 @@ export function CharacterCard({ character }: { character: Character }) {
 
       {/* پلاک نام شیشه‌ای (Glassmorphism) */}
       <div className="relative -mt-12 flex flex-col items-center z-30 w-full max-w-60">
-        <div className="relative w-full overflow-hidden rounded-2xl border border-white/20 bg-white/40 px-5 py-4 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] backdrop-blur-xl transition-all duration-500 group-hover:border-shah-gold-400 group-hover:bg-zinc-900/95 dark:bg-zinc-900/50">
+        <div className="relative w-full overflow-hidden rounded-2xl border border-white/20 bg-white/40 px-5 py-4 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] backdrop-blur-md md:backdrop-blur-xl transition-all duration-500 group-hover:border-shah-gold-400 group-hover:bg-zinc-900/95 dark:bg-zinc-900/50">
           {/* افکت درخشش متحرک داخل پلاک */}
           <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
 

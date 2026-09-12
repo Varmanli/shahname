@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -7,7 +8,7 @@ import { useSiteChrome } from "@/components/site-chrome-context";
 import { ReadingProgress } from "@/components/reading-progress";
 import { SmoothScrollLink } from "@/components/smooth-scroll-link";
 import { StoryEndingNavigation } from "@/components/story-ending-navigation";
-import { StoryRichText } from "@/components/story-rich-text";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { StoryCharacterLinkData } from "@/lib/story-character-links";
 import type { Story } from "@/types/story";
 
@@ -17,6 +18,14 @@ type StoryReadingModeProps = {
   previousStory?: Story;
   story: Story;
 };
+
+const LazyStoryRichText = dynamic(
+  () =>
+    import("@/components/story-rich-text").then(
+      (module) => module.StoryRichText,
+    ),
+  { ssr: false },
+);
 
 const toFaNumber = (value: number | string) =>
   String(value).replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)]);
@@ -77,7 +86,7 @@ export function StoryReadingMode({
     bg-linear-to-br from-shah-gold-500/15 via-shah-gold-400/10 to-transparent
     px-5 py-4 text-sm font-black text-shah-gold-900
     shadow-[0_10px_35px_rgba(212,175,55,0.12)]
-    backdrop-blur-xl transition-all duration-500
+    backdrop-blur-md md:backdrop-blur-xl transition-all duration-500
 
     hover:-translate-y-1
     hover:border-shah-gold-500/45
@@ -166,7 +175,7 @@ export function StoryReadingMode({
             scrollContainerId="story-reading-scroll"
             targetId="story-reading-content"
           />
-          <div className="sticky top-0 z-20 border-b border-shah-gold-500/18 bg-shah-cream-50/90 px-5 py-4 backdrop-blur-xl dark:border-shah-gold-500/15 dark:bg-[#080808]/90">
+          <div className="sticky top-0 z-20 border-b border-shah-gold-500/18 bg-shah-cream-50/90 px-5 py-4 backdrop-blur-md md:backdrop-blur-xl dark:border-shah-gold-500/15 dark:bg-[#080808]/90">
             <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
               <div className="min-w-0 text-right">
                 <p className="text-[10px] font-black uppercase tracking-[0.35em] text-shah-gold-700 dark:text-shah-gold-300">
@@ -216,7 +225,7 @@ export function StoryReadingMode({
     bg-white/80
     p-6
     shadow-[0_24px_70px_-40px_rgba(0,0,0,0.45)]
-    backdrop-blur-xl
+    backdrop-blur-md md:backdrop-blur-xl
     dark:border-white/10 dark:bg-white/4
   "
                 aria-label="فهرست بخش‌های حالت مطالعه"
@@ -293,7 +302,7 @@ export function StoryReadingMode({
 
             <div className="space-y-14 text-right">
               {story.content ? (
-                <StoryRichText
+                <LazyStoryRichText
                   characters={characters}
                   html={story.content}
                   className="character-story text-[1.45rem] leading-[2.9] text-shah-black-800 dark:text-shah-cream-100/88"
@@ -328,7 +337,7 @@ export function StoryReadingMode({
                     </h2>
                   </div>
 
-                  <StoryRichText
+                  <LazyStoryRichText
                     characters={characters}
                     html={section.content}
                     className="character-story text-lg md:text-xl leading-[2.9] text-shah-black-800 dark:text-shah-cream-100/88"
@@ -342,6 +351,7 @@ export function StoryReadingMode({
                         fill
                         sizes="(min-width: 1024px) 800px, 100vw"
                         className="object-cover"
+                        unoptimized={shouldUseUnoptimizedImage(section.image)}
                       />
                     </div>
                   ) : null}

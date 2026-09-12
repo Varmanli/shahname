@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { headers } from "next/headers";
+import { after } from "next/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -114,10 +115,15 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
   if (!story) notFound();
 
-  await recordPageView({
-    headersList: await headers(),
-    targetId: story.id,
-    targetType: "story",
+  const requestHeaders = await headers();
+  after(() => {
+    void recordPageView({
+      headersList: requestHeaders,
+      targetId: story.id,
+      targetType: "story",
+    }).catch((error) => {
+      console.error("Failed to record story page view", error);
+    });
   });
 
   const storyIndex = allStories.findIndex((item) => item.id === story.id);
@@ -233,8 +239,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
 function PageBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      <div className="absolute -right-32 top-40 size-120 rounded-full bg-shah-gold-500/7 blur-[130px] dark:bg-shah-gold-500/10" />
-      <div className="absolute -left-32 bottom-40 size-112 rounded-full bg-shah-lapis-500/7 blur-[130px] dark:bg-shah-lapis-500/10" />
+      <div className="absolute -right-32 top-40 size-120 rounded-full bg-shah-gold-500/7 blur-[70px] md:blur-[130px] dark:bg-shah-gold-500/10" />
+      <div className="absolute -left-32 bottom-40 size-112 rounded-full bg-shah-lapis-500/7 blur-[70px] md:blur-[130px] dark:bg-shah-lapis-500/10" />
       <div className="absolute inset-x-0 top-0 h-80 bg-linear-to-b from-white/40 to-transparent dark:from-white/2.5" />
     </div>
   );

@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 
+import { revalidateTag, unstable_cache } from "next/cache";
 import { asc, eq } from "drizzle-orm";
 
 import { normalizeInputRelations } from "@/lib/character-relations";
@@ -13,6 +14,8 @@ import type {
   CharacterRelation,
   CharacterVisualRole,
 } from "@/types/character";
+
+const CHARACTERS_CACHE_TAG = "characters";
 
 export function createCharacterSlug(name: string) {
   return name
@@ -37,26 +40,10 @@ function normalizeVisualRole(value: unknown): CharacterVisualRole | undefined {
     : undefined;
 }
 
-async function relationsForCharacter(characterId: string): Promise<CharacterRelation[]> {
-  const rows = await db
-    .select()
-    .from(characterRelations)
-    .where(eq(characterRelations.sourceCharacterId, characterId))
-    .orderBy(asc(characterRelations.order));
-
-  return rows.map((relation) => ({
-    id: relation.id,
-    sourceCharacterId: relation.sourceCharacterId,
-    targetCharacterId: relation.targetCharacterId,
-    type: relation.type,
-    note: relation.note ?? undefined,
-    order: relation.order,
-    createdAt: relation.createdAt,
-    updatedAt: relation.updatedAt,
-  }));
-}
-
-async function toCharacter(row: typeof characters.$inferSelect): Promise<Character> {
+function toCharacter(
+  row: typeof characters.$inferSelect,
+  relations: CharacterRelation[],
+): Character {
   return {
     id: row.id,
     name: row.name,
@@ -74,7 +61,7 @@ async function toCharacter(row: typeof characters.$inferSelect): Promise<Charact
     spouseIds: row.spouseIds,
     childrenIds: row.childrenIds,
     siblingIds: row.siblingIds,
-    relations: await relationsForCharacter(row.id),
+    relations,
     dynasty: row.dynasty,
     lineageGroup: row.lineageGroup,
     lineageId: row.lineageId ?? undefined,
@@ -157,9 +144,45 @@ async function replaceCharacterRelations(characterId: string, relations: Charact
   );
 }
 
-export async function readCharacters(): Promise<Character[]> {
-  const rows = await db.select().from(characters).orderBy(asc(characters.createdAt));
-  return Promise.all(rows.map(toCharacter));
+async function readCharactersUncached(): Promise<Character[]> {
+  const [rows, relationRows] = await Promise.all([
+    db.select().from(characters).orderBy(asc(characters.createdAt)),
+    db
+      .select()
+      .from(characterRelations)
+      .orderBy(asc(characterRelations.sourceCharacterId), asc(characterRelations.order)),
+  ]);
+
+  const relationsByCharacter = new Map<string, CharacterRelation[]>();
+
+  for (const relation of relationRows) {
+    const current = relationsByCharacter.get(relation.sourceCharacterId) ?? [];
+    current.push({
+      id: relation.id,
+      sourceCharacterId: relation.sourceCharacterId,
+      targetCharacterId: relation.targetCharacterId,
+      type: relation.type,
+      note: relation.note ?? undefined,
+      order: relation.order,
+      createdAt: relation.createdAt,
+      updatedAt: relation.updatedAt,
+    });
+    relationsByCharacter.set(relation.sourceCharacterId, current);
+  }
+
+  return rows.map((row) =>
+    toCharacter(row, relationsByCharacter.get(row.id) ?? []),
+  );
+}
+
+const readCachedCharacters = unstable_cache(
+  readCharactersUncached,
+  [CHARACTERS_CACHE_TAG],
+  { revalidate: 60, tags: [CHARACTERS_CACHE_TAG] },
+);
+
+export function readCharacters(): Promise<Character[]> {
+  return readCachedCharacters();
 }
 
 export async function writeCharacters(nextCharacters: Character[]) {
@@ -183,6 +206,8 @@ export async function writeCharacters(nextCharacters: Character[]) {
   for (const character of nextCharacters) {
     await replaceCharacterRelations(character.id, character.relations);
   }
+
+  revalidateTag(CHARACTERS_CACHE_TAG, "max");
 }
 
 export async function createCharacter(input: CharacterInput) {
@@ -195,7 +220,8 @@ export async function createCharacter(input: CharacterInput) {
     .returning();
 
   await replaceCharacterRelations(id, normalized.relations);
-  return toCharacter(character);
+  revalidateTag(CHARACTERS_CACHE_TAG, "max");
+  return toCharacter(character, normalized.relations);
 }
 
 export async function updateCharacter(id: string, input: CharacterInput) {
@@ -209,7 +235,8 @@ export async function updateCharacter(id: string, input: CharacterInput) {
   if (!character) return null;
 
   await replaceCharacterRelations(id, normalized.relations);
-  return toCharacter(character);
+  revalidateTag(CHARACTERS_CACHE_TAG, "max");
+  return toCharacter(character, normalized.relations);
 }
 
 export async function deleteCharacter(id: string) {
@@ -217,6 +244,7 @@ export async function deleteCharacter(id: string) {
 
   if (!deleted.length) return false;
 
+  revalidateTag(CHARACTERS_CACHE_TAG, "max");
   const allCharacters = await readCharacters();
   await Promise.all(
     allCharacters.map((character) => {
@@ -237,5 +265,6 @@ export async function deleteCharacter(id: string) {
     }),
   );
 
+  revalidateTag(CHARACTERS_CACHE_TAG, "max");
   return true;
 }

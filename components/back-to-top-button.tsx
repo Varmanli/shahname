@@ -28,7 +28,7 @@ export function BackToTopButton() {
       aria-label="بازگشت به بالا"
       className={`
         fixed z-50 flex h-14 w-14 items-center justify-center rounded-2xl
-        backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
+        backdrop-blur-md md:backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
         
         /* موقعیت جدید (بالاتر) */
         bottom-20 right-6 md:right-10

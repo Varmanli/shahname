@@ -17,7 +17,7 @@ export function StoryEndingNavigation({
 
   return (
     <section
-      className={`relative mt-24 overflow-hidden rounded-[2.25rem] border p-6 text-right shadow-[0_30px_90px_rgba(26,26,26,0.10)] backdrop-blur-xl md:p-8 ${
+      className={`relative mt-24 overflow-hidden rounded-[2.25rem] border p-6 text-right shadow-[0_30px_90px_rgba(26,26,26,0.10)] backdrop-blur-md md:backdrop-blur-xl md:p-8 ${
         isDark
           ? "border-shah-gold-500/18 bg-white/6 shadow-black/30"
           : "border-shah-gold-500/18 bg-white/82 dark:border-white/10 dark:bg-white/5.5 dark:shadow-black/30"

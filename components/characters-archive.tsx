@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import type { KeyboardEvent, ReactNode } from "react";
 import {
   useCallback,
   useEffect,
@@ -10,7 +9,7 @@ import {
   useState,
   useTransition,
 } from "react";
-import { FiFilter, FiSearch, FiX } from "react-icons/fi";
+import { FiFilter, FiSearch } from "react-icons/fi";
 
 import { ArchiveSearchPanel } from "@/components/archive-search-panel";
 import { CharacterCard } from "@/components/character-card";
@@ -50,8 +49,8 @@ export function CharactersArchive({
   const [isPending, startTransition] = useTransition();
   const filters = result.filters as CharacterArchiveQuery;
   const [draftSearch, setDraftSearch] = useState(filters.search ?? "");
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [activeSuggestion, setActiveSuggestion] = useState(0);
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const [draftFilters, setDraftFilters] = useState<CharacterArchiveQuery>(filters);
 
   const navigate = useCallback(
     (next: CharacterArchiveQuery) => {
@@ -62,13 +61,14 @@ export function CharactersArchive({
   );
 
   useEffect(() => {
+    const normalizedSearch = draftSearch.trim();
     const timer = window.setTimeout(() => {
-      if (draftSearch !== (filters.search ?? "")) {
+      if (normalizedSearch !== (filters.search ?? "")) {
         navigate({
           ...filters,
           cursor: undefined,
           page: 1,
-          search: draftSearch.trim(),
+          search: normalizedSearch,
         });
       }
     }, 300);
@@ -80,17 +80,42 @@ export function CharactersArchive({
     () => getActiveCharacterFilters(filters),
     [filters],
   );
-  const related = result.relatedResults.filter((item) => item.label);
+  function openOptions() {
+    setDraftFilters({ ...filters });
+    setIsOptionsOpen(true);
+  }
 
-  function toggleList(
+  function toggleDraftList(
     key: "dynasty" | "era" | "nationality" | "role",
     value: string,
   ) {
-    const current = filters[key] ?? [];
-    const nextValues = current.includes(value)
-      ? current.filter((item) => item !== value)
-      : [...current, value];
-    navigate({ ...filters, [key]: nextValues, cursor: undefined, page: 1 });
+    setDraftFilters((current) => {
+      const selected = current[key] ?? [];
+      return {
+        ...current,
+        [key]: selected.includes(value)
+          ? selected.filter((item) => item !== value)
+          : [...selected, value],
+      };
+    });
+  }
+
+  function applyOptions() {
+    navigate({ ...draftFilters, cursor: undefined, page: 1 });
+    setIsOptionsOpen(false);
+  }
+
+  function resetDraftOptions() {
+    setDraftFilters({
+      ...draftFilters,
+      dynasty: [],
+      era: [],
+      nationality: [],
+      role: [],
+      sort: "featured",
+      cursor: undefined,
+      page: 1,
+    });
   }
 
   function removeFilter(key: keyof CharacterArchiveQuery, value?: string) {
@@ -119,23 +144,6 @@ export function CharactersArchive({
     startTransition(() => router.replace(pathname, { scroll: false }));
   }
 
-  function onSearchKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (!related.length) return;
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      setActiveSuggestion((index) => (index + 1) % related.length);
-    }
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      setActiveSuggestion(
-        (index) => (index - 1 + related.length) % related.length,
-      );
-    }
-    if (event.key === "Enter" && related[activeSuggestion]) {
-      router.push(related[activeSuggestion].href);
-    }
-  }
-
   return (
     <section className="relative mx-auto w-full max-w-7xl px-4 py-32 sm:px-6 md:py-36">
       <PageHeroHeader
@@ -148,42 +156,41 @@ export function CharactersArchive({
       <div className="mb-10">
         <ArchiveSearchPanel
           activeFilters={activeFilters}
+          activeFilterCount={activeFilters.filter((filter) => filter.key !== "search").length}
           filterControls={
             <>
               <FilterMenu
                 label="دوره"
                 options={archiveOptions.eras}
-                selected={filters.era ?? []}
-                onToggle={(value) => toggleList("era", value)}
+                selected={draftFilters.era ?? []}
+                onToggle={(value) => toggleDraftList("era", value)}
               />
               <FilterMenu
                 label="نقش"
                 options={archiveOptions.characterRoles}
-                selected={filters.role ?? []}
-                onToggle={(value) => toggleList("role", value)}
+                selected={draftFilters.role ?? []}
+                onToggle={(value) => toggleDraftList("role", value)}
               />
               <FilterMenu
                 label="خاندان"
                 options={filterOptions.dynasties}
-                selected={filters.dynasty ?? []}
-                onToggle={(value) => toggleList("dynasty", value)}
+                selected={draftFilters.dynasty ?? []}
+                onToggle={(value) => toggleDraftList("dynasty", value)}
               />
               <FilterMenu
                 label="ملیت"
                 options={filterOptions.nationalities}
-                selected={filters.nationality ?? []}
-                onToggle={(value) => toggleList("nationality", value)}
-              />
-              <SortMenu
-                value={filters.sort ?? "featured"}
-                onChange={(sort) =>
-                  navigate({ ...filters, cursor: undefined, page: 1, sort })
-                }
+                selected={draftFilters.nationality ?? []}
+                onToggle={(value) => toggleDraftList("nationality", value)}
               />
             </>
           }
+          isOptionsOpen={isOptionsOpen}
           onClearSearch={() => removeFilter("search")}
-          onMobileFiltersOpen={() => setIsDrawerOpen(true)}
+          onOptionsApply={applyOptions}
+          onOptionsClose={() => setIsOptionsOpen(false)}
+          onOptionsOpen={openOptions}
+          onOptionsReset={resetDraftOptions}
           onRemoveFilter={(filter) =>
             removeFilter(
               filter.key as keyof CharacterArchiveQuery,
@@ -192,9 +199,16 @@ export function CharactersArchive({
           }
           onResetFilters={resetFilters}
           onSearchChange={setDraftSearch}
-          onSearchKeyDown={onSearchKeyDown}
           placeholder="جستجو در نام، لقب، توضیحات و روایت شخصیت‌ها..."
           searchValue={draftSearch}
+          sortControl={
+            <SortMenu
+              value={draftFilters.sort ?? "featured"}
+              onChange={(sort) =>
+                setDraftFilters((current) => ({ ...current, sort }))
+              }
+            />
+          }
         />
       </div>
 
@@ -228,35 +242,6 @@ export function CharactersArchive({
         />
       ) : null}
 
-      <MobileDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-      >
-        <DrawerGroup
-          label="دوره"
-          options={archiveOptions.eras}
-          selected={filters.era ?? []}
-          onToggle={(value) => toggleList("era", value)}
-        />
-        <DrawerGroup
-          label="نقش"
-          options={archiveOptions.characterRoles}
-          selected={filters.role ?? []}
-          onToggle={(value) => toggleList("role", value)}
-        />
-        <DrawerGroup
-          label="خاندان"
-          options={filterOptions.dynasties}
-          selected={filters.dynasty ?? []}
-          onToggle={(value) => toggleList("dynasty", value)}
-        />
-        <DrawerGroup
-          label="ملیت"
-          options={filterOptions.nationalities}
-          selected={filters.nationality ?? []}
-          onToggle={(value) => toggleList("nationality", value)}
-        />
-      </MobileDrawer>
     </section>
   );
 }
@@ -381,81 +366,6 @@ function CharacterSkeletonGrid() {
           className="mx-auto h-96 w-72 animate-pulse rounded-[3rem] bg-shah-gold-500/10"
         />
       ))}
-    </div>
-  );
-}
-
-function MobileDrawer({
-  children,
-  isOpen,
-  onClose,
-}: {
-  children: ReactNode;
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  if (!isOpen) return null;
-  return (
-    <div className="fixed inset-0 z-90 lg:hidden">
-      <button
-        className="absolute inset-0 bg-black/45 backdrop-blur-sm"
-        onClick={onClose}
-        aria-label="بستن فیلترها"
-      />
-      <div className="absolute inset-x-0 bottom-0 animate-fade-up rounded-t-4xl border border-border bg-card p-5 text-card-foreground shadow-2xl">
-        <div className="mb-5 flex items-center justify-between">
-          <span className="text-base font-black">فیلترهای پیشرفته</span>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground/10"
-          >
-            <FiX />
-          </button>
-        </div>
-        <div className="max-h-[70vh] space-y-6 overflow-y-auto pb-6">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DrawerGroup({
-  label,
-  labels,
-  onToggle,
-  options,
-  selected,
-}: {
-  label: string;
-  labels?: Record<string, string>;
-  onToggle: (value: string) => void;
-  options: string[];
-  selected: string[];
-}) {
-  return (
-    <div>
-      <h3 className="mb-3 text-sm font-black text-accent">{label}</h3>
-      <div className="flex flex-wrap gap-2">
-        {options.map((option) => {
-          const active = selected.includes(option);
-          return (
-            <button
-              key={option}
-              type="button"
-              onClick={() => onToggle(option)}
-              className={`rounded-full px-4 py-2 text-sm font-black transition ${
-                active
-                  ? "bg-shah-gold-500 text-white"
-                  : "bg-foreground/10 text-card-foreground"
-              }`}
-            >
-              {labels?.[option] ?? option}
-            </button>
-          );
-        })}
-      </div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { CSSProperties, PointerEvent, WheelEvent } from "react";
 
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { CharacterSummary } from "@/types/character";
 import type { CharacterVisualRole } from "@/types/character";
 import type { ApprovedLineageTree, LineageTreeNode } from "@/types/lineage";
@@ -972,6 +973,7 @@ function CharacterNode({
               fill
               sizes="64px"
               className="object-cover"
+              unoptimized={shouldUseUnoptimizedImage(node.avatar)}
             />
           ) : (
             <span className="grid h-full place-items-center text-2xl font-black">
@@ -1141,6 +1143,7 @@ function SelectedCharacterPanel({
               fill
               sizes="64px"
               className="object-cover"
+              unoptimized={shouldUseUnoptimizedImage(character.avatar)}
             />
           ) : (
             <span className="grid h-full place-items-center text-2xl font-black">

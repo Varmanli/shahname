@@ -7,6 +7,7 @@ import {
   calculateStoryReadingTime,
   formatReadingTimeFa,
 } from "@/lib/reading-time";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { Story } from "@/types/story";
 
 type StoryHeroProps = {
@@ -27,7 +28,9 @@ export function StoryHero({ story }: StoryHeroProps) {
             alt={story.title}
             fill
             priority
+            sizes="100vw"
             className="object-cover opacity-80"
+            unoptimized={shouldUseUnoptimizedImage(story.coverImage)}
           />
         ) : (
           <div className="absolute inset-0 bg-linear-to-br from-shah-lapis-950 via-shah-black-950 to-shah-gold-950" />

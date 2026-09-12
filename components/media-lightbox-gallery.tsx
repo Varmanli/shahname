@@ -1,10 +1,18 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
-import Lightbox from "yet-another-react-lightbox";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
+
+import { shouldUseUnoptimizedImage } from "@/lib/images";
+
+const LightboxViewer = dynamic(
+  () =>
+    import("@/components/lightbox-viewer").then(
+      (module) => module.LightboxViewer,
+    ),
+  { ssr: false },
+);
 
 type MediaLightboxItem = {
   alt: string;
@@ -37,6 +45,7 @@ export function MediaLightboxGallery({ images }: MediaLightboxGalleryProps) {
               alt={image.alt}
               fill
               className="object-cover transition duration-700 group-hover:scale-105"
+              unoptimized={shouldUseUnoptimizedImage(image.src)}
             />
             <span className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-80" />
             <span className="absolute bottom-4 right-4 text-sm font-black text-white">
@@ -46,22 +55,17 @@ export function MediaLightboxGallery({ images }: MediaLightboxGalleryProps) {
         ))}
       </div>
 
-      <Lightbox
-        open={index >= 0}
-        close={() => setIndex(-1)}
-        index={index}
-        slides={images.map((image) => ({
-          src: image.src,
-          alt: image.alt,
-        }))}
-        plugins={[Fullscreen, Zoom]}
-        carousel={{ finite: true }}
-        controller={{ closeOnBackdropClick: true }}
-        zoom={{
-          maxZoomPixelRatio: 4,
-          scrollToZoom: true,
-        }}
-      />
+      {index >= 0 ? (
+        <LightboxViewer
+          open
+          close={() => setIndex(-1)}
+          index={index}
+          slides={images.map((image) => ({
+            src: image.src,
+            alt: image.alt,
+          }))}
+        />
+      ) : null}
     </>
   );
 }

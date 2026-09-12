@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { StoryRichText } from "@/components/story-rich-text";
+import { shouldUseUnoptimizedImage } from "@/lib/images";
 import type { StoryCharacterLinkData } from "@/lib/story-character-links";
 import type { StorySection as StorySectionType } from "@/types/story";
 
@@ -69,6 +70,7 @@ export function StorySection({
             fill
             sizes="(min-width: 1024px) 800px, 100vw"
             className="object-cover"
+            unoptimized={shouldUseUnoptimizedImage(section.image)}
           />
         </div>
       ) : null}

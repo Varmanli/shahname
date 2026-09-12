@@ -33,6 +33,19 @@ function createRelativeUploadUrl(key: string) {
   return `/uploads/${key.replace(/^uploads\/+/i, "")}`;
 }
 
+function createPublicUploadUrl(key: string) {
+  const baseUrl = process.env.ARVAN_S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
+  if (!baseUrl) return createRelativeUploadUrl(key);
+
+  const encodedKey = key
+    .replace(/^\/+/, "")
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+
+  return `${baseUrl}/${encodedKey}`;
+}
+
 function requiredEnv(name: string) {
   const value = process.env[name]?.trim();
 
@@ -92,7 +105,7 @@ export async function uploadFileToArvan(file: File) {
 
   return {
     key,
-    url: createRelativeUploadUrl(key),
+    url: createPublicUploadUrl(key),
   };
 }
 
