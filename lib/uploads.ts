@@ -3,7 +3,13 @@ import path from "node:path";
 import { uploadFileToArvan } from "@/lib/server/arvan-storage";
 
 const DEFAULT_UPLOAD_BASE_URL = "/uploads";
-const PUBLIC_UPLOAD_BASE_URL = process.env.ARVAN_S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
+const DEFAULT_PUBLIC_UPLOAD_BASE_URL =
+  "https://shahname.s3.ir-thr-at1.arvanstorage.ir";
+const PUBLIC_UPLOAD_BASE_URL =
+  process.env.ARVAN_S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "") ||
+  (process.env.ARVAN_S3_BUCKET?.trim() && process.env.ARVAN_S3_REGION?.trim()
+    ? `https://${process.env.ARVAN_S3_BUCKET.trim()}.s3.${process.env.ARVAN_S3_REGION.trim()}.arvanstorage.ir`
+    : DEFAULT_PUBLIC_UPLOAD_BASE_URL);
 
 type MaybeString = null | string | undefined;
 
@@ -48,7 +54,7 @@ export function createRelativeUploadUrl(key: string) {
   return `${DEFAULT_UPLOAD_BASE_URL}/${normalizedKey.slice("uploads/".length)}`;
 }
 
-function createPublicUploadUrl(key: string) {
+export function createPublicUploadUrl(key: string) {
   const normalizedKey = normalizeUploadKey(key);
   if (!PUBLIC_UPLOAD_BASE_URL) return createRelativeUploadUrl(normalizedKey);
 

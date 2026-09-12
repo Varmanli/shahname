@@ -1,6 +1,6 @@
 import { Readable } from "node:stream";
 
-import { getContentTypeForPath } from "@/lib/uploads";
+import { createPublicUploadUrl, getContentTypeForPath } from "@/lib/uploads";
 import {
   getArvanObject,
   headArvanObject,
@@ -60,6 +60,11 @@ function isMissingObjectError(error: unknown) {
 export async function GET(_request: Request, context: RouteContext) {
   const { path } = await context.params;
   const key = createObjectKey(path);
+  const publicUrl = createPublicUploadUrl(key);
+
+  if (publicUrl.startsWith("http")) {
+    return Response.redirect(publicUrl, 307);
+  }
 
   try {
     const object = await getArvanObject(key);
@@ -89,6 +94,11 @@ export async function GET(_request: Request, context: RouteContext) {
 export async function HEAD(_request: Request, context: RouteContext) {
   const { path } = await context.params;
   const key = createObjectKey(path);
+  const publicUrl = createPublicUploadUrl(key);
+
+  if (publicUrl.startsWith("http")) {
+    return Response.redirect(publicUrl, 307);
+  }
 
   try {
     const object = await headArvanObject(key);
